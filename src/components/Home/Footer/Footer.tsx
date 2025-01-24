@@ -1,0 +1,77 @@
+import React from 'react'
+import { BiEnvelope, BiPhoneCall } from 'react-icons/bi'
+import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa'
+import { FaHouse } from 'react-icons/fa6'
+
+const Footer = () => {
+  return (
+    <div className='pt-20 pb-12 bg-black text-white'>
+        <div className='w-[80%] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-8 border-b-[1.5px] border-white border-opacity-20'>
+            {/* First Column */}
+            <div className='flex flex-col space-x-2'>
+                {/* Logo */}    
+                <div className='flex items-center space-x-2'>
+                    <div className='md-w-8 md:h-8 w-7 h-7 rounded-full bg-rose-700 text-white flex items-center justify-center flex-col'>
+                        <FaHouse/>
+                    </div>
+                    <div className='text-white font-bold text-sm sm:text-base md:text-xl'>
+                        Real Estate Project
+                    </div>
+                </div>
+                <p className='text-sm text-white mt-6'>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <div className='flex items-center space-x-2 mt-4'>
+                    <BiEnvelope className='text-rose-500 w-5 h-5'/>
+                    <p className='text-base font-semibold text-white hover:text-rose-500 cursor-pointer'>example@gmail.com</p>
+                </div>
+                <div className='flex items-center space-x-2 mt-4'>
+                    <BiPhoneCall className='text-rose-500 w-5 h-5'/>
+                    <p className='text-base font-semibold text-white hover:text-rose-500 cursor-pointer'>+123 345-6789</p>
+                </div>
+                {/* Social Links */}
+                <div className='flex items-center space-x-4 mt-6'>
+                    <FaFacebookF className='text-blue-600 w-6 h-6'/>
+                    <FaTwitter className='text-sky-500 w-6 h-6'/>
+                    <FaYoutube className='text-red-700 w-6 h-6'/>
+                    <FaInstagram className='text-pink-600 w-6 h-6'/>
+                </div>
+            </div>
+
+            {/* Second Column */}
+            <div className='flex-col md:mx-auto space-x-2'>
+                <h2 className='footer__heading'>Popular Search</h2>
+                <p className='footer__link'>Apartment for Rent</p>
+                <p className='footer__link'>Apartment Low to Hide</p>
+                <p className='footer__link'>Offices for Buy</p>
+                <p className='footer__link'>Offices for Rent</p>
+            </div>
+
+            {/* Third Column */}
+            <div className='flex-col md:mx-auto space-x-2'>
+            <h2 className='footer__heading'>Quick Links</h2>
+                <p className='footer__link'>Terms of Use</p>
+                <p className='footer__link'>Privacy Policy</p>
+                <p className='footer__link'>Pricing Plans</p>
+                <p className='footer__link'>Our Services</p>
+                <p className='footer__link'>Contact Support</p>
+                <p className='footer__link'>Careers</p>
+                <p className='footer__link'>FAQs</p>
+            </div>
+
+            {/* Fourth Column */}
+            <div className='flex-col md:mx-auto space-x-2'>
+            <h2 className='footer__heading'>Discover</h2>
+                <p className='footer__link'>Miami</p>
+                <p className='footer__link'>Los Angeles</p>
+                <p className='footer__link'>Chicago</p>
+                <p className='footer__link'>New York</p>
+                <p className='footer__link'>London</p>
+            </div>
+        </div>
+        <div className='w-[80%] mx-auto pt-8'>
+            <p className='text-base text-gray-400 text-center'>© 2021 Real Estate Project. All Rights Reserved.</p>
+        </div>
+    </div>
+  )
+}
+
+export default Footer
