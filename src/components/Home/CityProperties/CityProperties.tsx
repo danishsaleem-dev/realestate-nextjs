@@ -1,5 +1,4 @@
 import SectionHeading from '@/components/Helper/SectionHeading'
-import { cities } from '@/data/data';
 import React from 'react'
 import CitySlider from './CitySlider';
 

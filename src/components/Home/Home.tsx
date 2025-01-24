@@ -9,7 +9,6 @@ import ClientReviews from './ClientReviews/ClientReviews';
 import Blogs from './Blogs/Blogs';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { Truculenta } from 'next/font/google';
 
 const Home: React.FC = () => {
 
