@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import { BiCalendar, BiMessage } from 'react-icons/bi';
+import { BiCalendar } from 'react-icons/bi';
 
 type Props = {
     blog: {
