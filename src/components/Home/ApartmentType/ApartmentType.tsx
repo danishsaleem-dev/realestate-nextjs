@@ -5,9 +5,9 @@ import AppartmentTypeCard from './AppartmentTypeCard';
 
 const ApartmentType = () => {
   return (
-    <div className='pt-16 pb-16 '>
+    <div className='pt-16 pb-16 bg-white'>
         <div className='w-[80%] mx-auto'>
-            <SectionHeading heading='Apartment Type' />
+            <SectionHeading heading='Apartment Type' subheading='Explore Apartments' description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' />
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mt-10 md:mt-20 gap-8 items-center'>
                 {appartmentTypeData.map((type, i) => (
                     

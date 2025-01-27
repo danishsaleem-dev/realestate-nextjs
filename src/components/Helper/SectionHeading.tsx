@@ -1,14 +1,17 @@
 import React from 'react'
 
 type Props = {
-    heading: string
+    heading: string,
+    subheading: string,
+    description: string
 }
 
-const SectionHeading = ({heading}: Props) => {
+const SectionHeading = ({heading, subheading, description}: Props) => {
   return (
     <div>
-        <h2 className='text-2xl sm:text-3xl font-bold mb-2 text-gray-800'>{heading}</h2>
-        <p className='text-sm text-gray-700 '>Lorem ipsum dolor sit amet</p>
+        <span className='text-lg block text-center mb-2 font-semibold text-primary'>{subheading}</span>
+        <h2 className='text-4xl text-center font-bold mb-2 text-gray-800'>{heading}</h2>
+        <p className='text-sm text-gray-700 text-center mt-4'>{description}</p>
     </div>
   )
 }

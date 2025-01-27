@@ -1,14 +1,14 @@
 import SectionHeading from '@/components/Helper/SectionHeading'
 import React from 'react'
-import CitySlider from './CitySlider';
+import CitySlider2 from './CitySlider2';
 
 const CityProperties = () => {
   return (
-    <div className='pt-16 pb-16 '>
-        <div className='w-[80%] mx-auto'>
-            <SectionHeading heading='Explor City Properties' />
-            <div className='mt-10 md:mt-20'>
-                <CitySlider />
+    <div className='pt-16 pb-16 bg-white'>
+        <div className='w-[95%] mx-auto'>
+            <SectionHeading heading='Our Location For You' subheading='Explore Cities' description=''/>
+            <div className='mt-7 md:mt-20'>
+                <CitySlider2 />
             </div>
         </div>   
     </div>

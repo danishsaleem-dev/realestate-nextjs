@@ -1,19 +1,20 @@
 "use client"
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+
 import React from 'react'
-import Carousel from 'react-multi-carousel'
-import 'react-multi-carousel/lib/styles.css'
-import ReviewCard from './ReviewCard'
-import { userReviewData } from '@/data/data'
+import { cities } from '@/data/data';
+import CityCard from './CityCard';
 
 const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 3000 },
-      items: 4
+      items: 6
     },
     desktop: {
       breakpoint: { max: 3000, min: 1324 },
-      items: 4,
+      items: 6,
       slidesToslide: 1
     },
     tablet: {
@@ -28,16 +29,17 @@ const responsive = {
     }
   };
 
-const ReviewSlider = () => {
+const CitySlider2 = () => {
   return (
     <Carousel responsive={responsive} arrows={true} autoPlay={true} autoPlaySpeed={3000} infinite={true}>
-        {userReviewData.map((userReview) => (
-            <div key={userReview.id}>
-                <ReviewCard userReview={userReview} />
+        {cities.map((city) => (
+            <div key={city.id} className=''>
+                {/* SliderCard */}
+                <CityCard city={city} />
             </div>
         ))}
     </Carousel>
   )
 }
 
-export default ReviewSlider
+export default CitySlider2

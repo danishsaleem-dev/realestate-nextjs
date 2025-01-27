@@ -5,10 +5,9 @@ import { FaHouse } from 'react-icons/fa6'
 
 const Footer = () => {
   return (
-    <div className='pt-20 pb-12 bg-black text-white'>
-        <div className='w-[80%] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-8 border-b-[1.5px] border-white border-opacity-20'>
-            {/* First Column */}
-            <div className='flex flex-col space-x-2'>
+    <div className='pt-20 pb-12 bg-[#161E2D] text-white'>
+        <div className='w-[80%] mx-auto gap-10 pb-8 mb-10 border-b-[1.5px] border-white border-opacity-20'>
+        <div className='flex space-x-2 justify-between'>
                 {/* Logo */}    
                 <div className='flex items-center space-x-2'>
                     <div className='md-w-8 md:h-8 w-7 h-7 rounded-full bg-rose-700 text-white flex items-center justify-center flex-col'>
@@ -18,7 +17,24 @@ const Footer = () => {
                         Real Estate Project
                     </div>
                 </div>
-                <p className='text-sm text-white mt-6'>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                
+                {/* Social Links */}
+                <div className='flex items-center space-x-4 mt-6'>
+                    <FaFacebookF className='text-blue-600 w-6 h-6'/>
+                    <FaTwitter className='text-sky-500 w-6 h-6'/>
+                    <FaYoutube className='text-red-700 w-6 h-6'/>
+                    <FaInstagram className='text-pink-600 w-6 h-6'/>
+                </div>
+            
+                
+            </div>
+        </div>
+        <div className='w-[80%] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-8 border-b-[1.5px] border-white border-opacity-20'>
+            {/* First Column */}
+            <div className='flex flex-col space-x-2'>
+                {/* Logo */}    
+                
+                <p className='text-sm text-white'>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                 <div className='flex items-center space-x-2 mt-4'>
                     <BiEnvelope className='text-rose-500 w-5 h-5'/>
                     <p className='text-base font-semibold text-white hover:text-rose-500 cursor-pointer'>example@gmail.com</p>
@@ -26,13 +42,6 @@ const Footer = () => {
                 <div className='flex items-center space-x-2 mt-4'>
                     <BiPhoneCall className='text-rose-500 w-5 h-5'/>
                     <p className='text-base font-semibold text-white hover:text-rose-500 cursor-pointer'>+123 345-6789</p>
-                </div>
-                {/* Social Links */}
-                <div className='flex items-center space-x-4 mt-6'>
-                    <FaFacebookF className='text-blue-600 w-6 h-6'/>
-                    <FaTwitter className='text-sky-500 w-6 h-6'/>
-                    <FaYoutube className='text-red-700 w-6 h-6'/>
-                    <FaInstagram className='text-pink-600 w-6 h-6'/>
                 </div>
             </div>
 

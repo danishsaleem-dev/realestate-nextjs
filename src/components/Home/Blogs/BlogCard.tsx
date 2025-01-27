@@ -16,28 +16,21 @@ type Props = {
 
 const BlogCard = ({ blog }: Props) => {
   return (
-    <div className='bg-white overflow-hidden rounded-lg cursor-pointer shadow-lg'>
-                <div className='relative w-full h-52'>
-                    <Image src={blog.image} alt={blog.title} layout='fill' objectFit='cover' className='w-full object-cover ration rounded-t-lg' />
+    <div className='overflow-hidden rounded-lg cursor-pointer'>
+                <div className='relative w-full h-60'>
+                    <Image src={blog.image} alt={blog.title} layout='fill' objectFit='cover' className='w-full object-cover ration rounded-xl' />
+                    <div className='absolute top-4 left-4 bg-primary text-white text-sm z-10 flex items-center space-x-2 rounded-full px-2 py-1.5'>
+                        <BiCalendar />
+                        <p>{blog.date}</p>
+                    </div>
                 </div>
-                <div className='p-5'>
-                    <div className='flex items-center justify-between mt-2 mb-3 w-full'>
-                        <div className='flex items-center space-x-2'>
-                            <BiCalendar className='text-rose-600' />
-                            <p className='text-xs text-gray-700'>{blog.date}</p>
-                        </div>
-                        <div className='flex items-center space-x-2'>
-                            <BiMessage className='text-rose-600' />
-                            <p className='text-xs text-gray-700'>{blog.comment}</p>
-                        </div>
+                <div className='py-4'>
+                    <div className='flex items-center space-x-2'>
+                        <p className='text-sm font-semibold text-gray-700'>Real Estate</p>
                     </div>
                     
-                    <h3 className='pt-2 pb-2 font-bold text-lg text-gray-700 hover:underline'>{blog.title}</h3>
+                    <h3 className='pt-2 pb-2 text-xl font-medium text-black hover:text-primary'>{blog.title}</h3>
                     <p className='text-sm text-gray-700'>{blog.shortDescription}</p>
-                    <div className='flex items-center mt-4 space-x-2 hover:text-rose-600 cursor-pointer'>
-                        <span className='text-sm font-bold'>Read More</span>
-                        <BsArrowRight />
-                    </div>
                 </div>
             </div>
   )

@@ -3,6 +3,8 @@ import React from 'react'
 import { BiLinkExternal } from 'react-icons/bi';
 import { BsHeart, BsPlusSquare } from 'react-icons/bs';
 import { FaBath, FaBed, FaSquare } from 'react-icons/fa';
+
+import { HiLocationMarker } from 'react-icons/hi';
 import { MdElectricBolt } from 'react-icons/md';
 
 type Props = {
@@ -20,40 +22,43 @@ type Props = {
 
 const PropertyCard = ({property}: Props) => {
   return (
-    <div className='bg-white overflow-hidden group rounded-lg cursor-pointer shadow-lg'>
-            <div className='relative w-full h-72'>
+    <div className='bg-white overflow-hidden group rounded-2xl cursor-pointer shadow-lg'>
+            <div className='relative w-full h-72 overflow-hidden'>
+                <div className='absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 z-10'></div>
                 <Image src={property.imageUrl} alt={property.propertyName} layout='fill' objectFit='cover' className='w-full object-cover group-hover:scale-110 transition-all duration-300 ration rounded-t-lg' />
-                <h3 className='text-sm font-bold px-6 absolute bottom-4 left-4 py-1.5 bg-black text-white rounded-lg'>${property.price} / mo</h3>
-                <div className='flex items-center text-sm font-medium px-6 absolute top-4 left-4 py-1.5 bg-rose-600 text-white rounded-md'>
+                <h3 className='text-sm px-6 absolute bottom-2 text-white flex items-center z-20'><HiLocationMarker className='mr-2'/> {property.location}</h3>
+                <div className='flex items-center text-sm font-medium px-3 absolute top-4 left-4 py-1.5 bg-primary text-white rounded-full z-20'>
                     <MdElectricBolt className='mr-1' />
                     <span>Featured</span>
                 </div>
             </div>
             <div className='p-5'>
-                <h3 className='pt-2 pb-2 font-bold text-lg group-hover:underline'>{property.propertyName}</h3>
-                <p className='text-sm text-gray-700'>{property.location}</p>
-                <div className='flex items-center justify-between mt-5 w-full lg:w-[80%]'>
+                <h3 className='font-medium text-left text-lg text-black group-hover:text-primary'>{property.propertyName}</h3>
+                <div className='flex items-center justify-between mt-2 w-full lg:w-[70%]'>
                     <div className='flex items-center space-x-2'>
-                        <FaBed className='text-rose-600' />
-                        <p className='text-xs text-gray-700'>{property.bedrooms} Bedrooms</p>
+                        <FaBed className='text-gray-500' />
+                        <p className='text-sm text-gray-500'>Beds: <span className='text-black'>{property.bedrooms}</span></p>
                     </div>
                     <div className='flex items-center space-x-2'>
-                        <FaBath className='text-rose-600' />
-                        <p className='text-xs text-gray-700'>{property.bathrooms} Bathrooms</p>
+                        <FaBath className='textgray-text-gray-5000' />
+                        <p className='text-sm text-gray-500'>Baths: <span className='text-black'>{property.bathrooms}</span></p>
                     </div>
                     <div className='flex items-center space-x-2'>
-                        <FaSquare className='text-rose-600' />
-                        <p className='text-xs text-gray-700'>{property.size} sqrt</p>
+                        <FaSquare className='tegray-text-gray-500600' />
+                        <p className='text-sm text-gray-500'>Sqft: <span className='text-black'>{property.size}</span></p>
                     </div>
                 </div>
                 <div className='h-[1.2px] mt-4 mb-4 bg-gray-500 opacity-15'></div>
                 <div className='flex items-center justify-between'>
-                    <span className='text-xs font-medium text-gray-500'>For Rent</span>
-                    <div className='flex items-center space-x-4 text-gray-500'>
-                        <BiLinkExternal />
-                        <BsPlusSquare />
-                        <BsHeart />
+                    <div className='flex items-center justify-between space-x-2'>
+                        <span className='text-sm font-medium text-gray-500'>For Rent</span>
+                        <div className='flex items-center space-x-2 text-gray-500'>
+                            <BiLinkExternal />
+                            <BsPlusSquare />
+                            <BsHeart />
+                        </div>
                     </div>
+                    <h4 className='text-lg text-black'>${property.price}</h4>
                 </div>
             </div>
         </div>

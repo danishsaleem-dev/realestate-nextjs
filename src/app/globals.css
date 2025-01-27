@@ -2,7 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --primary-color: #1563DF;
+  --secondary-color: #2ecc71;
+  --accent-color: #e74c3c;
+  --background-color: #F3F7FD;
+  --text-color: #333;
+}
+
 @layer components {
+  /* Button Classes */
+  .btn-primary{
+    @apply bg-[#1563DF] text-white border-0;
+  }
+
+
+
   .footer__heading{
     @apply text-lg font-bold text-white mb-4;
   }
