@@ -9,6 +9,9 @@ import ClientReviews from './ClientReviews/ClientReviews';
 import Blogs from './Blogs/Blogs';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import ConnectWithUs from './ConnectWithUs/ConnectWithUs';
+import WhatWeDo from './WhatWeDo/WhatWeDo';
+import WhyChooseUs from './WhyChooseUs/WhyChooseUs';
 
 const Home: React.FC = () => {
 
@@ -29,7 +32,10 @@ const Home: React.FC = () => {
             <ApartmentType />
             <Properties />
             <CityProperties />
+            <WhatWeDo />
+            <WhyChooseUs />
             <BuildingFeature />
+            <ConnectWithUs />
             <ClientReviews />
             <Blogs />
         </div>
