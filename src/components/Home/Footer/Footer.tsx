@@ -10,7 +10,7 @@ const Footer = () => {
         <div className='w-[80%] mx-auto flex flex-col md:flex-row gap-3 justify-between items-center'>
             <div className='w-full md:w-[50%] text-white'>
                 <h2>Want to Become a Real Estate Agent?</h2>
-                <p>We'll help you to grow your career and growth.</p>
+                <p>We will help you to grow your career and growth.</p>
             </div>
             <button className='btn bg-white border-4 border-blue-300 py-4 px-10 text-black rounded-full'>SignUp Today</button>
         </div>

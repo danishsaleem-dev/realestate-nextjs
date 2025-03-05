@@ -1,7 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import { BiEnvelope, BiPhone, BiPhoneCall } from 'react-icons/bi';
-import { TfiEmail } from 'react-icons/tfi';
+import { BiEnvelope, BiPhone } from 'react-icons/bi';
 
 type Props = {
     agent: {
