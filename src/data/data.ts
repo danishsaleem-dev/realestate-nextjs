@@ -263,3 +263,38 @@ export const appartmentTypeData = [
       serviceImage: "/images/home-3.png",
     }
   ];
+  
+  export const agents = [
+    {
+      id: 1,
+      name: "Chris Evans",
+      role: "Administrative Staff",
+      image: "/images/agent-2.jpg",
+      email: "admin@gmail.com",
+      phone: "(123) 456-7890",
+    },
+    {
+      id: 2,
+      name: "Julia Sky",
+      role: "Administrative Staff",
+      image: "/images/agent-1.jpg",
+      email: "admin@gmail.com",
+      phone: "(123) 456-7890",
+    },
+    {
+      id: 1,
+      name: "Robert Dave",
+      role: "Administrative Staff",
+      image: "/images/agent-3.jpg",
+      email: "admin@gmail.com",
+      phone: "(123) 456-7890",
+    },
+    {
+      id: 1,
+      name: "Britney Fox",
+      role: "Administrative Staff",
+      image: "/images/agent-4.jpg",
+      email: "admin@gmail.com",
+      phone: "(123) 456-7890",
+    },
+  ];

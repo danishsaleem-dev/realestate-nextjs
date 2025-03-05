@@ -11,6 +11,9 @@ export default {
       colors: {
         primary: 'var(--primary-color)',
       },
+      fontFamily: {
+        sans: ["var(--font-display)", "sans-serif"],
+      },
     }
   },
   plugins: [

@@ -5,12 +5,24 @@ import { FaHouse } from 'react-icons/fa6'
 
 const Footer = () => {
   return (
+    <>
+    <div className='w-full py-10 bg-[#2196F3] '>
+        <div className='w-[80%] mx-auto flex flex-col md:flex-row gap-3 justify-between items-center'>
+            <div className='w-full md:w-[50%] text-white'>
+                <h2>Want to Become a Real Estate Agent?</h2>
+                <p>We'll help you to grow your career and growth.</p>
+            </div>
+            <button className='btn bg-white border-4 border-blue-300 py-4 px-10 text-black rounded-full'>SignUp Today</button>
+        </div>
+    </div>    
+
+
     <div className='pt-20 pb-12 bg-[#161E2D] text-white'>
         <div className='w-[80%] mx-auto gap-10 pb-8 mb-10 border-b-[1.5px] border-white border-opacity-20'>
         <div className='flex space-x-2 justify-between'>
                 {/* Logo */}    
                 <div className='flex items-center space-x-2'>
-                    <div className='md-w-8 md:h-8 w-7 h-7 rounded-full bg-rose-700 text-white flex items-center justify-center flex-col'>
+                    <div className='md-w-8 md:h-8 w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center flex-col'>
                         <FaHouse/>
                     </div>
                     <div className='text-white font-bold text-sm sm:text-base md:text-xl'>
@@ -36,12 +48,12 @@ const Footer = () => {
                 
                 <p className='text-sm text-white'>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                 <div className='flex items-center space-x-2 mt-4'>
-                    <BiEnvelope className='text-rose-500 w-5 h-5'/>
-                    <p className='text-base font-semibold text-white hover:text-rose-500 cursor-pointer'>example@gmail.com</p>
+                    <BiEnvelope className='text-primary w-5 h-5'/>
+                    <p className='text-base font-semibold text-white hover:text-primary cursor-pointer'>example@gmail.com</p>
                 </div>
                 <div className='flex items-center space-x-2 mt-4'>
-                    <BiPhoneCall className='text-rose-500 w-5 h-5'/>
-                    <p className='text-base font-semibold text-white hover:text-rose-500 cursor-pointer'>+123 345-6789</p>
+                    <BiPhoneCall className='text-primary w-5 h-5'/>
+                    <p className='text-base font-semibold text-white hover:text-primary cursor-pointer'>+123 345-6789</p>
                 </div>
             </div>
 
@@ -77,9 +89,10 @@ const Footer = () => {
             </div>
         </div>
         <div className='w-[80%] mx-auto pt-8'>
-            <p className='text-base text-gray-400 text-center'>© 2021 Real Estate Project. All Rights Reserved.</p>
+            <p className='text-base text-gray-400 text-center'>© 2025 Real Estate Project. All Rights Reserved.</p>
         </div>
     </div>
+    </>
   )
 }
 

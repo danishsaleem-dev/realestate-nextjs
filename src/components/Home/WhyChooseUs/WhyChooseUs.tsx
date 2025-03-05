@@ -1,12 +1,14 @@
 import React from 'react'
+import Image from 'next/image'
 
 const WhyChooseUs = () => {
   return (
-    <div className='flex w-[98%] bg-gray-100 justify-center items-center mx-auto rounded-lg'>
-        <div className='w-1/2 h-fit bg-[url("/images/hero.jpg")] bg-fixed bg-cover bg-center'>
+    <div className='flex flex-col md:flex-row w-[98%] bg-gray-100 justify-center items-center mx-auto rounded-lg relative h-[800px] lg:h-[600px]'>
+        <div className='w-1/2 relative h-full'>
+            <Image src='/images/hero.jpg' layout="fill" objectFit="cover" alt='hero' className='rounded-xl'/>
         </div>
-        <div className='w-1/2 py-12 px-10'>
-            <div className='w-[75%]'>
+        <div className='w-full lg:w-1/2 py-12 px-12'>
+            <div className='w-full lg:w-[75%]'>
                 <span className='text-lg block mb-2 font-semibold text-primary'>Our Benefit</span>
                 <h2 className='text-4xl font-bold mb-2 text-gray-800'>Why Choose Us</h2>
                 <p className='text-sm text-gray-700 mt-4'>Our seasoned team excels in real estate with years of successful market navigation, offering informed decisions and optimal results.</p>

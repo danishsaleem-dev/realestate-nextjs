@@ -12,6 +12,7 @@ import 'aos/dist/aos.css';
 import ConnectWithUs from './ConnectWithUs/ConnectWithUs';
 import WhatWeDo from './WhatWeDo/WhatWeDo';
 import WhyChooseUs from './WhyChooseUs/WhyChooseUs';
+import OurAgents from './OurAgents/OurAgents';
 
 const Home: React.FC = () => {
 
@@ -35,6 +36,7 @@ const Home: React.FC = () => {
             <WhatWeDo />
             <WhyChooseUs />
             <BuildingFeature />
+            <OurAgents />
             <ConnectWithUs />
             <ClientReviews />
             <Blogs />

@@ -25,22 +25,23 @@ const Nav = ({ openNav }: Props) => {
     }, [])
 
   return (
-    <div className={`fixed ${navBg ? "bg-gray-800" : ""} h-[10vh] z-[100] w-full transition-all duration-200 `}>
+    <div className={`fixed ${navBg ? "bg-white" : ""} h-[10vh] z-[100] w-full transition-all duration-200 `}>
         <div className='flex items-center h-full justify-between w-[95%] sm:w-[90%] xl:w-[90%] mx-auto'>
             {/* Logo */}    
             <div className='flex items-center space-x-2'>
-                <div className='md-w-8 md:h-8 w-7 h-7 rounded-full bg-rose-700 text-white flex items-center justify-center flex-col'>
-                    <FaHouse/>
-                </div>
-                <div className='text-white font-bold text-sm sm:text-base md:text-xl'>
+            <div className='w-7 h-7 md:w-8 md:h-8 rounded-full bg-[#3162CC] text-white flex items-center justify-center'>
+                <FaHouse />
+            </div>
+
+                <div className='text-black font-bold text-sm sm:text-base md:text-xl'>
                     Real Estate Project
                 </div>
             </div>
             {/* Nav Links */}
-            <div className='lg:flex items-center space-x-14 text-white hidden'>
+            <div className='lg:flex items-center space-x-14 text-black hidden'>
             {navLinks.map((link) => (
                 <Link key={link.id} href={link.url}>
-                    <p className='text-white text-sm sm:text-base text-base cursor-pointer hover:text-red-400 transition-all duration-200'>
+                    <p className='text-black text-sm sm:text-base text-base cursor-pointer hover:text-red-400 transition-all duration-200'>
                         {link.label}
                     </p>
                 </Link>
@@ -48,12 +49,12 @@ const Nav = ({ openNav }: Props) => {
             </div>
             {/* Login & Hamburger Menu */}
             <div className='flex items-center space-x-4'>
-                <div className='flex items-center text-white text-sm sm:text-base md:text-lg cursor-pointer hover:text-red-400 transition-all duration-200'>
+                <div className='flex items-center text-black text-sm sm:text-base md:text-lg cursor-pointer hover:text-red-400 transition-all duration-200'>
                     <FaUserCircle className='w-5 h-5'/>
-                    <p className='text-xs sm:text-base mx-2'>Login / Register</p>
+                    <p className='hidden sm:block text-xs sm:text-base mx-2'>Login / Register</p>
                 </div>
                 <button className={`btn btn-primary sm:text-base ${navBg ? "bg-white text-primary" : ""}`}>Submit Property</button>
-                <HiBars3BottomRight onClick={openNav} className='text-white w-6 h-6 sm:w-8 sm:h-8 cursor-pointer lg:hidden'/>
+                <HiBars3BottomRight onClick={openNav} className='text-black w-6 h-6 sm:w-8 sm:h-8 cursor-pointer lg:hidden'/>
             </div>
         </div>
     </div>

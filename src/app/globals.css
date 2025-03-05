@@ -19,6 +19,35 @@
   body{
     @apply bg-[#F3F4F6];
   }
+  /* Apply Poppins font to paragraphs */
+  * {
+    font-family: var(--font-poppins), sans-serif;
+  }
+
+  /* Apply Jost font to headings */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-jost), sans-serif;
+  }
+
+  h1{
+    @apply text-3xl sm:text-4xl md:text-4xl lg:text-6xl;
+  }
+
+  h2{
+    @apply text-3xl font-bold;
+  }
+
+  h3{
+    @apply text-2xl font-semibold text-black;
+  }
+
+  p{
+    @apply text-base;
+  }
+
+  span{
+    @apply text-black;
+  }
 
   .footer__heading{
     @apply text-lg font-bold text-white mb-4;

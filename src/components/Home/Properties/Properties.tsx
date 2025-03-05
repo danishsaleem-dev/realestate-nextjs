@@ -25,7 +25,12 @@ const Properties = () => {
             <div className="flex items-center justify-center space-x-4 mt-8 mb-8">
                 {uniqueTypes.map((type) => (
                     
-                    <button onClick={() => setFilter(type)} className="px-4 py-2 bg-white rounded-full text-black" key={type}>
+                    <button 
+                    key={type}
+                    onClick={() => setFilter(type)}
+                    className={`px-4 py-2 rounded-full transition duration-300 
+                        ${filter === type ? 'bg-primary text-white' : 'bg-white text-black'}`}
+                    >
                     {type}
                     </button>
                 

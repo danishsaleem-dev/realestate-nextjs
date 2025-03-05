@@ -26,10 +26,10 @@ const PropertyCard = ({property}: Props) => {
             <div className='relative w-full h-72 overflow-hidden'>
                 <div className='absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 z-10'></div>
                 <Image src={property.imageUrl} alt={property.propertyName} layout='fill' objectFit='cover' className='w-full object-cover group-hover:scale-110 transition-all duration-300 ration rounded-t-lg' />
-                <h3 className='text-sm px-6 absolute bottom-2 text-white flex items-center z-20'><HiLocationMarker className='mr-2'/> {property.location}</h3>
+                <span className='text-sm px-6 absolute bottom-2 text-white flex items-center z-20'><HiLocationMarker className='mr-2'/> {property.location}</span>
                 <div className='flex items-center text-sm font-medium px-3 absolute top-4 left-4 py-1.5 bg-primary text-white rounded-full z-20'>
                     <MdElectricBolt className='mr-1' />
-                    <span>Featured</span>
+                    <span className='text-white'>Featured</span>
                 </div>
             </div>
             <div className='p-5'>
