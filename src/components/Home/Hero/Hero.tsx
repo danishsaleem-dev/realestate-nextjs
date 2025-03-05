@@ -1,12 +1,12 @@
-import SearchBox from '@/components/Helper/SearchBox'
 import React from 'react'
 import Image from 'next/image'
+import BannerSearch from './BannerSearch'
 
 const Hero = () => {
   return (
-    <div className='w-full flex-col lg:flex-row flex justify-center items-center pt-[4vw] md:pt-[12vh] h-screen bg-[#DEF2FF] overflow-hidden relative mx-auto'>
+    <div className='w-full flex-col lg:flex-row flex justify-center items-center pt-[20vw] md:py-[19vh] bg-[#DEF2FF] overflow-hidden relative mx-auto'>
         <div className='flex flex-col items-start justify-center text-black w-[90%] sm:w-[55%] lg:w-[55%] relative'>
-            <span className='capitalize text-white text-sm font-light bg-primary rounded-full px-4 py-1'>
+            <span className='capitalize text-white text-sm font-light bg-primary rounded-full px-4 py-1 mb-4'>
                 The Best Real Estate Service in Canada
             </span>
             <h1 className='capitalize leading-snug font-bold'>
@@ -16,7 +16,8 @@ const Hero = () => {
             Find homes in 80+ different countries represented byb 700 leading member brokerages.
             </p>
             <div className='mt-12 w-full '>
-                <SearchBox />
+                {/* <SearchBox /> */}
+                <BannerSearch />
             </div>
         </div>
         <div className='flex justify-center items-center w-[35%]'>

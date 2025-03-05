@@ -25,7 +25,7 @@ const Nav = ({ openNav }: Props) => {
     }, [])
 
   return (
-    <div className={`fixed ${navBg ? "bg-white" : ""} h-[10vh] z-[100] w-full transition-all duration-200 `}>
+    <div className={`fixed ${navBg ? "bg-white shadow-[0_4px_18px_0_rgba(0,0,0,0.078)]" : ""} h-[10vh] z-[100] w-full transition-all duration-200 `}>
         <div className='flex items-center h-full justify-between w-[95%] sm:w-[90%] xl:w-[90%] mx-auto'>
             {/* Logo */}    
             <div className='flex items-center space-x-2'>
@@ -41,7 +41,7 @@ const Nav = ({ openNav }: Props) => {
             <div className='lg:flex items-center space-x-14 text-black hidden'>
             {navLinks.map((link) => (
                 <Link key={link.id} href={link.url}>
-                    <p className='text-black text-sm sm:text-base text-base cursor-pointer hover:text-red-400 transition-all duration-200'>
+                    <p className='text-black text-sm sm:text-base text-base cursor-pointer hover:text-primary transition-all duration-200'>
                         {link.label}
                     </p>
                 </Link>
@@ -49,11 +49,11 @@ const Nav = ({ openNav }: Props) => {
             </div>
             {/* Login & Hamburger Menu */}
             <div className='flex items-center space-x-4'>
-                <div className='flex items-center text-black text-sm sm:text-base md:text-lg cursor-pointer hover:text-red-400 transition-all duration-200'>
+                <div className='flex items-center text-black text-sm sm:text-base md:text-lg cursor-pointer hover:text-primary transition-all duration-200'>
                     <FaUserCircle className='w-5 h-5'/>
                     <p className='hidden sm:block text-xs sm:text-base mx-2'>Login / Register</p>
                 </div>
-                <button className={`btn btn-primary sm:text-base ${navBg ? "bg-white text-primary" : ""}`}>Submit Property</button>
+                <button className={`btn btn-primary sm:text-base bg-primary hover:text-white`}>Submit Property</button>
                 <HiBars3BottomRight onClick={openNav} className='text-black w-6 h-6 sm:w-8 sm:h-8 cursor-pointer lg:hidden'/>
             </div>
         </div>
