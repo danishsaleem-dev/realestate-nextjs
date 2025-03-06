@@ -1,12 +1,10 @@
-import About  from '@/components/About/About'
-import React from 'react'
+import About from '@/components/About/About';
+import React from 'react';
 
-
-
-const AboutPage = () => {
+const AboutPage: React.FC = () => {
   return (
-    <About  />
-  )
-}
+    <About />
+  );
+};
 
-export default AboutPage
+export default AboutPage;

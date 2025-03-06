@@ -1,18 +1,16 @@
 import React from 'react';
 import Banner from './Banner/Banner';
+import ContactForm from './ContactForm/ContactForm';
 import CallToAction from './CallToAction/CallToAction';
-import OurAgents from './OurAgents/OurAgents';
-import ClientReviews from './ClientReviews/ClientReviews';
 
-const About: React.FC = () => {
+const Contact: React.FC = () => {
   return (
     <div className='overflow-hidden bg-white'>
       <Banner />
-      <OurAgents />
-      <ClientReviews />
+      <ContactForm />
       <CallToAction />
     </div>
   );
 };
 
-export default About;
+export default Contact;

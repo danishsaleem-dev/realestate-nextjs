@@ -8,7 +8,7 @@ const WhyChooseUs = () => {
             <Image src='/images/hero.jpg' layout="fill" objectFit="cover" alt='hero' className='rounded-xl'/>
         </div>
         <div className='w-full lg:w-1/2 py-12 px-12'>
-            <div className='w-full lg:w-[75%]'>
+            <div className='w-full'>
                 <span className='text-lg block mb-2 font-semibold text-primary'>Our Benefit</span>
                 <h2 className='text-4xl font-bold mb-2 text-gray-800'>Why Choose Us</h2>
                 <p className='text-sm text-gray-700 mt-4'>Our seasoned team excels in real estate with years of successful market navigation, offering informed decisions and optimal results.</p>
