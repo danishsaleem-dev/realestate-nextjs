@@ -3,7 +3,6 @@ import Form from './Form'
 import Overview from './Overview'
 import Features from './Features'
 import Location from './Location'
-import Property360 from './Property360'
 import Demographics from './Demographics'
 
 
@@ -40,7 +39,7 @@ const ItemBody = () => {
             </div>
             <div className='border-b border-gray-200 py-8'>
                 <h2 className='text-black font-medium text-3xl mb-6'>Explore Property</h2>
-                <Property360 />
+                
             </div>
             
             <div className='border-b border-gray-200 py-8'>
