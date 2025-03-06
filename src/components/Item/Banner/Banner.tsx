@@ -3,7 +3,6 @@ import { BiHeart, BiPrinter, BiShare } from 'react-icons/bi';
 import { FaBath, FaBed, FaSquare } from 'react-icons/fa';
 import { HiLocationMarker } from 'react-icons/hi';
 import Image from 'next/image';
-import BannerGallery from './BannerGallery';
 
 const Banner = () => {
   return (

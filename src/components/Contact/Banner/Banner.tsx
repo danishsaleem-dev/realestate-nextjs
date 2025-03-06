@@ -1,6 +1,4 @@
 import React from 'react'
-import Image from 'next/image'
-import { FaArrowRightLong } from 'react-icons/fa6'
 
 const Banner = () => {
   return (
