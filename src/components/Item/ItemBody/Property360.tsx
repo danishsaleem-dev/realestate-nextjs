@@ -1,5 +1,6 @@
 "use client";
 import { useEffect } from "react";
+
 import CloudImage360 from "js-cloudimage-360-view";
 
 const Property360 = () => {
