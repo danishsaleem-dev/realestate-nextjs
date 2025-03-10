@@ -14,7 +14,7 @@ type Props = {
 
 const ReviewCard = ({userReview}: Props) => {
   return (
-    <div className='relative rounded-2xl overflow-hidden bg-white p-6 m-3'>
+    <div className='relative rounded-2xl overflow-hidden bg-white p-6 m-3 shadow'>
         <FaQuoteRight className='absolute w-8 h-8 top-3 right-3 text-primary'/>
         <div className='mt-6 mb-3 flex items-center'>
             <FaStar className='w-4 h-4 text-yellow-600'/>

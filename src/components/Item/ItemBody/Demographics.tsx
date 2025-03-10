@@ -84,7 +84,7 @@ const Demographics = () => {
             onMouseEnter={() => setHoverIndex(index)}
             onMouseLeave={() => setHoverIndex(null)}
           >
-            <h3 className="text-lg font-semibold text-gray-800">{item.label}</h3>
+            <h3 className="text-lg font-normal text-gray-800">{item.label}</h3>
             <p className="text-gray-600">Population: {item.value.toLocaleString()}</p>
           </div>
         ))}

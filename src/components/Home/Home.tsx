@@ -13,6 +13,13 @@ import ConnectWithUs from './ConnectWithUs/ConnectWithUs';
 import WhatWeDo from './WhatWeDo/WhatWeDo';
 import WhyChooseUs from './WhyChooseUs/WhyChooseUs';
 import OurAgents from './OurAgents/OurAgents';
+import FeaturedIn from './FeaturedIn/FeaturedIn';
+import CallToAction from './CallToAction/CallToAction';
+import CallToAction2 from '../About/CallToAction/CallToAction';
+import ExploreHotCities from './ExploreHotCities/ExploreHotCities';
+import BuyerAndSeller from './BuyerAndSeller/BuyerAndSeller';
+import Condos from './Condos/Condos';
+import SavingsCalculation from './SavingsCalculation/SavingsCalculation';
 
 const Home: React.FC = () => {
 
@@ -28,15 +35,22 @@ const Home: React.FC = () => {
 
 
     return (
-        <div className='overflow-hidden'>
+        <div className='overflow-hidden bg-white'>
             <Hero />
+            <BuyerAndSeller />
             <ApartmentType />
+            <FeaturedIn />
             <Properties />
+            <SavingsCalculation />
             <CityProperties />
+            <CallToAction />
             <WhatWeDo />
             <WhyChooseUs />
+            <Condos />
             <BuildingFeature />
+            <CallToAction2 />
             <OurAgents />
+            <ExploreHotCities />
             <ConnectWithUs />
             <ClientReviews />
             <Blogs />

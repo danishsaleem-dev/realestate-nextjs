@@ -18,7 +18,7 @@ const Properties = () => {
 
   return (
     <>
-    <div className='pt-16 pb-16 bg-gray-100'>
+    <div className='pt-16 pb-16 bg-background'>
         <div className='w-[90%] mx-auto text-center'>
             <SectionHeading heading='Discover Our Properties' subheading='Featured Properties' description='' />
             {/* Buttons for filtering */}
@@ -29,7 +29,7 @@ const Properties = () => {
                     key={type}
                     onClick={() => setFilter(type)}
                     className={`px-4 py-2 rounded-full transition duration-300 
-                        ${filter === type ? 'bg-primary text-white' : 'bg-white text-black'}`}
+                        ${filter === type ? 'bg-primary text-white' : 'bg-white text-black hover:bg-secondary hover:text-white'}`}
                     >
                     {type}
                     </button>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import Slider from 'rc-slider';
+import { BiCalculator } from 'react-icons/bi';
 import 'rc-slider/assets/index.css';
 
 const SellForm = () => {
@@ -17,37 +17,23 @@ const SellForm = () => {
     };
   
     return (
+      <>
       <form onSubmit={handleSearch}>
         <div className='field-box'>
-          <label>Location</label>
-          <input type="text" name="location" placeholder="Enter location" required />
-        </div>
-        <div className='field-box'>
-          <label>Property Type</label>
-          <select name="propertyType" required>
-            <option value="apartment">Apartment</option>
-            <option value="house">House</option>
-            <option value="villa">Villa</option>
-          </select>
-        </div>
-        <div className='field-box'>
-          <label>Price Range</label>
-          <div className="slider-container">
-            <Slider
-              range
-              min={0}
-              max={1000000}
-              defaultValue={[0, 1000000]}
-              value={priceRange}
-              onChange={handleSliderChange}
-            />
-            <div className="slider-values">
-              <span>${priceRange[0]}</span> - <span>${priceRange[1]}</span>
-            </div>
-          </div>
+          <input className='leading-loose' type="text" name="location" placeholder="Where do you want to rent?" required />
         </div>
         <button type="submit">Search</button>
       </form>
+      <div className='flex flex-col md:flex-row gap-2 justify-between bg-primary text-white p-6 rounded-2xl mt-4'>
+        <div className='flex flex-col gap-2'>
+          <div className='flex gap-2 items-center'>
+            <BiCalculator className='h-7 w-7' /><span className='text-white text-base md:text-xl font-bold'>Find out your home's value, instantly</span>
+          </div>
+          <p className='font-light text-sm'>Get a free online estimate of your home's current value in minutes</p>
+        </div>
+        <button className='btn btn-primary bg-transparent rounded-full border-2 border-white text-white px-10 hover:bg-white hover:text-primary'>Start instant valuation</button>
+      </div>
+      </>
     );
   };
   export default SellForm;

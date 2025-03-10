@@ -7,9 +7,6 @@ import Demographics from './Demographics'
 
 
 const ItemBody = () => {
-
-
-
   return (
     <div className='mx-auto w-[90%] flex flex-col md:flex-row justify-between items-start my-5 md:my-20 relative'>
         <div className='md:w-[65%] flex flex-col gap-5'>
@@ -37,19 +34,24 @@ const ItemBody = () => {
                 <h2 className='text-black font-medium text-3xl mb-6'>Map location</h2>
                 <Location />
             </div>
-            <div className='border-b border-gray-200 py-8'>
+            {/* <div className='border-b border-gray-200 py-8'>
                 <h2 className='text-black font-medium text-3xl mb-6'>Explore Property</h2>
-                
-            </div>
+                <Property360 />
+            </div> */}
             
             <div className='border-b border-gray-200 py-8'>
                 <h2 className='text-black font-medium text-3xl mb-6'>Demographics</h2>
                 <Demographics />
             </div>
         </div>
-        <div className='md:w-[30%] border border-gray-200 rounded-2xl p-8 sticky top-5 self-start'>
+        <div className='md:w-[30%] border border-gray-200 rounded-2xl p-8 sticky top-5'>
             <h2 className='text-black font-medium text-3xl mb-5'>Contact Sellers</h2>
             <Form />
+            <div className='flex flex-col gap-4 mt-10 p-5 border border-gray-200 rounded-2xl bg-secondary text-white'>
+                <span className='text-white text-2xl capitalize font-semibold'>Here for your questions</span>
+                <button className='btn btn-primary bg-white hover:bg-primary hover:text-white text-black'>Get in touch</button>
+                <span className='text-white'>or call us at <a href="tel:(123) 456-7890">(123) 456-7890</a></span>
+            </div>
         </div>
     </div>
   )

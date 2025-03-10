@@ -3,6 +3,7 @@ import { BiHeart, BiPrinter, BiShare } from 'react-icons/bi';
 import { FaBath, FaBed, FaSquare } from 'react-icons/fa';
 import { HiLocationMarker } from 'react-icons/hi';
 import Image from 'next/image';
+import BannerGallery from './BannerGallery';
 
 const Banner = () => {
   return (
@@ -45,15 +46,22 @@ const Banner = () => {
                 </div>
             </div>
             <div className='md:w-[20%] flex gap-2 justify-end'>
-                <BiHeart className='text-gray-400 w-10 h-10 p-2 rounded-lg border'/>
-                <BiShare className='text-gray-400 w-10 h-10 p-2 rounded-lg border'/>
-                <BiPrinter className='text-gray-400 w-10 h-10 p-2 rounded-lg border'/>
+                <BiHeart className='text-gray-400 hover:text-secondary hover:border-secondary cursor-pointer w-10 h-10 p-2 rounded-lg border transition-all delay-100'/>
+                <BiShare className='text-gray-400 hover:text-secondary hover:border-secondary cursor-pointer w-10 h-10 p-2 rounded-lg border transition-all delay-100'/>
+                <BiPrinter className='text-gray-400 hover:text-secondary hover:border-secondary cursor-pointer w-10 h-10 p-2 rounded-lg border transition-all delay-100'/>
             </div>
         </div>
     </div>
-    <div className='w-[95%] mx-auto'>
-        <Image className='rounded-2xl' src='/images/hero.jpg' alt='house' width={1920} height={1080} />
-        {/* <BannerGallery /> */}
+    <div className='w-[95%] mx-auto flex flex-row gap-4'>
+        <Image className='w-1/2 rounded-2xl' src='/images/hero.jpg' alt='house' width={1920} height={1080}/>
+        <div className='w-1/4 flex flex-col gap-4'>
+            <Image className='rounded-2xl' src='/images/hero.jpg' alt='house' width={1920} height={1080} />
+            <Image className='rounded-2xl' src='/images/hero.jpg' alt='house' width={1920} height={1080} />
+        </div>
+        <div className='w-1/4 flex flex-col gap-4'>
+            <Image className='rounded-2xl' src='/images/hero.jpg' alt='house' width={1920} height={1080} />
+            <Image className=' rounded-2xl' src='/images/hero.jpg' alt='house' width={1920} height={1080} />
+        </div>
     </div>
     </>
   )
