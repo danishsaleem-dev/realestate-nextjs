@@ -1,15 +1,9 @@
 import React from 'react';
-import { useState } from 'react';
 import 'rc-slider/assets/index.css';
 import { BiCalculator } from 'react-icons/bi';
 
 const RentForm = () => {
-  const [priceRange, setPriceRange] = useState([0, 1000000]); // [minPrice, maxPrice]
-    const handleSliderChange = (value: number | number[]) => {
-      if (Array.isArray(value)) {
-        setPriceRange(value as [number, number]);
-      }
-    };
+ 
 
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
