@@ -84,7 +84,7 @@ const Nav = ({ openNav }: Props) => {
         </div>
         {/* Login & Hamburger Menu */}
         <div className="flex items-center space-x-4">
-          <div className="flex flex-col items-center text-black text-sm sm:text-base md:text-lg cursor-pointer hover:text-primary transition-all duration-200">
+          <div className="hidden md:flex flex-col items-center  text-black text-sm sm:text-base md:text-lg cursor-pointer hover:text-primary transition-all duration-200">
             <div className='flex items-center'>
               <BiPhone className="w-5 h-5" />
               <p className="hidden sm:block text-xs sm:text-base mx-2">123 456-7890</p>

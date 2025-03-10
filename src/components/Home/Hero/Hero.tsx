@@ -3,7 +3,7 @@ import BannerSearch from './BannerSearch'
 
 const Hero = () => {
   return (
-    <div className='w-full flex-col lg:flex-row flex justify-center items-center mb-32 z-50 pt-28 md:pt-[10vw] pb-[4vw] bg-[url("/images/banner.webp")] bg-cover bg-center relative mx-auto'>
+    <div className='w-full flex-col lg:flex-row flex justify-center items-center mb-80 md:mb-32 z-50 pt-28 md:pt-[10vw] pb-[4vw] bg-[url("/images/banner.webp")] bg-cover bg-center relative mx-auto'>
         {/* Overlay */}
         <div className='absolute inset-0 bg-black bg-opacity-50'></div>
 
@@ -17,7 +17,7 @@ const Hero = () => {
             <p className='text-sm sm:text-base md:text-lg mt-4'>
             Find homes in 80+ different countries represented byb 700 leading member brokerages.
             </p>
-            <div className='mt-12 w-full md:w-[75%] absolute -bottom-56 z-40'>
+            <div className='mt-12 w-full md:w-[75%] absolute -bottom-96 md:-bottom-56 z-40'>
                 {/* <SearchBox /> */}
                 <BannerSearch />
             </div>

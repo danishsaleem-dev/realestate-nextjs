@@ -1,5 +1,4 @@
 import React from 'react'
-import BannerSearch from './BannerSearch'
 
 const Hero = () => {
   return (
@@ -8,17 +7,14 @@ const Hero = () => {
         <div className='absolute inset-0 bg-black bg-opacity-50'></div>
         
         <div className='flex flex-col items-center justify-center text-white w-[90%] sm:w-[55%] lg:w-[75%] relative'>
-            <h1 className='capitalize text-4xl leading-snug font-normal text-center w-[75%]'>
+            <h1 className='capitalize text-2xl md:text-4xl leading-snug font-normal text-center w-full md:w-[75%]'>
             Get priority access to the latest new construction projects & save thousands
             </h1>
             <p className='text-sm sm:text-base md:text-lg mt-4'>
             Find homes in 80+ different countries represented byb 700 leading member brokerages.
             </p>
         </div>
-        
-        
     </div>
-    
   )
 }
 

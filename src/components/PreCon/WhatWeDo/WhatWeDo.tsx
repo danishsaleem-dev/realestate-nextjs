@@ -1,13 +1,8 @@
 import React from 'react'
 import SectionHeading from '@/components/Helper/SectionHeading'
-import Image from 'next/image'
-import { BsHouseGear } from 'react-icons/bs'
 import { FaHouse } from 'react-icons/fa6'
-import { BiBadge, BiMedal } from 'react-icons/bi'
-import { SiAwwwards } from 'react-icons/si'
 import { FaMedal } from 'react-icons/fa'
-import { FcVip } from 'react-icons/fc'
-import { RiVipCrownFill, RiVipFill } from 'react-icons/ri'
+import { RiVipCrownFill } from 'react-icons/ri'
 
 
 
