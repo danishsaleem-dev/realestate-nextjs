@@ -24,7 +24,7 @@ const RentForm = () => {
           <div className='flex gap-2 items-center'>
             <BiCalculator className='h-7 w-7' /><span className='text-white text-base md:text-xl font-bold'>Find the rental cost of a property, instantly</span>
           </div>
-          <p className='font-light text-sm'>Get a free online estimate of a property's rental income in minutes</p>
+          <p className='font-light text-sm'>Get a free online estimate of a property&apos;s rental income in minutes</p>
         </div>
         <button className='btn btn-primary bg-transparent rounded-full border-2 border-white text-white px-10 hover:bg-white hover:text-primary'>Start Rent Checker</button>
       </div>
