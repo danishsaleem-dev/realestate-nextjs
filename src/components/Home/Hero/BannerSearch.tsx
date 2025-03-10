@@ -8,7 +8,7 @@ const BannerSearch = () => {
   const [activeTab, setActiveTab] = useState('rent'); // Default tab
 
   return (
-    <div className="banner-search">
+    <div className="banner-search shadow-2xl">
       <div className="tabs">
         <button
           className={activeTab === 'rent' ? 'active' : ''} 

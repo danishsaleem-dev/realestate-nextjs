@@ -35,7 +35,7 @@ const Home: React.FC = () => {
 
 
     return (
-        <div className='overflow-hidden bg-white'>
+        <div className=' bg-white'>
             <Hero />
             <BuyerAndSeller />
             <ApartmentType />

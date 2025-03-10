@@ -11,4 +11,5 @@ export const navLinks = [
         ],
       },
     { id: 3, label: 'For Rent', url: '#rent' },
+    { id: 3, label: 'Pre-Con', url: '/pre-con' },
 ];
