@@ -4,19 +4,17 @@ import { BiCalculator } from 'react-icons/bi';
 import LocationInput from './LocationInput';
 
 const RentForm = () => {
- 
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Handle search logic for Rent
+  };
 
-    const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      // Handle search logic for Rent
-    };
-    
-    const handleLocationSelect = (location: string) => {
-      console.log('Selected location:', location);
-    };
+  const handleLocationSelect = (location: string) => {
+    console.log('Selected location:', location);
+  };
 
-    return (
-      <>
+  return (
+    <>
       <form onSubmit={handleSearch}>
         <div className='field-box'>
           <LocationInput onSelect={handleLocationSelect} placeholder="Where do you want to rent?" />
@@ -29,11 +27,12 @@ const RentForm = () => {
           <div className='flex gap-2 items-center'>
             <BiCalculator className='h-7 w-7' /><span className='text-white text-base md:text-xl font-bold'>Find the rental cost of a property, instantly</span>
           </div>
-          <p className='font-light text-sm'>Get a free online estimate of a property&apos;s rental income in minutes</p>
+          <p className='font-light text-sm'>Get a free online estimate of a property's rental income in minutes</p>
         </div>
         <button className='btn btn-primary bg-transparent rounded-full border-2 border-white text-white px-10 hover:bg-white hover:text-primary'>Start Rent Checker</button>
       </div>
-      </>
-    );
-  };
-  export default RentForm;
+    </>
+  );
+};
+
+export default RentForm;

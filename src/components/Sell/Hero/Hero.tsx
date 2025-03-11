@@ -15,7 +15,7 @@ const Hero = () => {
         
         <div className='flex flex-col items-center justify-center text-white w-[90%] sm:w-[55%] lg:w-[75%] relative'>
             <h1 className='capitalize text-2xl md:text-4xl leading-snug font-normal text-center w-full md:w-[75%]'>
-            Home Value Estimation
+            Sell with us
             </h1>
             <h2 className='text-sm sm:text-base md:text-lg mt-4 font-normal my-4'>Find out how much your home is worth in today's market!</h2>
             <p className='leading-relaxed text-center'>With more than 500 real estate transactions and thousands of offers submitted, Justo's agents know your local market. We'll arrange for an experienced Realtor to come to your home and provide you with insight into the value of your home and the recommended listing price to get the most from your home sale. It's free and there is no obligation!</p>
@@ -23,7 +23,7 @@ const Hero = () => {
               <GoogleMapsWrapper>
                 <LocationInput onSelect={handleLocationSelect} placeholder="Enter your home address" />
               </GoogleMapsWrapper>
-              <button className='btn btn-primary'>Start Home Estimation</button>
+              {/* <button className='btn btn-primary'>Start Home Estimation</button> */}
             </form>
         </div>
     </div>

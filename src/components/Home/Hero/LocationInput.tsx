@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+"use client";
+
+import React, { useState, useRef, useEffect } from 'react';
+import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 
 interface LocationInputProps {
   onSelect: (place: string) => void;
@@ -6,51 +9,79 @@ interface LocationInputProps {
 }
 
 const LocationInput: React.FC<LocationInputProps> = ({ onSelect, placeholder }) => {
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [inputValue, setInputValue] = useState<string>('');
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setInputValue(value);
+  const {
+    ready,
+    value,
+    suggestions: { status, data },
+    setValue,
+    clearSuggestions,
+  } = usePlacesAutocomplete({
+    requestOptions: {
+      componentRestrictions: { country: 'ca' },
+      types: ['address']
+    },
+    debounce: 300,
+  });
 
-    if (value.length > 2) {
-      fetchSuggestions(value);
-    } else {
-      setSuggestions([]);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+    setIsOpen(true);
+  };
+
+  const handleSelect = async (address: string) => {
+    setValue(address, false);
+    setIsOpen(false);
+    clearSuggestions();
+
+    try {
+      const results = await getGeocode({ address });
+      const { lat, lng } = await getLatLng(results[0]);
+      onSelect(address);
+      console.log('Coordinates: ', { lat, lng });
+    } catch (error) {
+      console.error('Error: ', error);
     }
   };
 
-  const fetchSuggestions = async (input: string) => {
-    const response = await fetch(
-      `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${input}&key=AIzaSyB0KWOeJWvvAoo5pbLcqYTnqhCv1mp3X5U`
-    );
-    const data = await response.json();
-    const places = data.predictions.map((prediction: any) => prediction.description);
-    setSuggestions(places);
-  };
-
-  const handleSuggestionClick = (suggestion: string) => {
-    setInputValue(suggestion);
-    setSuggestions([]);
-    onSelect(suggestion);
-  };
-
   return (
-    <div>
+    <div className="relative w-full" ref={dropdownRef}>
       <input
         type="text"
-        value={inputValue}
-        onChange={handleInputChange}
+        value={value}
+        onChange={handleInput}
+        disabled={!ready}
         placeholder={placeholder}
+        className="w-full p-3 bg-white text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+        onFocus={() => setIsOpen(true)}
       />
-      {suggestions.length > 0 && (
-        <ul>
-          {suggestions.map((suggestion, index) => (
-            <li key={index} onClick={() => handleSuggestionClick(suggestion)}>
-              {suggestion}
-            </li>
-          ))}
-        </ul>
+      {isOpen && status === 'OK' && (
+        <div className="absolute z-50 w-full mt-1 bg-white shadow-lg rounded-lg overflow-hidden">
+          <div className="py-2">
+            {data.map(({ place_id, description }) => (
+              <div
+                key={place_id}
+                onClick={() => handleSelect(description)}
+                className="px-4 py-2 text-black hover:bg-gray-100 cursor-pointer"
+              >
+                {description}
+              </div>
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );

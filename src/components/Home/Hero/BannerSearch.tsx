@@ -3,6 +3,7 @@ import React from 'react'
 import BuyForm from './BuyForm';
 import RentForm from './RentForm';
 import SellForm from './SellForm';
+import GoogleMapsWrapper from '@/components/Helper/GoogleMapsWrapper';
 
 const BannerSearch = () => {
   const [activeTab, setActiveTab] = useState('rent'); // Default tab
@@ -31,9 +32,11 @@ const BannerSearch = () => {
       </div>
 
       <div className="search-form">
-        {activeTab === 'rent' && <RentForm />}
-        {activeTab === 'buy' && <BuyForm />}
-        {activeTab === 'sell' && <SellForm />}
+        <GoogleMapsWrapper>
+          {activeTab === 'rent' && <RentForm />}
+          {activeTab === 'buy' && <BuyForm />}
+          {activeTab === 'sell' && <SellForm />}
+        </GoogleMapsWrapper>
       </div>
     </div>
   );

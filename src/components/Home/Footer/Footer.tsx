@@ -12,7 +12,7 @@ const Footer = () => {
                 <h2>Want to Become a Real Estate Agent?</h2>
                 <p>We will help you to grow your career and growth.</p>
             </div>
-            <button className='btn bg-white border-4 border-blue-300 py-4 px-10 text-black rounded-full'>SignUp Today</button>
+            <button className='btn bg-white border-4 border-blue-300 px-10 text-black hover:text-white rounded-full'>SignUp Today</button>
         </div>
     </div>    
 
