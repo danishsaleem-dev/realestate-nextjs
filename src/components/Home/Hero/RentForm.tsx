@@ -1,6 +1,7 @@
 import React from 'react';
 import 'rc-slider/assets/index.css';
 import { BiCalculator } from 'react-icons/bi';
+import LocationInput from './LocationInput';
 
 const RentForm = () => {
  
@@ -9,12 +10,16 @@ const RentForm = () => {
       e.preventDefault();
       // Handle search logic for Rent
     };
-  
+    
+    const handleLocationSelect = (location: string) => {
+      console.log('Selected location:', location);
+    };
+
     return (
       <>
       <form onSubmit={handleSearch}>
         <div className='field-box'>
-          <input className='leading-loose' type="text" name="location" placeholder="Where do you want to rent?" required />
+          <LocationInput onSelect={handleLocationSelect} placeholder="Where do you want to rent?" />
         </div>
         
         <button type="submit">Search</button>

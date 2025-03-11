@@ -8,7 +8,7 @@ const Hero = () => {
         <div className='absolute inset-0 bg-black bg-opacity-50'></div>
 
         <div className='flex flex-col items-center justify-center text-black w-[90%] sm:w-[55%] lg:w-[85%] relative'>
-            <span className='capitalize text-white text-sm font-light bg-primary rounded-full px-4 py-1 mb-4'>
+            <span className='capitalize text-white text-sm font-light bg-secondary rounded-full px-4 py-1 mb-4'>
                 The Best Real Estate Service in Canada
             </span>
             <h1 className='capitalize leading-snug font-extrabold text-center text-white w-[75%]'>
