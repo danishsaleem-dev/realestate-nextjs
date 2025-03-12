@@ -13,17 +13,17 @@ interface ResponsiveType {
   desktop: {
     breakpoint: { max: number; min: number };
     items: number;
-    slidesToslide: number;
+    slidesToSlide: number;
   };
   tablet: {
     breakpoint: { max: number; min: number };
     items: number;
-    slidesToslide: number;
+    slidesToSlide: number;
   };
   mobile: {
     breakpoint: { max: number; min: number };
     items: number;
-    slidesToslide: number;
+    slidesToSlide: number;
   };
 }
 
@@ -35,17 +35,17 @@ const responsive: ResponsiveType = {
   desktop: {
     breakpoint: { max: 3000, min: 1324 },
     items: 4,
-    slidesToslide: 1
+    slidesToSlide: 1
   },
   tablet: {
     breakpoint: { max: 1324, min: 764 },
     items: 2,
-    slidesToslide: 1
+    slidesToSlide: 1
   },
   mobile: {
     breakpoint: { max: 764, min: 0 },
     items: 1,
-    slidesToslide: 1
+    slidesToSlide: 1
   }
 };
 
