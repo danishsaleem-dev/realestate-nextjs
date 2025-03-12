@@ -14,7 +14,7 @@ const BuyerAndSeller = () => {
                         <BiSearch className='h-10 w-10 text-primary p-2 rounded-lg shadow-md ' />
                     </div>
                     <p className='text-text'>Become a VIP member today to gain access to our most exclusive listings.</p>
-                    <button className='btn btn-primary w-full rounded-lg hover:bg-black'>Sign up for VIP listings</button>
+                    <a href='/buy' className='btn btn-primary w-full rounded-lg hover:bg-black'>Sign up for VIP listings</a>
                 </div>
                 <div className='flex flex-col gap-3 border border-gray-200 p-6 bg-white rounded-2xl hover:shadow-md transition duration-300'>
                     <div className='flex items-center justify-between'>
@@ -22,7 +22,7 @@ const BuyerAndSeller = () => {
                         <GiSellCard className='h-10 w-10 text-primary p-2 rounded-lg shadow-md ' />
                     </div>
                     <p className='text-text'>How much is your home worth? Get your home evaluation now.</p>
-                    <button className='btn btn-primary w-full rounded-lg hover:bg-black'>Get an instant home evaluation</button>
+                    <a href='/sell' className='btn btn-primary w-full rounded-lg hover:bg-black'>Get an instant home evaluation</a>
                 </div>
                 <div className='flex flex-col gap-3 border border-gray-200 p-6 bg-white rounded-2xl hover:shadow-md transition duration-300'>
                     <div className='flex items-center justify-between'>
@@ -30,7 +30,7 @@ const BuyerAndSeller = () => {
                         <HiHomeModern className='h-10 w-10 text-primary p-2 rounded-lg shadow-md ' />
                     </div>
                     <p className='text-text'>Get a more accurate home evaluation by a Faris Team Realtor®</p>
-                    <button className='btn btn-primary w-full rounded-lg hover:bg-black'>Book appointment now</button>
+                    <a className='btn btn-primary w-full rounded-lg hover:bg-black'>Book appointment now</a>
                 </div>
             </div>
         </div>   

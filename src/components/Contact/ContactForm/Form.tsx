@@ -2,12 +2,39 @@
 import React from 'react';
 import { useState } from 'react';
 
+interface FormData {
+  name: string;
+  email: string;
+  message: string;
+}
+
+interface FormErrors {
+  name?: string;
+  email?: string;
+  message?: string;
+}
+
 const Form: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     message: '',
   });
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    if (!formData.email.trim()) newErrors.email = 'Email is required';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email';
+    }
+    if (!formData.message.trim()) newErrors.message = 'Message is required';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -15,12 +42,32 @@ const Form: React.FC = () => {
       ...prev,
       [name]: value,
     }));
+    // Clear error when user starts typing
+    if (errors[name as keyof FormErrors]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: undefined,
+      }));
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form Data:', formData);
-    // Add your form submission logic here (e.g., API call)
+    if (!validateForm()) return;
+
+    try {
+      setIsSubmitting(true);
+      // Add your API call here
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulated API call
+      console.log('Form Data:', formData);
+      setFormData({ name: '', email: '', message: '' });
+      alert('Message sent successfully!');
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('Failed to send message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -35,10 +82,11 @@ const Form: React.FC = () => {
           name="name"
           value={formData.name}
           onChange={handleChange}
-          className="w-full bg-white p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+          className={`w-full bg-white p-3 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:border-primary`}
           placeholder="Enter your name"
-          required
+          disabled={isSubmitting}
         />
+        {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
       </div>
       <div>
         <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
@@ -50,10 +98,11 @@ const Form: React.FC = () => {
           name="email"
           value={formData.email}
           onChange={handleChange}
-          className="w-full p-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+          className={`w-full p-3 bg-white border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:border-primary`}
           placeholder="Enter your email"
-          required
+          disabled={isSubmitting}
         />
+        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
       </div>
       <div>
         <label htmlFor="message" className="block text-gray-700 font-medium mb-2">
@@ -64,17 +113,19 @@ const Form: React.FC = () => {
           name="message"
           value={formData.message}
           onChange={handleChange}
-          className="w-full p-3 border bg-white border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+          className={`w-full p-3 border bg-white border ${errors.message ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:border-primary`}
           rows={5}
           placeholder="Enter your message"
-          required
+          disabled={isSubmitting}
         />
+        {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
       </div>
       <button
         type="submit"
-        className="w-full bg-primary text-white py-3 px-6 rounded-full hover:bg-primary-dark transition duration-300"
+        className={`w-full bg-primary text-white py-3 px-6 rounded-full hover:bg-primary-dark transition duration-300 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+        disabled={isSubmitting}
       >
-        Submit
+        {isSubmitting ? 'Sending...' : 'Submit'}
       </button>
     </form>
   );

@@ -96,6 +96,9 @@
     @apply text-base;
   }
 
+  input{
+    @apply bg-white text-black;
+  }
 
   span{
     @apply text-black;

@@ -1,23 +1,31 @@
 "use client"
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { FaArrowUp } from 'react-icons/fa'
 
 const ScrollToTop = () => {
-
     const [isVisible, setIsVisible] = React.useState(false)
 
-    useEffect(() => {
-        const toggleVisibility = () => {
-            if (window.scrollY > 300) setIsVisible(true)
-            else setIsVisible(false)
+    const debounce = <T extends (...args: any[]) => void>(func: T, wait: number) => {
+        let timeout: NodeJS.Timeout
+        return (...args: Parameters<T>) => {
+            clearTimeout(timeout)
+            timeout = setTimeout(() => func(...args), wait)
         }
+    }
 
-        window.addEventListener('scroll', toggleVisibility)
+    const toggleVisibility = useCallback(() => {
+        if (window.scrollY > 300) setIsVisible(true)
+        else setIsVisible(false)
+    }, [])
+
+    useEffect(() => {
+        const debouncedToggleVisibility = debounce(toggleVisibility, 150)
+        window.addEventListener('scroll', debouncedToggleVisibility)
 
         return () => {
-            window.removeEventListener('scroll', toggleVisibility)
+            window.removeEventListener('scroll', debouncedToggleVisibility)
         }
-    }, [])
+    }, [toggleVisibility])
 
     const scrollToTop = () => {
         window.scrollTo({
@@ -26,14 +34,19 @@ const ScrollToTop = () => {
         })
     }
 
-  return (
-    <div className='fixed bottom-4 animate-pulse right-2'>
-        {isVisible && <button onClick={scrollToTop} className='bg-rose-500 text-white w-10 h-10 rounded-full flex items-center justify-center'>
-            <FaArrowUp />
-            </button>
-        }
-    </div>
-  )
+    return (
+        <div className='fixed bottom-4 animate-pulse right-2 z-50'>
+            {isVisible && (
+                <button 
+                    onClick={scrollToTop} 
+                    className='bg-secondary text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-opacity-90 transition-all duration-300'
+                    aria-label="Scroll to top"
+                >
+                    <FaArrowUp />
+                </button>
+            )}
+        </div>
+    )
 }
 
 export default ScrollToTop
