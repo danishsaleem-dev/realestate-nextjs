@@ -5,7 +5,7 @@ import { FaArrowUp } from 'react-icons/fa'
 const ScrollToTop = () => {
     const [isVisible, setIsVisible] = React.useState(false)
 
-    const debounce = <T extends (...args: any[]) => void>(func: T, wait: number) => {
+    const debounce = <T extends (...args: unknown[]) => void>(func: T, wait: number): (...args: Parameters<T>) => void => {
         let timeout: NodeJS.Timeout
         return (...args: Parameters<T>) => {
             clearTimeout(timeout)
