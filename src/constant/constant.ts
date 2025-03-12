@@ -29,6 +29,6 @@ export const navLinks = [
       ],
     },
     
-    
     { id: 5, label: 'Pre-Con', url: '/pre-con' },
+    { id: 6, label: 'Agents', url: '/agents' },
 ];
