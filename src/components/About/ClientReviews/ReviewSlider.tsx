@@ -5,27 +5,7 @@ import 'react-multi-carousel/lib/styles.css'
 import ReviewCard from './ReviewCard'
 import { userReviewData } from '@/data/data'
 
-interface ResponsiveType {
-  superLargeDesktop: {
-    breakpoint: { max: number; min: number };
-    items: number;
-  };
-  desktop: {
-    breakpoint: { max: number; min: number };
-    items: number;
-    slidesToSlide: number;
-  };
-  tablet: {
-    breakpoint: { max: number; min: number };
-    items: number;
-    slidesToSlide: number;
-  };
-  mobile: {
-    breakpoint: { max: number; min: number };
-    items: number;
-    slidesToSlide: number;
-  };
-}
+import { ResponsiveType } from 'react-multi-carousel';
 
 const responsive: ResponsiveType = {
   superLargeDesktop: {
