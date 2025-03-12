@@ -52,7 +52,7 @@ const responsive: ResponsiveType = {
 const ReviewSlider: React.FC = memo(() => {
   return (
     <Carousel 
-      responsive={responsive as Record<string, any>}
+      responsive={responsive}
       arrows={true} 
       autoPlay={true} 
       autoPlaySpeed={3000} 
