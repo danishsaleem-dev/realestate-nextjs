@@ -1,8 +1,5 @@
 import React from 'react'
 import SectionHeading from '@/components/Helper/SectionHeading'
-import { FaHouse } from 'react-icons/fa6'
-import { FaMedal } from 'react-icons/fa'
-import { RiVipCrownFill } from 'react-icons/ri'
 import Image from 'next/image'
 
 const StepsSellingHome = () => {
