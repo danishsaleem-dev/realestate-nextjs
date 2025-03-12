@@ -1,11 +1,10 @@
-import Image from 'next/image'
 import React from 'react'
 import { BiLinkExternal } from 'react-icons/bi';
 import { BsHeart, BsPlusSquare } from 'react-icons/bs';
 import { FaBath, FaBed, FaSquare } from 'react-icons/fa';
-
 import { HiLocationMarker } from 'react-icons/hi';
 import { MdElectricBolt } from 'react-icons/md';
+import BlurImage from '../../Helper/BlurImage';
 
 type Props = {
     property: {
@@ -25,7 +24,7 @@ const PropertyCard = ({property}: Props) => {
     <div className='bg-white overflow-hidden group rounded-2xl cursor-pointer shadow-lg'>
             <div className='relative w-full h-72 overflow-hidden'>
                 <div className='absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 z-10'></div>
-                <Image src={property.imageUrl} alt={property.propertyName} layout='fill' objectFit='cover' className='w-full object-cover group-hover:scale-110 transition-all duration-300 ration rounded-t-lg' />
+                <BlurImage src={property.imageUrl} alt={property.propertyName} layout='fill' objectFit='cover' className='w-full object-cover group-hover:scale-110 transition-all duration-300 ration rounded-t-lg' />
                 <span className='text-sm px-6 absolute bottom-2 text-white flex items-center z-20'><HiLocationMarker className='mr-2'/> {property.location}</span>
                 <div className='flex items-center text-sm font-medium px-3 absolute top-4 left-4 py-1.5 bg-secondary text-white rounded-full z-20'>
                     <MdElectricBolt className='mr-1' />

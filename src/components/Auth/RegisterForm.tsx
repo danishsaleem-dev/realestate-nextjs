@@ -36,7 +36,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onLoginClick }) => {
           name="name"
           value={formData.name}
           onChange={handleChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 outline-none"
+          className="w-full px-4 py-2"
           placeholder="Enter your full name"
           required
         />
@@ -52,7 +52,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onLoginClick }) => {
           name="email"
           value={formData.email}
           onChange={handleChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 outline-none"
+          className="w-full px-4 py-2"
           placeholder="Enter your email"
           required
         />
@@ -68,7 +68,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onLoginClick }) => {
           name="password"
           value={formData.password}
           onChange={handleChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 outline-none"
+          className="w-full px-4 py-2"
           placeholder="Create a password"
           required
         />
@@ -84,7 +84,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onLoginClick }) => {
           name="confirmPassword"
           value={formData.confirmPassword}
           onChange={handleChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 outline-none"
+          className="w-full px-4 py-2"
           placeholder="Confirm your password"
           required
         />

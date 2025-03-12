@@ -2,7 +2,7 @@ import React from 'react'
 import { BiHeart, BiPrinter, BiShare } from 'react-icons/bi';
 import { FaBath, FaBed, FaSquare } from 'react-icons/fa';
 import { HiLocationMarker } from 'react-icons/hi';
-import Image from 'next/image';
+import BlurImage from '../../Helper/BlurImage';
 
 const Banner = () => {
   return (
@@ -52,14 +52,14 @@ const Banner = () => {
         </div>
     </div>
     <div className='w-[95%] mx-auto flex flex-row gap-4'>
-        <Image className='w-1/2 rounded-2xl' src='/images/hero.jpg' alt='house' width={1920} height={1080}/>
+        <BlurImage className='w-1/2 rounded-2xl' src='/images/hero.jpg' alt='house' width={1920} height={1080}/>
         <div className='w-1/4 flex flex-col gap-4'>
-            <Image className='rounded-2xl' src='/images/hero.jpg' alt='house' width={1920} height={1080} />
-            <Image className='rounded-2xl' src='/images/hero.jpg' alt='house' width={1920} height={1080} />
+            <BlurImage className='rounded-2xl' src='/images/hero.jpg' alt='house' width={1920} height={1080} />
+            <BlurImage className='rounded-2xl' src='/images/hero.jpg' alt='house' width={1920} height={1080} />
         </div>
         <div className='w-1/4 flex flex-col gap-4'>
-            <Image className='rounded-2xl' src='/images/hero.jpg' alt='house' width={1920} height={1080} />
-            <Image className=' rounded-2xl' src='/images/hero.jpg' alt='house' width={1920} height={1080} />
+            <BlurImage className='rounded-2xl' src='/images/hero.jpg' alt='house' width={1920} height={1080} />
+            <BlurImage className='rounded-2xl' src='/images/hero.jpg' alt='house' width={1920} height={1080} />
         </div>
     </div>
     </>

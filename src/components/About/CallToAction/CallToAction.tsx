@@ -1,6 +1,6 @@
 import React from 'react'
-import Image from 'next/image'
 import { FaArrowRightLong } from 'react-icons/fa6'
+import BlurImage from '../../Helper/BlurImage'
 
 const CallToAction = () => {
   return (
@@ -12,7 +12,7 @@ const CallToAction = () => {
                 <button className='btn btn-primary w-[70%] rounded-full text-center mt-3'>Join Us!<FaArrowRightLong /> </button>
             </div>
             <div className='mt-4'>
-                <Image className='mt-[-60]' src='/images/cta-banner.png' width={1000} height={1000} alt='Call to Action' />
+                <BlurImage className='mt-[-60]' src='/images/cta-banner.png' width={1000} height={1000} alt='Call to Action' />
             </div>
         </div>
     </div>

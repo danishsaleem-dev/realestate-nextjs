@@ -1,6 +1,6 @@
 import React from 'react'
-import Image from 'next/image'
 import { BiEnvelope, BiPhone } from 'react-icons/bi';
+import BlurImage from '../../Helper/BlurImage';
 
 type Props = {
     agent: {
@@ -16,7 +16,7 @@ type Props = {
 const AgentCard = ({agent}: Props) => {
   return (
     <div className='flex flex-col gap-4 group'>
-        <Image src={agent.image} alt={agent.name} width={1000} height={200} className='rounded-2xl' />
+        <BlurImage src={agent.image} alt={agent.name} width={1000} height={200} className='rounded-2xl' />
         <div className='flex gap-2 justify-between'>
             <div className=''>
                 <h3 className='font-medium'>{agent.name}</h3>

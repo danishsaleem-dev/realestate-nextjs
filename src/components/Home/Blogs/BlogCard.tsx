@@ -1,6 +1,6 @@
 import React from 'react'
-import Image from 'next/image'
 import { BiCalendar } from 'react-icons/bi';
+import BlurImage from '../../Helper/BlurImage';
 
 type Props = {
     blog: {
@@ -17,7 +17,7 @@ const BlogCard = ({ blog }: Props) => {
   return (
     <div className='overflow-hidden rounded-lg cursor-pointer'>
                 <div className='relative w-full h-60'>
-                    <Image src={blog.image} alt={blog.title} layout='fill' objectFit='cover' className='w-full object-cover ration rounded-xl' />
+                    <BlurImage src={blog.image} alt={blog.title} layout='fill' objectFit='cover' className='w-full object-cover ration rounded-xl' />
                     <div className='absolute top-4 left-4 bg-primary text-white text-sm z-10 flex items-center space-x-2 rounded-full px-2 py-1.5'>
                         <BiCalendar />
                         <p>{blog.date}</p>
