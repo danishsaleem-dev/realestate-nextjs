@@ -2,7 +2,7 @@ import React from 'react'
 import Hero from './Hero/Hero'
 import StepsSellingHome from './StepsSellingHome/StepsSellingHome'
 import WhySellWithUs from './WhySellWithUs/WhySellWithUs'
-const Estimate: React.FC = () => {
+const HomeEstimate: React.FC = () => {
   return (
     <div>
       <Hero />
@@ -12,4 +12,4 @@ const Estimate: React.FC = () => {
   )
 }
 
-export default Estimate
+export default HomeEstimate

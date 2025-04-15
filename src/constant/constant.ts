@@ -12,7 +12,7 @@ export const navLinks = [
       subLinks: [
         { id: 31, label: 'Buy with us', url: '/buy' },
         { id: 32, label: 'Sell with us', url: '/sell' },
-        { id: 33, label: 'Home Estimator', url: '/estimate' },
+        { id: 33, label: 'Home Estimator', url: '/home-estimation' },
       ],
     },
     {

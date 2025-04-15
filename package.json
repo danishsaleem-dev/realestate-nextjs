@@ -12,7 +12,9 @@
     "@react-google-maps/api": "^2.20.6",
     "aos": "^3.0.0-beta.6",
     "chart.js": "^4.4.8",
+    "framer-motion": "^12.7.3",
     "js-cloudimage-360-view": "^4.0.0",
+    "mapbox-gl": "^3.11.0",
     "motion": "^12.0.5",
     "next": "^15.2.2-canary.7",
     "rc-slider": "^11.1.8",
@@ -28,6 +30,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/aos": "^3.0.7",
+    "@types/leaflet": "^1.9.17",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

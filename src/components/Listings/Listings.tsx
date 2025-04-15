@@ -1,11 +1,14 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { fetchPropertyListings } from '@/data/data';
 import { FaMapMarkerAlt, FaList } from 'react-icons/fa';
 import ListingGrid from './ListingGrid';
 import ListingFilters from './ListingFilters';
+import dynamic from 'next/dynamic';
 
+// Dynamically import the Map component with no SSR to avoid hydration issues
+const PropertyMap = dynamic(() => import('@/components/Listings/PropertyMap'), { ssr: false });
 
 interface PropertyListing {
   id: string;
@@ -63,6 +66,13 @@ const Listings = () => {
     propertyType: 'all'
   });
   const [showFilters, setShowFilters] = useState(false);
+  const [mapBounds, setMapBounds] = useState<{
+    north: number;
+    south: number;
+    east: number;
+    west: number;
+  } | null>(null);
+  const [mapFilterEnabled, setMapFilterEnabled] = useState(false);
 
   useEffect(() => {
     const loadProperties = async () => {
@@ -78,37 +88,6 @@ const Listings = () => {
 
     loadProperties();
   }, []);
-
-  // Function to build map URL with all property markers
-  const getMapUrl = () => {
-    const baseUrl = 'https://www.google.com/maps/embed/v1/view?key=AIzaSyB0KWOeJWvvAoo5pbLcqYTnqhCv1mp3X5U';
-    
-    // If a property is selected, center on that property
-    if (selectedProperty && selectedProperty.map.latitude && selectedProperty.map.longitude) {
-      return `https://www.google.com/maps/embed/v1/place?key=AIzaSyB0KWOeJWvvAoo5pbLcqYTnqhCv1mp3X5U&center=${selectedProperty.map.latitude},${selectedProperty.map.longitude}&q=${selectedProperty.map.latitude},${selectedProperty.map.longitude}&zoom=15`;
-    }
-    
-    // If we have properties with coordinates, center the map on the first one
-    const propertiesWithCoords = properties.filter(p => p.map.latitude && p.map.longitude);
-    if (propertiesWithCoords.length > 0) {
-      const firstProperty = propertiesWithCoords[0];
-      return `${baseUrl}&center=${firstProperty.map.latitude},${firstProperty.map.longitude}&zoom=10`;
-    }
-    
-    // Default view if no properties have coordinates
-    return `${baseUrl}&center=40.7128,-74.0060&zoom=10`;
-  };
-
-  // Filter properties based on current filters
-  const filteredProperties = properties.filter(property => {
-    return (
-      property.price >= filters.minPrice &&
-      property.price <= filters.maxPrice &&
-      property.details.bedrooms >= filters.bedrooms &&
-      property.details.bathrooms >= filters.bathrooms &&
-      (filters.propertyType === 'all' || property.type.toLowerCase().includes(filters.propertyType.toLowerCase()))
-    );
-  });
 
   // Handle property card click
   const handlePropertyClick = (property: PropertyListing) => {
@@ -129,6 +108,41 @@ const Listings = () => {
     });
   };
 
+  // Handle map bounds change
+  const handleMapBoundsChange = (bounds: {north: number; south: number; east: number; west: number}) => {
+    setMapBounds(bounds);
+  };
+
+  // Toggle map filtering
+  const toggleMapFiltering = () => {
+    setMapFilterEnabled(!mapFilterEnabled);
+  };
+
+  // Filter properties based on current filters and map bounds if enabled
+  const filteredProperties = properties.filter(property => {
+    // Basic filters
+    const basicFiltersPassed = (
+      property.price >= filters.minPrice &&
+      property.price <= filters.maxPrice &&
+      property.details.bedrooms >= filters.bedrooms &&
+      property.details.bathrooms >= filters.bathrooms &&
+      (filters.propertyType === 'all' || property.type.toLowerCase().includes(filters.propertyType.toLowerCase()))
+    );
+
+    // Map bounds filter
+    if (mapFilterEnabled && mapBounds && property.map.latitude && property.map.longitude) {
+      return (
+        basicFiltersPassed &&
+        property.map.latitude <= mapBounds.north &&
+        property.map.latitude >= mapBounds.south &&
+        property.map.longitude <= mapBounds.east &&
+        property.map.longitude >= mapBounds.west
+      );
+    }
+
+    return basicFiltersPassed;
+  });
+
   if (loading) {
     return (
       <div className="container mx-auto py-20 px-4">
@@ -142,8 +156,23 @@ const Listings = () => {
   return (
     <div className="container mx-auto py-24 px-4">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">Property Listings</h1>
+        {/* Filters Panel */}
+        <ListingFilters 
+          filters={filters}
+          showFilters={showFilters}
+          toggleFilters={toggleFilters}
+          handleFilterChange={handleFilterChange}
+        />
         <div className="flex space-x-4">
+          {/* Map Filter Toggle */}
+          {(viewMode === 'map' || viewMode === 'split') && (
+            <button 
+              onClick={toggleMapFiltering}
+              className={`px-3 py-2 rounded border ${mapFilterEnabled ? 'bg-secondary text-white' : 'bg-white text-gray-700'}`}
+            >
+              {mapFilterEnabled ? 'Map Filter On' : 'Map Filter Off'}
+            </button>
+          )}
           
           <div className="flex border rounded-md overflow-hidden">
             <button 
@@ -170,14 +199,6 @@ const Listings = () => {
           </div>
         </div>
       </div>
-
-      {/* Filters Panel */}
-      <ListingFilters 
-        filters={filters}
-        showFilters={showFilters}
-        toggleFilters={toggleFilters}
-        handleFilterChange={handleFilterChange}
-      />
 
       <div className={`flex ${viewMode === 'map' ? 'flex-col' : viewMode === 'list' ? 'flex-col' : 'flex-col md:flex-row'} gap-6`}>
         {/* Property Listings */}
@@ -206,12 +227,12 @@ const Listings = () => {
         {/* Map View */}
         {(viewMode === 'map' || viewMode === 'split') && (
           <div className={`${viewMode === 'split' ? 'md:w-1/2' : 'w-full'} bg-gray-100 rounded-lg overflow-hidden`} style={{ height: viewMode === 'split' ? 'calc(100vh - 200px)' : '70vh' }}>
-            <iframe
-              className="w-full h-full"
-              src={getMapUrl()}
-              allowFullScreen
-              loading="lazy"
-            ></iframe>
+            <PropertyMap 
+              properties={filteredProperties}
+              selectedProperty={selectedProperty}
+              onPropertySelect={handlePropertyClick}
+              onBoundsChange={handleMapBoundsChange}
+            />
           </div>
         )}
       </div>

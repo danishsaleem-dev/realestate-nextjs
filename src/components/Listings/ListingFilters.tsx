@@ -122,7 +122,7 @@ const ListingFilters: React.FC<FiltersProps> = ({
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-2 mb-6">
+    <div className="flex flex-wrap items-center gap-2">
       {/* Price Filter */}
       <div className="relative">
         <button 

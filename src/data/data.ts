@@ -635,9 +635,8 @@ const DEFAULT_PROPERTIES: PropertyListing[] = [
   }
 ];
 
-// Update the fetchPropertyListings function to extract map coordinates
-// Update the fetchPropertyListings function to use the new structure
-// In the fetchPropertyListings function, update the image handling code
+
+
 export const fetchPropertyListings = async (): Promise<PropertyListing[]> => {
   try {
     const options = {
@@ -686,34 +685,20 @@ export const fetchPropertyListings = async (): Promise<PropertyListing[]> => {
         ? locationParts.join(' ') 
         : 'Location not available';
       
-      // Improved image handling with error checking
+      // Improved image handling section
       let allImages: string[] = [];
-      
-      try {
-        // Check both possible image locations in the API response
-        if (listing.media?.photos && Array.isArray(listing.media.photos)) {
-          allImages = listing.media.photos
-            .filter((photo): photo is { url: string; [key: string]: unknown } => 
-              photo !== null && typeof photo === 'object' && 'url' in photo && typeof photo.url === 'string')
-            .map((photo: { url: string; [key: string]: unknown }) => {
-              return photo.url.startsWith('http') 
-                ? photo.url 
-                : `https://api.repliers.io/${photo.url.replace(/^\/+/, '')}`;
-            });
-        } else if (listing.images && Array.isArray(listing.images)) {
-          allImages = listing.images
-            .filter((img): img is string => typeof img === 'string')
-            .map((img: string) => {
-              return img.startsWith('http') 
-                ? img 
-                : `https://api.repliers.io/${img.replace(/^\/+/, '')}`;
-            });
-        }
-      } catch (err) {
-        console.error('Error processing images for listing:', listing.mlsNumber, err);
+  
+      if (listing.images && Array.isArray(listing.images)) {
+        allImages = listing.images.map((img: string) => {
+          // Construct the full URL for sandbox images
+          if (img.startsWith('sandbox/')) {
+            return `https://cdn.repliers.io/${img}`;
+          }
+          // Handle other possible image formats
+          return img.startsWith('http') ? img : `https://cdn.repliers.io/${img}`;
+        }).filter((url: string) => url); // Filter out any empty strings
       }
-      
-      // Fallback images if none found or error occurred
+      // Fallback images if none found
       if (allImages.length === 0) {
         allImages = [
           '/images/p1.jpg',

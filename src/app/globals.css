@@ -163,3 +163,62 @@
   
  
 }
+
+
+/* Ensure Leaflet container has proper dimensions */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Add these styles for the property map */
+.custom-marker-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.leaflet-popup-content-wrapper {
+  padding: 0;
+  overflow: hidden;
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  padding: 12px;
+}
+
+.property-popup img {
+  margin: -12px -12px 8px -12px;
+  width: calc(100% + 24px);
+}
+
+
+/* Mapbox styles */
+.mapbox-container {
+  width: 100%;
+  height: 100%;
+}
+
+.custom-marker {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mapboxgl-popup-content {
+  padding: 0;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.property-popup {
+  padding: 12px;
+}
+
+.property-popup img {
+  margin: -12px -12px 8px -12px;
+  width: calc(100% + 24px);
+}

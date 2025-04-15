@@ -83,7 +83,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
           </div>
         </div>
         <div className='p-4'>
-          <h3 className='text-xl font-semibold mb-2 truncate'>{property.propertyName}</h3>
+          <h3 className='text-xl mb-2 truncate'>{property.propertyName}</h3>
           <p className='text-gray-600 mb-4 truncate'>{property.address.location}</p>
           <div className='flex justify-between text-gray-700'>
             <div className='flex items-center'>
