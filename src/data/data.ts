@@ -11,6 +11,92 @@ interface PropertyType {
 }
 
 // Function to fetch and transform property types
+// First, let's define interfaces for the API responses
+
+// For property types API
+interface BoardClass {
+  propertyTypes: PropertyTypeObject[];
+}
+
+interface PropertyTypeObject {
+  [typeName: string]: {
+    activeCount: number;
+    [key: string]: unknown;
+  };
+}
+
+interface Board {
+  classes: {
+    [className: string]: BoardClass;
+  };
+}
+
+interface PropertyTypesResponse {
+  boards: Board[];
+}
+
+// For listings API
+interface ListingAddress {
+  area?: string;
+  city?: string;
+  country?: string;
+  district?: string;
+  majorIntersection?: string;
+  neighborhood?: string;
+  streetDirection?: string;
+  streetName?: string;
+  streetNumber?: string;
+  streetSuffix?: string;
+  unitNumber?: string;
+  zip?: string;
+  state?: string;
+  communityCode?: string;
+  streetDirectionPrefix?: string;
+  addressKey?: string;
+}
+
+interface ListingMap {
+  latitude?: number;
+  longitude?: number;
+  point?: string;
+}
+
+interface ListingDetails {
+  propertyType?: string;
+  numBedrooms?: number;
+  numBathrooms?: number;
+  sqft?: number;
+  lotSize?: number | string;
+}
+
+interface ListingMedia {
+  photos?: {
+    url: string;
+    [key: string]: unknown;
+  }[];
+}
+
+interface ApiListing {
+  mlsNumber?: string;
+  class?: string;
+  type?: string;
+  listPrice?: number;
+  legalDescription?: string;
+  publicRemarks?: string;
+  address?: ListingAddress;
+  map?: ListingMap;
+  details?: ListingDetails;
+  media?: ListingMedia;
+  images?: string[];
+  acres?: number | string;
+  [key: string]: unknown;
+}
+
+interface ListingsResponse {
+  listings: ApiListing[];
+}
+
+// Now update the fetchPropertyTypes function
 export const fetchPropertyTypes = async (): Promise<PropertyType[]> => {
   try {
     const options = {
@@ -28,24 +114,24 @@ export const fetchPropertyTypes = async (): Promise<PropertyType[]> => {
       throw new Error(`Failed to fetch property types: ${response.status}`);
     }
 
-    const data = await response.json();
+    const data = await response.json() as PropertyTypesResponse;
     
     // Transform the API data to match our existing format
-    let transformedData: PropertyType[] = [];
+    const transformedData: PropertyType[] = [];
     let id = 1;
 
     // Correctly parse the nested structure
-    data.boards.forEach((board: any) => {
+    data.boards.forEach((board) => {
       Object.entries(board.classes).forEach(([className, classData]) => {
-        // propertyTypes is an array of objects
-        (classData as any).propertyTypes.forEach((propertyTypeObj: any) => {
+          // propertyTypes is an array of objects
+        classData.propertyTypes.forEach((propertyTypeObj) => {
           // Each object in the array has property type names as keys
           Object.entries(propertyTypeObj).forEach(([typeName, typeDetails]) => {
             transformedData.push({
               id: id,
               icon: `/images/a${(id % 5) + 1}.png`, // Cycle through available icons
               type: typeName,
-              number: (typeDetails as any).activeCount,
+              number: typeDetails.activeCount,
               class: className
             });
             id++;
@@ -377,6 +463,7 @@ interface PropertyClass {
 }
 
 // Function to fetch and transform property classes
+// In the fetchPropertyClasses function, update the data type assertion
 export const fetchPropertyClasses = async (): Promise<PropertyClass[]> => {
   try {
     const options = {
@@ -394,21 +481,22 @@ export const fetchPropertyClasses = async (): Promise<PropertyClass[]> => {
       throw new Error(`Failed to fetch property types: ${response.status}`);
     }
 
-    const data = await response.json();
+    const data = await response.json() as PropertyTypesResponse;
     
+    // Rest of the function remains the same
     // Transform the API data to aggregate by class
     const classTotals: Record<string, number> = {};
     
     // Calculate total properties for each class
-    data.boards.forEach((board: any) => {
+    data.boards.forEach((board) => {
       Object.entries(board.classes).forEach(([className, classData]) => {
         classTotals[className] = 0;
         
         // propertyTypes is an array of objects
-        (classData as any).propertyTypes.forEach((propertyTypeObj: any) => {
+        classData.propertyTypes.forEach((propertyTypeObj) => {
           // Each object in the array has property type names as keys
-          Object.entries(propertyTypeObj).forEach(([typeName, typeDetails]) => {
-            classTotals[className] += (typeDetails as any).activeCount;
+          Object.entries(propertyTypeObj).forEach(([_, typeDetails]) => {
+            classTotals[className] += typeDetails.activeCount;
           });
         });
       });
@@ -548,6 +636,7 @@ const DEFAULT_PROPERTIES: PropertyListing[] = [
 
 // Update the fetchPropertyListings function to extract map coordinates
 // Update the fetchPropertyListings function to use the new structure
+// In the fetchPropertyListings function, update the image handling code
 export const fetchPropertyListings = async (): Promise<PropertyListing[]> => {
   try {
     const options = {
@@ -565,10 +654,10 @@ export const fetchPropertyListings = async (): Promise<PropertyListing[]> => {
       throw new Error(`Failed to fetch listings: ${response.status}`);
     }
 
-    const data = await response.json();
+    const data = await response.json() as ListingsResponse;
     
     // Transform the API data to match our new format
-    const transformedData: PropertyListing[] = data.listings.map((listing: any, index: number) => {
+    const transformedData: PropertyListing[] = data.listings.map((listing: ApiListing, index: number) => {
       // Better handling of property class and type
       const propertyClass = listing.class || (listing.details?.propertyType?.toLowerCase().includes('commercial') ? 'commercial' : 'residential');
       const propertyType = listing.details?.propertyType || listing.type || 'Property';
@@ -603,15 +692,16 @@ export const fetchPropertyListings = async (): Promise<PropertyListing[]> => {
         // Check both possible image locations in the API response
         if (listing.media?.photos && Array.isArray(listing.media.photos)) {
           allImages = listing.media.photos
-            .filter((photo: any) => photo?.url)
-            .map((photo: any) => {
+            .filter((photo): photo is { url: string; [key: string]: unknown } => 
+              photo !== null && typeof photo === 'object' && 'url' in photo && typeof photo.url === 'string')
+            .map((photo: { url: string; [key: string]: unknown }) => {
               return photo.url.startsWith('http') 
                 ? photo.url 
                 : `https://api.repliers.io/${photo.url.replace(/^\/+/, '')}`;
             });
         } else if (listing.images && Array.isArray(listing.images)) {
           allImages = listing.images
-            .filter((img: any) => typeof img === 'string')
+            .filter((img): img is string => typeof img === 'string')
             .map((img: string) => {
               return img.startsWith('http') 
                 ? img 
@@ -709,6 +799,7 @@ interface City {
 }
 
 // Function to fetch top cities
+// In the fetchTopCities function, update the data type assertion
 export const fetchTopCities = async (): Promise<City[]> => {
   try {
     const options = {
@@ -726,25 +817,25 @@ export const fetchTopCities = async (): Promise<City[]> => {
       throw new Error(`Failed to fetch listings: ${response.status}`);
     }
 
-    const data = await response.json();
+    const data = await response.json() as ListingsResponse;
     
     // Count properties by city
     const cityCounts: Record<string, number> = {};
     
-    data.listings.forEach((listing: any) => {
+    data.listings.forEach((listing: ApiListing) => {
       const city = listing.address?.city;
       if (city) {
         cityCounts[city] = (cityCounts[city] || 0) + 1;
       }
     });
     
-    // Convert to array and sort by property count (descending)
+    // Rest of the function remains the same
     const sortedCities = Object.entries(cityCounts)
       .sort(([, countA], [, countB]) => countB - countA)
-      .slice(0, 6) // Get top 6 cities
+      .slice(0, 6)
       .map(([cityName, count], index) => ({
         id: index + 1,
-        image: `/images/c${(index % 6) + 1}.jpg`, // Cycle through available city images
+        image: `/images/c${(index % 6) + 1}.jpg`,
         cityName,
         numberOfProperties: count
       }));

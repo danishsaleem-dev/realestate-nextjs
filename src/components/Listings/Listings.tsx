@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { fetchPropertyListings } from '@/data/data';
-import { FaFilter, FaMapMarkerAlt, FaList } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaList } from 'react-icons/fa';
 import ListingGrid from './ListingGrid';
 import ListingFilters from './ListingFilters';
 
@@ -81,7 +81,7 @@ const Listings = () => {
 
   // Function to build map URL with all property markers
   const getMapUrl = () => {
-    let baseUrl = 'https://www.google.com/maps/embed/v1/view?key=AIzaSyB0KWOeJWvvAoo5pbLcqYTnqhCv1mp3X5U';
+    const baseUrl = 'https://www.google.com/maps/embed/v1/view?key=AIzaSyB0KWOeJWvvAoo5pbLcqYTnqhCv1mp3X5U';
     
     // If a property is selected, center on that property
     if (selectedProperty && selectedProperty.map.latitude && selectedProperty.map.longitude) {

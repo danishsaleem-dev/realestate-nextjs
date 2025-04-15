@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { FaFilter, FaChevronDown, FaDollarSign, FaBed, FaBath, FaHome } from 'react-icons/fa';
+import { FaChevronDown, FaDollarSign, FaBed, FaBath, FaHome } from 'react-icons/fa';
 
 interface FiltersProps {
   filters: {
@@ -18,8 +18,6 @@ interface FiltersProps {
 
 const ListingFilters: React.FC<FiltersProps> = ({ 
   filters, 
-  showFilters, 
-  toggleFilters, 
   handleFilterChange 
 }) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
