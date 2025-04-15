@@ -488,6 +488,7 @@ export const fetchPropertyClasses = async (): Promise<PropertyClass[]> => {
     const classTotals: Record<string, number> = {};
     
     // Calculate total properties for each class
+    // In the fetchPropertyClasses function, update the line with the unused variable
     data.boards.forEach((board) => {
       Object.entries(board.classes).forEach(([className, classData]) => {
         classTotals[className] = 0;
@@ -495,7 +496,7 @@ export const fetchPropertyClasses = async (): Promise<PropertyClass[]> => {
         // propertyTypes is an array of objects
         classData.propertyTypes.forEach((propertyTypeObj) => {
           // Each object in the array has property type names as keys
-          Object.entries(propertyTypeObj).forEach(([_typeName, typeDetails]) => {
+          Object.entries(propertyTypeObj).forEach(([, typeDetails]) => {
             classTotals[className] += typeDetails.activeCount;
           });
         });
