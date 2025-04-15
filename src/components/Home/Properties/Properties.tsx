@@ -1,55 +1,91 @@
-import SectionHeading from '@/components/Helper/SectionHeading'
-import { properties } from '@/data/data'
-import React from 'react'
-import { useState } from 'react';
-import PropertyCard from './PropertyCard'
-import { FaArrowRightLong } from 'react-icons/fa6';
+import { useEffect, useState } from 'react';
+import SectionHeading from '@/components/Helper/SectionHeading';
+import { fetchPropertyListings } from '@/data/data';
+import PropertyCard from './PropertyCard';
 
-const Properties = () => {
-    const [filter, setFilter] = useState('All');
-
-  // Filter Properties by Type
-  const filteredAppartmentTypeData = filter === 'All' 
-    ? properties
-    : properties.filter(type => type.type === filter);
-
-    // Get unique types
-    const uniqueTypes = ['All', ...new Set(properties.map(property => property.type))];
-
-  return (
-    <>
-    <div className='pt-16 pb-16 bg-background'>
-        <div className='w-[90%] mx-auto text-center'>
-            <SectionHeading heading='Discover Our Properties' subheading='Featured Properties' description='' />
-            {/* Buttons for filtering */}
-            <div className="flex items-center justify-center space-x-4 mt-8 mb-8">
-                {uniqueTypes.map((type) => (
-                    
-                    <button 
-                    key={type}
-                    onClick={() => setFilter(type)}
-                    className={`px-4 py-2 rounded-full transition duration-300 
-                        ${filter === type ? 'bg-primary text-white' : 'bg-white text-black hover:bg-secondary hover:text-white'}`}
-                    >
-                    {type}
-                    </button>
-                
-                ))}
-            </div>
-
-            {/* Display filtered properties */}
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 mt-10 md:mt-20 gap-10 items-center'>
-                {filteredAppartmentTypeData.map((property) => (
-                    <div key={property.id}>
-                        <PropertyCard property={property} />
-                    </div>
-                ))}
-            </div>
-            <button className='btn btn-primary rounded-full text-center mt-10'>View All Properties <FaArrowRightLong /> </button>
-        </div>   
-    </div>
-    </>
-  )
+interface PropertyListing {
+  id: string;
+  propertyName: string;
+  description: string;
+  class: string;
+  type: string;
+  price: number;
+  address: {
+    area: string | null;
+    city: string | null;
+    country: string | null;
+    district: string | null;
+    majorIntersection: string | null;
+    neighborhood: string | null;
+    streetDirection: string | null;
+    streetName: string | null;
+    streetNumber: string | null;
+    streetSuffix: string | null;
+    unitNumber: string | null;
+    zip: string | null;
+    state: string | null;
+    communityCode: string | null;
+    streetDirectionPrefix: string | null;
+    addressKey: string | null;
+    location: string; // Full formatted address
+  };
+  map: {
+    latitude: number | null;
+    longitude: number | null;
+    point: string | null;
+  };
+  details: {
+    bedrooms: number;
+    bathrooms: number;
+    size: number;
+    landSize: number | string;
+  };
+  images: {
+    imageUrl: string;
+    allImages: string[];
+  };
 }
 
-export default Properties
+const Properties = () => {
+  const [properties, setProperties] = useState<PropertyListing[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadProperties = async () => {
+      try {
+        const listings = await fetchPropertyListings();
+        setProperties(listings);
+      } catch (err) {
+        setError('Failed to load property listings');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProperties();
+  }, []);
+
+  if (loading) return <div className="text-center py-10">Loading properties...</div>;
+  if (error) return <div className="text-center py-10 text-red-500">{error}</div>;
+
+  return (
+    <div className='pt-16 pb-16'>
+      <div className='w-[80%] mx-auto'>
+        <SectionHeading 
+          heading='Properties' 
+          subheading='Latest Properties' 
+          description='Explore our latest property listings to find your perfect home, investment opportunity, or commercial space.' 
+        />
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10'>
+          {properties.slice(0, 6).map((property) => (
+            <PropertyCard key={property.id} property={property} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Properties;

@@ -1,10 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: false
+  images: {
+    domains: ['api.repliers.io'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'api.repliers.io',
+        port: '',
+        pathname: '/**',
+      },
+    ],
   },
-  output: 'standalone',
-  trailingSlash: true
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig

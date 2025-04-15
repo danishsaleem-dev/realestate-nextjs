@@ -3,10 +3,7 @@ export const navLinks = [
     {
       id: 2,
       label: 'Properties',
-      url: '#properties',
-      subLinks: [
-        { id: 21, label: 'Single Property', url: '/item' },
-      ],
+      url: '/listings',
     },
     {
       id: 3,

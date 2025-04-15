@@ -1,23 +1,30 @@
 import Image from 'next/image'
 import React from 'react'
 
-type Props = {
-    type: {
-        id: number;
-        icon: string;
-        type: string;
-        number: number;
-    }
+interface PropertyType {
+  id: number;
+  icon: string;
+  type: string;
+  number: number;
 }
 
-const AppartmentTypeCard = ({ type }: Props) => {
+interface AppartmentTypeCardProps {
+  type: PropertyType;
+}
+
+const AppartmentTypeCard = ({ type }: AppartmentTypeCardProps) => {
+  // Use a default icon if the icon path is invalid
+  const iconSrc = type.icon || "/images/a1.png";
+  
   return (
-    <div className='w-full rounded-2xl cursor-pointer shadow-2xl p-6 hover:scale-110 transition-all duration-300 bg-white'>
-        <Image src={type.icon} alt={type.type} width={50} height={50} />
-        <div className='mt-8'> 
-            <h3 className='text-lg font-bold text-black'>{type.type}</h3>
-            <p className='text-sm text-gray-700 mt-2'>{type.number} Properties</p>
-        </div>
+    <div className='flex flex-col items-center justify-center space-y-4 hover:scale-105 transition-all duration-300 cursor-pointer p-6 bg-white rounded-lg shadow-md'>
+      <div className='bg-gray-100 p-4 rounded-full'>
+        <Image src={iconSrc} alt={type.type} width={60} height={60} />
+      </div>
+      <div className='text-center'>
+        <h3 className='text-xl font-semibold'>{type.type}</h3>
+        <p className='text-gray-600'>{type.number.toLocaleString()} Properties</p>
+      </div>
     </div>
   )
 }

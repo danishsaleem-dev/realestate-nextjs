@@ -1,67 +1,108 @@
-import React from 'react'
-import { BiLinkExternal } from 'react-icons/bi';
-import { BsHeart, BsPlusSquare } from 'react-icons/bs';
-import { FaBath, FaBed, FaSquare } from 'react-icons/fa';
-import { HiLocationMarker } from 'react-icons/hi';
-import { MdElectricBolt } from 'react-icons/md';
-import BlurImage from '../../Helper/BlurImage';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import { FaBed, FaBath, FaRulerCombined } from 'react-icons/fa';
+import Link from 'next/link';
 
-type Props = {
-    property: {
-        id: number;
-        propertyName: string;
-        location: string;
-        bedrooms: number;
-        bathrooms: number;
-        size: number;
-        price: number;
-        imageUrl: string;
-    }
+interface Property {
+  id: string;
+  propertyName: string;
+  description: string;
+  class: string;
+  type: string;
+  price: number;
+  address: {
+    area: string | null;
+    city: string | null;
+    country: string | null;
+    district: string | null;
+    majorIntersection: string | null;
+    neighborhood: string | null;
+    streetDirection: string | null;
+    streetName: string | null;
+    streetNumber: string | null;
+    streetSuffix: string | null;
+    unitNumber: string | null;
+    zip: string | null;
+    state: string | null;
+    communityCode: string | null;
+    streetDirectionPrefix: string | null;
+    addressKey: string | null;
+    location: string; // Full formatted address
+  };
+  map: {
+    latitude: number | null;
+    longitude: number | null;
+    point: string | null;
+  };
+  details: {
+    bedrooms: number;
+    bathrooms: number;
+    size: number;
+    landSize: number | string;
+  };
+  images: {
+    imageUrl: string;
+    allImages: string[];
+  };
 }
 
-const PropertyCard = ({property}: Props) => {
+interface PropertyCardProps {
+  property: Property;
+}
+
+const PropertyCard = ({ property }: PropertyCardProps) => {
+  const [imgError, setImgError] = useState(false);
+  
+  // Format price with commas and handle currency
+  const formattedPrice = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0
+  }).format(property.price);
+
+  // Use a fallback image if the URL is invalid or on error
+  const imageSrc = imgError ? '/images/p1.jpg' : property.images.imageUrl;
+
   return (
-    <div className='bg-white overflow-hidden group rounded-2xl cursor-pointer shadow-lg'>
-            <div className='relative w-full h-72 overflow-hidden'>
-                <div className='absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 z-10'></div>
-                <BlurImage src={property.imageUrl} alt={property.propertyName} layout='fill' objectFit='cover' className='w-full object-cover group-hover:scale-110 transition-all duration-300 ration rounded-t-lg' />
-                <span className='text-sm px-6 absolute bottom-2 text-white flex items-center z-20'><HiLocationMarker className='mr-2'/> {property.location}</span>
-                <div className='flex items-center text-sm font-medium px-3 absolute top-4 left-4 py-1.5 bg-secondary text-white rounded-full z-20'>
-                    <MdElectricBolt className='mr-1' />
-                    <span className='text-white'>Featured</span>
-                </div>
-            </div>
-            <div className='p-5'>
-                <h3 className='font-medium text-left text-lg text-black group-hover:text-primary'>{property.propertyName}</h3>
-                <div className='flex items-center justify-between mt-2 w-full lg:w-[70%]'>
-                    <div className='flex items-center space-x-2'>
-                        <FaBed className='text-gray-500' />
-                        <p className='text-sm text-gray-500'>Beds: <span className='text-black'>{property.bedrooms}</span></p>
-                    </div>
-                    <div className='flex items-center space-x-2'>
-                        <FaBath className='textgray-text-gray-5000' />
-                        <p className='text-sm text-gray-500'>Baths: <span className='text-black'>{property.bathrooms}</span></p>
-                    </div>
-                    <div className='flex items-center space-x-2'>
-                        <FaSquare className='tegray-text-gray-500600' />
-                        <p className='text-sm text-gray-500'>Sqft: <span className='text-black'>{property.size}</span></p>
-                    </div>
-                </div>
-                <div className='h-[1.2px] mt-4 mb-4 bg-gray-500 opacity-15'></div>
-                <div className='flex items-center justify-between'>
-                    <div className='flex items-center justify-between space-x-2'>
-                        <span className='text-sm font-medium text-gray-500'>For Rent</span>
-                        <div className='flex items-center space-x-2 text-gray-500'>
-                            <BiLinkExternal />
-                            <BsPlusSquare />
-                            <BsHeart />
-                        </div>
-                    </div>
-                    <h4 className='text-lg text-black'>${property.price}</h4>
-                </div>
-            </div>
+    <Link href={`/property/${property.id}`} className="block">
+      <div className='bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer'>
+        <div className='relative h-64 w-full'>
+          <Image 
+            src={imageSrc} 
+            alt={property.propertyName}
+            fill
+            className='object-cover'
+            onError={() => setImgError(true)}
+            unoptimized={!property.images.imageUrl.startsWith('/')}
+          />
+          <div className='absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-md'>
+            {property.type}
+          </div>
+          <div className='absolute bottom-4 right-4 bg-white text-primary px-3 py-1 rounded-md font-bold'>
+            {formattedPrice}
+          </div>
         </div>
-  )
-}
+        <div className='p-4'>
+          <h3 className='text-xl font-semibold mb-2 truncate'>{property.propertyName}</h3>
+          <p className='text-gray-600 mb-4 truncate'>{property.address.location}</p>
+          <div className='flex justify-between text-gray-700'>
+            <div className='flex items-center'>
+              <FaBed className='mr-2' />
+              <span>{property.details.bedrooms} Beds</span>
+            </div>
+            <div className='flex items-center'>
+              <FaBath className='mr-2' />
+              <span>{property.details.bathrooms} Baths</span>
+            </div>
+            <div className='flex items-center'>
+              <FaRulerCombined className='mr-2' />
+              <span>{property.details.size} sqft</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+};
 
-export default PropertyCard
+export default PropertyCard;
