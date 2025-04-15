@@ -463,7 +463,7 @@ interface PropertyClass {
 }
 
 // Function to fetch and transform property classes
-// In the fetchPropertyClasses function, update the data type assertion
+// In the fetchPropertyClasses function, update the line with the unused variable
 export const fetchPropertyClasses = async (): Promise<PropertyClass[]> => {
   try {
     const options = {
@@ -495,7 +495,7 @@ export const fetchPropertyClasses = async (): Promise<PropertyClass[]> => {
         // propertyTypes is an array of objects
         classData.propertyTypes.forEach((propertyTypeObj) => {
           // Each object in the array has property type names as keys
-          Object.entries(propertyTypeObj).forEach(([_, typeDetails]) => {
+          Object.entries(propertyTypeObj).forEach(([_typeName, typeDetails]) => {
             classTotals[className] += typeDetails.activeCount;
           });
         });
