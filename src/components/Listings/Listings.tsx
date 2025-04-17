@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getListings } from '@/data/data';
 import { FaMapMarkerAlt, FaList } from 'react-icons/fa';
 import ListingGrid from './ListingGrid';

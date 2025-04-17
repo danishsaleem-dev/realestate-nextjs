@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { FormData } from '../types';
 
@@ -18,13 +18,9 @@ interface LocationStepProps {
   handleSuggestionSelect: (suggestion: string) => void;
   handlePrevStep: () => void;
   handleNextStep: () => void;
-  itemVariants: any;
-  containerVariants: any;
+  itemVariants: Variants;
+  containerVariants: Variants;
 }
-
-// In LocationStep.tsx, modify the input to use a ref
-// Remove the duplicate import since React already includes useRef and useEffect
-// import { useRef, useEffect } from 'react';
 
 const LocationStep: React.FC<LocationStepProps> = ({
   userType,
@@ -45,19 +41,8 @@ const LocationStep: React.FC<LocationStepProps> = ({
   // Track if a valid location has been selected
   const [isValidLocation, setIsValidLocation] = React.useState(false);
   
-  // Update the input value when searchTerm or formData.location changes
-  React.useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.value = searchTerm || formData.location;
-    }
-    
-    // Check if the current location is in the suggestions list
-    const isLocationValid = checkIfLocationIsValid(searchTerm || formData.location);
-    setIsValidLocation(isLocationValid);
-  }, [searchTerm, formData.location, suggestions]);
-  
-  // Function to check if a location is in the suggestions
-  const checkIfLocationIsValid = (location: string): boolean => {
+  // Function to check if a location is in the suggestions list
+  const checkIfLocationIsValid = React.useCallback((location: string): boolean => {
     if (!location) return false;
     
     // Check if the location matches any city in suggestions
@@ -71,7 +56,18 @@ const LocationStep: React.FC<LocationStepProps> = ({
     );
     
     return cityMatch || neighborhoodMatch;
-  };
+  }, [suggestions]);
+  
+  // Update the input value when searchTerm or formData.location changes
+  React.useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.value = searchTerm || formData.location;
+    }
+    
+    // Check if the current location is in the suggestions list
+    const isLocationValid = checkIfLocationIsValid(searchTerm || formData.location);
+    setIsValidLocation(isLocationValid);
+  }, [searchTerm, formData.location, suggestions, checkIfLocationIsValid]);
 
   // Modified suggestion select handler
   const onSuggestionSelect = (suggestion: string) => {

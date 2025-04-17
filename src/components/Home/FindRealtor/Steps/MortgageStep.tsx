@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { FormData } from '../types';
 
 interface MortgageStepProps {
@@ -9,8 +9,8 @@ interface MortgageStepProps {
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   handlePrevStep: () => void;
   handleNextStep: () => void;
-  itemVariants: any;
-  containerVariants: any;
+  itemVariants: Variants;
+  containerVariants: Variants;
 }
 
 const MortgageStep: React.FC<MortgageStepProps> = ({

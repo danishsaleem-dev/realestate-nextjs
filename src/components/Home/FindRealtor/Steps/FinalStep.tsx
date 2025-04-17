@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { FormData } from '../types';
 import AuthModal from '@/components/Auth/AuthModal';
 
@@ -9,16 +9,13 @@ interface FinalStepProps {
   formData: FormData;
   handleLogin: () => void;
   handleSignUp: () => void;
-  itemVariants: any;
-  containerVariants: any;
+  itemVariants: Variants;
+  containerVariants: Variants;
 }
 
 const FinalStep: React.FC<FinalStepProps> = ({
-  formData,
-  handleLogin,
-  handleSignUp,
-  itemVariants,
-  containerVariants
+  containerVariants,
+  itemVariants
 }) => {
   const [showLoginModal, setShowLoginModal] = useState(false);
 

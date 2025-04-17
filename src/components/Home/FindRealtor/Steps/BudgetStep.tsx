@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion'; // Import Variants from framer-motion
 import { Range, getTrackBackground } from 'react-range';
 import { FormData } from '../types';
 
@@ -10,8 +10,8 @@ interface BudgetStepProps {
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   handlePrevStep: () => void;
   handleNextStep: () => void;
-  itemVariants: any;
-  containerVariants: any;
+  itemVariants: Variants;
+  containerVariants: Variants;
 }
 
 const BudgetStep: React.FC<BudgetStepProps> = ({
@@ -136,7 +136,7 @@ const BudgetStep: React.FC<BudgetStepProps> = ({
                   </div>
                 </div>
               )}
-              renderThumb={({ index, props, isDragged }) => (
+              renderThumb={({ props, isDragged }) => (
                 <div
                   {...props}
                   style={{

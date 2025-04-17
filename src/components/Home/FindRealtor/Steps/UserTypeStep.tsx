@@ -1,13 +1,13 @@
 "use client";
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { UserType } from '../types';
 
 interface UserTypeStepProps {
   handleUserTypeSelect: (type: UserType) => void;
-  itemVariants: any;
-  containerVariants: any;
+  itemVariants: Variants;
+  containerVariants: Variants;
 }
 
 const UserTypeStep: React.FC<UserTypeStepProps> = ({ 

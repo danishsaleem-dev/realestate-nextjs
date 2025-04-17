@@ -2,10 +2,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { FaMapMarkerAlt, FaSearch, FaBed, FaBath, FaRuler } from 'react-icons/fa';
-import { useRouter } from 'next/navigation';
 
 const HomeEstimatorBanner = () => {
-  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [suggestions, setSuggestions] = useState<{
@@ -93,6 +91,17 @@ const HomeEstimatorBanner = () => {
   const handleAddressInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setSearchTerm(value);
+    
+    // Clear any existing timeout
+    if (window.searchTimeout) {
+      clearTimeout(window.searchTimeout);
+    }
+    
+    // Set a new timeout to avoid too many API calls
+    window.searchTimeout = setTimeout(() => {
+      getPropertySuggestions(value);
+    }, 300);
+    
     setShowSuggestions(true);
   };
   
@@ -189,7 +198,7 @@ const HomeEstimatorBanner = () => {
                         <span className="text-xs font-medium text-gray-500">({suggestions.totalCount.toLocaleString()})</span>
                       </div>
                       <ul className="overflow-hidden">
-                        {suggestions.properties.map((property, index) => (
+                        {suggestions.properties.map((property) => (
                           <li 
                             key={`property-${property.id}`}
                             className="bg-white hover:bg-blue-50 transition-colors duration-200 border-t border-gray-100 first:border-t-0"

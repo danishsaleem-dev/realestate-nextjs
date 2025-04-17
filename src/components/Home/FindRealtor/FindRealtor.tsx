@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaMapMarkerAlt } from 'react-icons/fa';
+import { AnimatePresence } from 'framer-motion';
 
 // Import step components
 import UserTypeStep from './Steps/UserTypeStep';
@@ -18,7 +17,6 @@ import { UserType, Step, FormData } from './types';
 
 const FindRealtor = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [userType, setUserType] = useState<UserType>(null);
   const [currentStep, setCurrentStep] = useState<Step>('userType');
   const [searchTerm, setSearchTerm] = useState('');
@@ -68,12 +66,6 @@ const FindRealtor = () => {
   const handleUserTypeSelect = (type: UserType) => {
     setUserType(type);
     setCurrentStep('location');
-  };
-
-  // Handle input change
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData({...formData, [name]: value});
   };
 
   // Handle location input change

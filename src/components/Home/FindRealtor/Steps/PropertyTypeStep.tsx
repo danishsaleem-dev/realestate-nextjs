@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { FaHome, FaBuilding, FaCity, FaWarehouse } from 'react-icons/fa';
 import { FormData } from '../types';
 
@@ -10,8 +10,8 @@ interface PropertyTypeStepProps {
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   handlePrevStep: () => void;
   handleNextStep: () => void;
-  itemVariants: any;
-  containerVariants: any;
+  itemVariants: Variants;
+  containerVariants: Variants;
 }
 
 const PropertyTypeStep: React.FC<PropertyTypeStepProps> = ({

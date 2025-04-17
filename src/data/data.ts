@@ -836,7 +836,7 @@ export const fetchTopCities = async (): Promise<City[]> => {
 
 // Function to get listings with filters
 export const getListings = async (params: Record<string, string | number>): Promise<{
-  listings: any[];
+  listings: PropertyListing[];
   count: number;
   numPages: number;
 }> =>{
