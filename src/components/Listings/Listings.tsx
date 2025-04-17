@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { fetchPropertyListings } from '@/data/data';
+import { getListings } from '@/data/data';
 import { FaMapMarkerAlt, FaList } from 'react-icons/fa';
 import ListingGrid from './ListingGrid';
 import ListingFilters from './ListingFilters';
@@ -73,21 +73,64 @@ const Listings = () => {
     west: number;
   } | null>(null);
   const [mapFilterEnabled, setMapFilterEnabled] = useState(false);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalResults: 0,
+    resultsPerPage: 20
+  });
 
+  // Load properties with filters applied
   useEffect(() => {
     const loadProperties = async () => {
+      // Only show loading indicator on initial load, not when filtering
+      if (properties.length === 0) {
+        setLoading(true);
+      }
+      
       try {
-        const data = await fetchPropertyListings();
-        setProperties(data);
+        // Build API parameters based on filters
+        const params: Record<string, string | number> = {
+          resultsPerPage: pagination.resultsPerPage,
+          pageNum: pagination.currentPage,
+          status: "A" // Active listings
+        };
+        
+        // Only add filters if they have values
+        if (filters.minPrice > 0) params.minPrice = filters.minPrice;
+        if (filters.maxPrice < 1000000) params.maxPrice = filters.maxPrice;
+        if (filters.bedrooms > 0) params.minBedrooms = filters.bedrooms;
+        if (filters.bathrooms > 0) params.minBaths = filters.bathrooms;
+        if (filters.propertyType !== 'all') params.propertyType = filters.propertyType;
+        
+        console.log('Fetching with params:', params);
+        
+        // Call the API with the parameters
+        const data = await getListings(params);
+        console.log('API response:', data);
+        
+        if (data && data.listings) {
+          setProperties(data.listings);
+          
+          // Update pagination info
+          setPagination({
+            ...pagination,
+            totalPages: data.numPages || 1,
+            totalResults: data.count || data.listings.length
+          });
+        } else {
+          setProperties([]);
+        }
       } catch (error) {
         console.error('Error loading properties:', error);
+        setProperties([]);
       } finally {
         setLoading(false);
       }
     };
 
     loadProperties();
-  }, []);
+  }, [filters, pagination.currentPage, pagination.resultsPerPage]);
 
   // Handle property card click
   const handlePropertyClick = (property: PropertyListing) => {
@@ -106,6 +149,11 @@ const Listings = () => {
       ...filters,
       [name]: name === 'propertyType' ? value : Number(value)
     });
+    // Reset to first page when filters change
+    setPagination({
+      ...pagination,
+      currentPage: 1
+    });
   };
 
   // Handle map bounds change
@@ -118,30 +166,16 @@ const Listings = () => {
     setMapFilterEnabled(!mapFilterEnabled);
   };
 
-  // Filter properties based on current filters and map bounds if enabled
-  const filteredProperties = properties.filter(property => {
-    // Basic filters
-    const basicFiltersPassed = (
-      property.price >= filters.minPrice &&
-      property.price <= filters.maxPrice &&
-      property.details.bedrooms >= filters.bedrooms &&
-      property.details.bathrooms >= filters.bathrooms &&
-      (filters.propertyType === 'all' || property.type.toLowerCase().includes(filters.propertyType.toLowerCase()))
-    );
-
-    // Map bounds filter
-    if (mapFilterEnabled && mapBounds && property.map.latitude && property.map.longitude) {
-      return (
-        basicFiltersPassed &&
-        property.map.latitude <= mapBounds.north &&
-        property.map.latitude >= mapBounds.south &&
-        property.map.longitude <= mapBounds.east &&
-        property.map.longitude >= mapBounds.west
-      );
-    }
-
-    return basicFiltersPassed;
-  });
+  // Filter properties based on map bounds if enabled
+  const filteredProperties = mapFilterEnabled && mapBounds 
+    ? properties.filter(property => {
+        return property.map.latitude && property.map.longitude &&
+          property.map.latitude <= mapBounds.north &&
+          property.map.latitude >= mapBounds.south &&
+          property.map.longitude <= mapBounds.east &&
+          property.map.longitude >= mapBounds.west;
+      })
+    : properties;
 
   if (loading) {
     return (
@@ -164,6 +198,13 @@ const Listings = () => {
           handleFilterChange={handleFilterChange}
         />
         <div className="flex space-x-4">
+          {/* Results Count */}
+          <div className="hidden sm:flex items-center">
+            <span className="text-gray-700 font-medium">
+              {pagination.totalResults > 0 ? `${pagination.totalResults.toLocaleString()} properties found` : `${filteredProperties.length} results`}
+            </span>
+          </div>
+          
           {/* Map Filter Toggle */}
           {(viewMode === 'map' || viewMode === 'split') && (
             <button 
@@ -174,6 +215,7 @@ const Listings = () => {
             </button>
           )}
           
+          {/* View Mode Toggles */}
           <div className="flex border rounded-md overflow-hidden">
             <button 
               onClick={() => setViewMode('list')}
@@ -204,6 +246,12 @@ const Listings = () => {
         {/* Property Listings */}
         {(viewMode === 'list' || viewMode === 'split') && (
           <div className={`${viewMode === 'split' ? 'md:w-1/2' : 'w-full'} overflow-y-auto`} style={{ maxHeight: viewMode === 'split' ? 'calc(100vh - 200px)' : 'auto' }}>
+            {/* Results Count */}
+          <div className="hidden sm:flex items-center mb-4">
+            <span className="text-gray-700 font-medium">
+              {filteredProperties.length} results
+            </span>
+          </div>
             <div className="grid grid-cols-1 gap-6">
               {filteredProperties.length > 0 ? (
                 filteredProperties.map((property) => (

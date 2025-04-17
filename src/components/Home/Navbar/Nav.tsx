@@ -43,14 +43,16 @@ const Nav = ({ openNav }: Props) => {
       >
         <div className="flex items-center h-full justify-between w-[95%] sm:w-[90%] xl:w-[95%] mx-auto">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-[#3162CC] text-white flex items-center justify-center">
-              <FaHouse />
+          <Link href="/">
+            <div className="flex items-center space-x-2 cursor-pointer">
+              <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-[#3162CC] text-white flex items-center justify-center">
+                <FaHouse />
+              </div>
+              <div className="text-black font-bold text-sm sm:text-base md:text-xl">
+                Real Estate Project
+              </div>
             </div>
-            <div className="text-black font-bold text-sm sm:text-base md:text-xl">
-              Real Estate Project
-            </div>
-          </div>
+          </Link>
           {/* Nav Links */}
           <div className="lg:flex items-center space-x-8 text-black hidden">
             {navLinks.map((link) => (
@@ -61,7 +63,7 @@ const Nav = ({ openNav }: Props) => {
                     onMouseLeave={() => handleDropdownToggle(link.id)}
                     className="cursor-pointer"
                   >
-                    <p className="p-3 text-black text-sm sm:text-base text-base cursor-pointer hover:text-primary transition-all duration-200">
+                    <p className="p-3 text-black sm:text-base text-base cursor-pointer hover:text-primary hover:font-semibold transition-all duration-200">
                       {link.label}
                     </p>
                     {openDropdown === link.id && (
@@ -77,7 +79,7 @@ const Nav = ({ openNav }: Props) => {
                           <li key={subLink.id}>
                             <Link
                               href={subLink.url}
-                              className="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                              className="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:font-semibold transition-colors duration-200"
                             >
                               {subLink.label}
                             </Link>
@@ -88,7 +90,7 @@ const Nav = ({ openNav }: Props) => {
                   </div>
                 ) : (
                   <Link href={link.url}>
-                    <p className="text-black text-sm sm:text-base text-base cursor-pointer hover:text-primary transition-all duration-200">
+                    <p className="text-black sm:text-base text-base cursor-pointer hover:text-primary hover:font-semibold transition-all duration-200">
                       {link.label}
                     </p>
                   </Link>

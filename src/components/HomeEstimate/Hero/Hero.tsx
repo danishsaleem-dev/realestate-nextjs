@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { FaMapMarkerAlt, FaSearch } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaSearch, FaBed, FaBath, FaRuler } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 
 const HomeEstimatorBanner = () => {
@@ -9,45 +9,96 @@ const HomeEstimatorBanner = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [suggestions, setSuggestions] = useState<{
-    addresses: Array<{address: string, city: string, region: string}>;
+    properties: Array<{
+      id: string;
+      address: string;
+      city: string;
+      region: string;
+      bedrooms: number;
+      bathrooms: number;
+      sqft: number;
+      propertyType: string;
+      yearBuilt: number;
+    }>;
+    totalCount: number;
   }>({
-    addresses: []
+    properties: [],
+    totalCount: 0
   });
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Mock function to get suggestions - in a real app, this would call an API
-  const getSuggestions = (term: string) => {
+  // Function to get property suggestions from API
+  const getPropertySuggestions = async (term: string) => {
     if (!term || term.length < 2) {
-      setSuggestions({ addresses: [] });
+      setSuggestions({ properties: [], totalCount: 0 });
       return;
     }
     
-    // Mock data - in a real app, this would come from an API
-    const mockAddresses = [
-      { address: `123 ${term.charAt(0).toUpperCase() + term.slice(1)} Street`, city: 'Toronto', region: 'ON' },
-      { address: `456 ${term.charAt(0).toUpperCase() + term.slice(1)} Avenue`, city: 'Vancouver', region: 'BC' },
-      { address: `789 ${term.charAt(0).toUpperCase() + term.slice(1)} Boulevard`, city: 'Montreal', region: 'QC' },
-      { address: `101 ${term.charAt(0).toUpperCase() + term.slice(1)} Road`, city: 'Calgary', region: 'AB' },
-      { address: `202 ${term.charAt(0).toUpperCase() + term.slice(1)} Lane`, city: 'Ottawa', region: 'ON' },
-    ];
-    
-    setSuggestions({
-      addresses: mockAddresses
-    });
+    try {
+      // Fetch from your data source - replace with the correct import and function call
+      // For example, if you have a data.ts file with property listings:
+      const { fetchPropertyListings } = await import('@/data/data');
+      const allProperties = await fetchPropertyListings();
+      
+      // Filter properties based on search term
+      const filteredProperties = allProperties.filter(property => {
+        const addressString = `${property.address.streetNumber || ''} ${property.address.streetName || ''} ${property.address.city || ''} ${property.address.state || ''}`.toLowerCase();
+        return addressString.includes(term.toLowerCase());
+      });
+      
+      // Map to the expected format
+      const formattedProperties = filteredProperties.map(property => ({
+        id: property.id,
+        address: `${property.address.streetNumber || ''} ${property.address.streetName || ''} ${property.address.streetSuffix || ''}`,
+        city: property.address.city || '',
+        region: property.address.state || '',
+        bedrooms: property.details.bedrooms,
+        bathrooms: property.details.bathrooms,
+        sqft: typeof property.details.size === 'number' ? property.details.size : 0,
+        propertyType: property.type || '',
+        yearBuilt: 2000 // If you don't have this data, provide a default or omit
+      }));
+      
+      setSuggestions({
+        properties: formattedProperties.slice(0, 5), // Limit to 5 results for dropdown
+        totalCount: filteredProperties.length
+      });
+    } catch (error) {
+      console.error('Error fetching property suggestions:', error);
+      setSuggestions({ properties: [], totalCount: 0 });
+    }
   };
+  
+  // Use a proper debounce function
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 300);
+    
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchTerm]);
+  
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      getPropertySuggestions(debouncedSearchTerm);
+    }
+  }, [debouncedSearchTerm]);
   
   // Handle input change for address
   const handleAddressInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setSearchTerm(value);
-    getSuggestions(value);
     setShowSuggestions(true);
   };
   
   // Handle suggestion selection
-  const handleSuggestionSelect = (suggestion: string) => {
-    setSearchTerm(suggestion);
+  const handleSuggestionSelect = (property: { address: string, city: string, region: string }) => {
+    setSearchTerm(`${property.address}, ${property.city}, ${property.region}`);
     setShowSuggestions(false);
     
     // Navigate to results page or next step
@@ -120,44 +171,68 @@ const HomeEstimatorBanner = () => {
               <FaSearch />
             </button>
             
-            {/* Address Suggestions Dropdown */}
+            {/* Property Suggestions Dropdown */}
             {showSuggestions && (searchTerm.length > 1) && (
               <div 
                 ref={dropdownRef}
                 className="bg-white z-50 w-full shadow absolute text-gray-800 overflow-y-auto max-h-80 rounded-b-lg border border-gray-200 border-t-0 mt-1"
               >
-                {/* Addresses Section */}
-                {suggestions.addresses.length > 0 ? (
+                {/* Properties Section */}
+                {suggestions.properties.length > 0 ? (
                   <div className="flex flex-wrap">
                     <div className="block flex-grow">
-                      <div className="flex items-center bg-gray-100 text-gray-600 px-4 py-2">
-                        <FaMapMarkerAlt className="h-4 w-4" />
-                        <h5 className="font-bold text-sm pl-2">Addresses</h5>
+                      <div className="flex items-center justify-between bg-gray-100 text-gray-600 px-4 py-2">
+                        <div className="flex items-center">
+                          <FaMapMarkerAlt className="h-4 w-4" />
+                          <h5 className="font-bold text-sm pl-2">Properties</h5>
+                        </div>
+                        <span className="text-xs font-medium text-gray-500">({suggestions.totalCount.toLocaleString()})</span>
                       </div>
                       <ul className="overflow-hidden">
-                        {suggestions.addresses.map((item, index) => (
+                        {suggestions.properties.map((property, index) => (
                           <li 
-                            key={`address-${index}`}
+                            key={`property-${property.id}`}
                             className="bg-white hover:bg-blue-50 transition-colors duration-200 border-t border-gray-100 first:border-t-0"
                           >
                             <button 
                               type="button"
-                              className="w-full h-full text-left px-4"
+                              className="w-full h-full text-left px-4 py-3"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                handleSuggestionSelect(`${item.address}, ${item.city}, ${item.region}`);
+                                handleSuggestionSelect({
+                                  address: property.address,
+                                  city: property.city,
+                                  region: property.region
+                                });
                               }}
                             >
-                              <span className="inline-block py-3 text-sm">
-                                <span>
-                                  {item.address.split(new RegExp(`(${searchTerm})`, 'i')).map((part, i) => 
+                              <div className="flex flex-col">
+                                <div className="font-medium">
+                                  {property.address.split(new RegExp(`(${searchTerm})`, 'i')).map((part, i) => 
                                     part.toLowerCase() === searchTerm.toLowerCase() 
                                       ? <strong key={i}>{part}</strong> 
                                       : part
                                   )}
-                                </span>
-                                <span className="inline-block ml-1 text-xs text-gray-500">{item.city}, {item.region}</span>
-                              </span>
+                                  <span className="inline-block ml-1 text-xs text-gray-500">{property.city}, {property.region}</span>
+                                </div>
+                                <div className="flex items-center mt-1 text-xs text-gray-600">
+                                  <div className="flex items-center mr-3">
+                                    <FaBed className="mr-1" />
+                                    <span>{property.bedrooms} {property.bedrooms === 1 ? 'bed' : 'beds'}</span>
+                                  </div>
+                                  <div className="flex items-center mr-3">
+                                    <FaBath className="mr-1" />
+                                    <span>{property.bathrooms} {property.bathrooms === 1 ? 'bath' : 'baths'}</span>
+                                  </div>
+                                  <div className="flex items-center">
+                                    <FaRuler className="mr-1" />
+                                    <span>{property.sqft.toLocaleString()} sqft</span>
+                                  </div>
+                                </div>
+                                <div className="text-xs text-gray-500 mt-1">
+                                  {property.propertyType} • Built in {property.yearBuilt}
+                                </div>
+                              </div>
                             </button>
                           </li>
                         ))}
@@ -166,7 +241,7 @@ const HomeEstimatorBanner = () => {
                   </div>
                 ) : (
                   <div className="p-4 text-center text-gray-500">
-                    No addresses found. Try a different search term.
+                    No properties found. Try a different search term.
                   </div>
                 )}
               </div>

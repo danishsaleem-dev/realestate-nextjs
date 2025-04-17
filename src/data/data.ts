@@ -832,3 +832,150 @@ export const fetchTopCities = async (): Promise<City[]> => {
     return cities; // Fallback to static data if API fails
   }
 };
+
+
+// Function to get listings with filters
+export const getListings = async (params: Record<string, string | number>): Promise<{
+  listings: any[];
+  count: number;
+  numPages: number;
+}> =>{
+  try {
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        'REPLIERS-API-KEY': 'wPBzfSTENIwtX6fXv6JZC2tR7tMUVT'
+      }
+    };
+
+    // Build query string from params
+    const queryParams = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      queryParams.append(key, value.toString());
+    });
+
+    const url = `https://api.repliers.io/listings?${queryParams.toString()}`;
+    console.log('API URL:', url);
+
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      console.error('API Response:', await response.text());
+      throw new Error(`Failed to fetch listings: ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    // Transform the API data to match our format
+    const transformedListings = data.listings.map((listing: ApiListing, index: number) => {
+      // Better handling of property class and type
+      const propertyClass = listing.class || (listing.details?.propertyType?.toLowerCase().includes('commercial') ? 'commercial' : 'residential');
+      const propertyType = listing.details?.propertyType || listing.type || 'Property';
+      const city = listing.address?.city || 'Unknown Location';
+      const propertyName = `${propertyType} in ${city}`;
+      
+      // Improved description handling with fallbacks
+      const description = listing.legalDescription || 
+                          listing.publicRemarks || 
+                          `This ${propertyType.toLowerCase()} is located in ${city} and features ${listing.details?.numBedrooms || 0} bedrooms and ${listing.details?.numBathrooms || 0} bathrooms.`;
+      
+      // Format location with better handling of undefined values
+      const locationParts = [
+        listing.address?.unitNumber,
+        listing.address?.streetNumber,
+        listing.address?.streetName,
+        listing.address?.streetSuffix,
+        listing.address?.streetDirection,
+        listing.address?.neighborhood,
+        listing.address?.city,
+        listing.address?.zip
+      ].filter(Boolean);
+      
+      const location = locationParts.length > 0 
+        ? locationParts.join(' ') 
+        : 'Location not available';
+      
+      // Improved image handling section
+      let allImages: string[] = [];
+  
+      if (listing.images && Array.isArray(listing.images)) {
+        allImages = listing.images.map((img: string) => {
+          // Construct the full URL for sandbox images
+          if (img.startsWith('sandbox/')) {
+            return `https://cdn.repliers.io/${img}`;
+          }
+          // Handle other possible image formats
+          return img.startsWith('http') ? img : `https://cdn.repliers.io/${img}`;
+        }).filter((url: string) => url); // Filter out any empty strings
+      }
+      // Fallback images if none found
+      if (allImages.length === 0) {
+        allImages = [
+          '/images/p1.jpg',
+          '/images/p2.jpg',
+          '/images/p3.jpg',
+          '/images/p4.jpg',
+          '/images/p5.jpg'
+        ];
+      }
+      
+      return {
+        id: listing.mlsNumber || `property-${index + 1}`,
+        propertyName,
+        description,
+        class: propertyClass,
+        type: propertyType,
+        price: listing.listPrice || 0,
+        address: {
+          area: listing.address?.area || null,
+          city: listing.address?.city || null,
+          country: listing.address?.country || null,
+          district: listing.address?.district || null,
+          majorIntersection: listing.address?.majorIntersection || null,
+          neighborhood: listing.address?.neighborhood || null,
+          streetDirection: listing.address?.streetDirection || null,
+          streetName: listing.address?.streetName || null,
+          streetNumber: listing.address?.streetNumber || null,
+          streetSuffix: listing.address?.streetSuffix || null,
+          unitNumber: listing.address?.unitNumber || null,
+          zip: listing.address?.zip || null,
+          state: listing.address?.state || null,
+          communityCode: listing.address?.communityCode || null,
+          streetDirectionPrefix: listing.address?.streetDirectionPrefix || null,
+          addressKey: listing.address?.addressKey || null,
+          location: location
+        },
+        map: {
+          latitude: listing.map?.latitude || null,
+          longitude: listing.map?.longitude || null,
+          point: listing.map?.point || null
+        },
+        details: {
+          bedrooms: listing.details?.numBedrooms || 0,
+          bathrooms: listing.details?.numBathrooms || 0,
+          size: listing.details?.sqft || 0,
+          landSize: listing.acres || listing.details?.lotSize || 'Unknown landSize'
+        },
+        images: {
+          imageUrl: allImages[0],
+          allImages: allImages
+        }
+      };
+    });
+
+    return {
+      listings: transformedListings,
+      count: data.count || transformedListings.length,
+      numPages: data.numPages || Math.ceil(transformedListings.length / (Number(params.resultsPerPage) || 10))
+    };
+  } catch (error) {
+    console.error('Error fetching filtered listings:', error);
+    // Return default properties with proper formatting
+    return {
+      listings: DEFAULT_PROPERTIES,
+      count: DEFAULT_PROPERTIES.length,
+      numPages: 1
+    };
+  }
+};

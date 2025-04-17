@@ -1,8 +1,8 @@
 export const navLinks = [
-    { id: 1, label: 'Home', url: '/' },
+    // { id: 1, label: 'Home', url: '/' },
     {
       id: 2,
-      label: 'Properties',
+      label: 'Browse Properties',
       url: '/listings',
     },
     {
@@ -27,5 +27,5 @@ export const navLinks = [
     },
     
     { id: 5, label: 'Pre-Con', url: '/pre-con' },
-    { id: 6, label: 'Agents', url: '/agents' },
+    { id: 6, label: 'Find a Realtor', url: '/agents' },
 ];

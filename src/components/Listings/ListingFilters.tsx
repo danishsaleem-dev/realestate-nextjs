@@ -96,26 +96,50 @@ const ListingFilters: React.FC<FiltersProps> = ({
 
   // Handle reset filters
   const handleResetFilters = () => {
-    // Create reset events for each filter
-    const resetEvents = [
-      { name: 'minPrice', value: '0' },
-      { name: 'maxPrice', value: '1000000' },
-      { name: 'bedrooms', value: '0' },
-      { name: 'bathrooms', value: '0' },
-      { name: 'propertyType', value: 'all' }
-    ];
+    // Reset minPrice
+    const minPriceEvent = {
+      target: {
+        name: 'minPrice',
+        value: '0'
+      }
+    } as React.ChangeEvent<HTMLInputElement>;
+    handleFilterChange(minPriceEvent);
     
-    // Apply each reset event
-    resetEvents.forEach(reset => {
-      const event = {
-        target: {
-          name: reset.name,
-          value: reset.value
-        }
-      } as React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
-      
-      handleFilterChange(event);
-    });
+    // Reset maxPrice
+    const maxPriceEvent = {
+      target: {
+        name: 'maxPrice',
+        value: '1000000'
+      }
+    } as React.ChangeEvent<HTMLInputElement>;
+    handleFilterChange(maxPriceEvent);
+    
+    // Reset bedrooms
+    const bedroomsEvent = {
+      target: {
+        name: 'bedrooms',
+        value: '0'
+      }
+    } as React.ChangeEvent<HTMLInputElement>;
+    handleFilterChange(bedroomsEvent);
+    
+    // Reset bathrooms
+    const bathroomsEvent = {
+      target: {
+        name: 'bathrooms',
+        value: '0'
+      }
+    } as React.ChangeEvent<HTMLInputElement>;
+    handleFilterChange(bathroomsEvent);
+    
+    // Reset propertyType
+    const propertyTypeEvent = {
+      target: {
+        name: 'propertyType',
+        value: 'all'
+      }
+    } as React.ChangeEvent<HTMLSelectElement>;
+    handleFilterChange(propertyTypeEvent);
     
     // Close any open dropdowns
     setActiveDropdown(null);

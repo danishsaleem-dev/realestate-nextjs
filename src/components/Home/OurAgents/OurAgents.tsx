@@ -2,7 +2,6 @@ import React from 'react'
 import SectionHeading from '@/components/Helper/SectionHeading'
 import { agents } from '@/data/data';
 import AgentCard from './AgentCard';
-import FindRealtor from '../FindRealtor/FindRealtor';
 import Link from 'next/link';
 
 const OurAgents = () => {

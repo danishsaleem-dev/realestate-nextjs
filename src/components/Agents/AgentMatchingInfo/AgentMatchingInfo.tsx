@@ -43,7 +43,7 @@ const AgentMatchingInfo = () => {
           <div className='flex flex-col md:flex-row items-center justify-between'>
             <div className='md:w-2/3 mb-6 md:mb-0'>
               <h3 className='text-2xl text-white mb-3'>The Smarter Way to Buy & Sell</h3>
-              <p className='text-white-800'>
+              <p className='text-white'>
                 A smart move starts with us. Expert Realtors with unique data-driven insights and up to 1% cashback – it all adds up to a better real estate experience.
               </p>
             </div>
