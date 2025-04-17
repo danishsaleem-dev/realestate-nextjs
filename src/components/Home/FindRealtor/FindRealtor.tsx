@@ -22,8 +22,9 @@ interface FindRealtorProps {
 
 const FindRealtor: React.FC<FindRealtorProps> = ({ initialUserType }) => {
   const router = useRouter();
-  const [userType, setUserType] = useState<UserType>(null);
-  const [currentStep, setCurrentStep] = useState<Step>('userType');
+  // Initialize userType with initialUserType if provided
+  const [userType, setUserType] = useState<UserType>(initialUserType);
+  const [currentStep, setCurrentStep] = useState<Step>(initialUserType ? 'location' : 'userType');
   const [searchTerm, setSearchTerm] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [suggestions, setSuggestions] = useState<{
