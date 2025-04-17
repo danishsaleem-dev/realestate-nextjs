@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { AnimatePresence } from 'framer-motion';
 
 // Import step components
@@ -178,7 +178,7 @@ const FindRealtor = () => {
 
   // Close suggestions when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = () => {
       if (showSuggestions) {
         setShowSuggestions(false);
       }
