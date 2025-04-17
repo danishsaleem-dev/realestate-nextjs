@@ -15,7 +15,12 @@ import FinalStep from './Steps/FinalStep';
 // Import types
 import { UserType, Step, FormData } from './types';
 
-const FindRealtor = () => {
+// Add or update the interface for FindRealtor props
+interface FindRealtorProps {
+  initialUserType: 'buyer' | 'seller' | 'both' | null;
+}
+
+const FindRealtor: React.FC<FindRealtorProps> = ({ initialUserType }) => {
   const router = useRouter();
   const [userType, setUserType] = useState<UserType>(null);
   const [currentStep, setCurrentStep] = useState<Step>('userType');

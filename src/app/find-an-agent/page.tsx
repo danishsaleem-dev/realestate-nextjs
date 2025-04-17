@@ -8,8 +8,13 @@ const FindAnAgentPage = () => {
   const searchParams = useSearchParams();
   const userFlow = searchParams?.get('userFlow');
   
+  // Type assertion to ensure userFlow is one of the expected values
+  const validUserFlow = ['buyer', 'seller', 'both'].includes(userFlow as string) 
+    ? userFlow as 'buyer' | 'seller' | 'both' 
+    : null;
+  
   return (
-    <FindRealtor initialUserType={userFlow as 'buyer' | 'seller' | 'both' | null} />  
+    <FindRealtor initialUserType={validUserFlow} />  
   );
 };
 
