@@ -1,10 +1,11 @@
 "use client";
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import FindRealtor from '@/components/Home/FindRealtor/FindRealtor';
 
-const FindAnAgentPage = () => {
+// Create a client component that uses useSearchParams
+const FindRealtorWithParams = () => {
   const searchParams = useSearchParams();
   const userFlow = searchParams?.get('userFlow');
   
@@ -13,8 +14,15 @@ const FindAnAgentPage = () => {
     ? userFlow as 'buyer' | 'seller' | 'both' 
     : null;
   
+  return <FindRealtor initialUserType={validUserFlow} />;
+};
+
+// Main page component with Suspense boundary
+const FindAnAgentPage = () => {
   return (
-    <FindRealtor initialUserType={validUserFlow} />  
+    <Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
+      <FindRealtorWithParams />
+    </Suspense>
   );
 };
 
