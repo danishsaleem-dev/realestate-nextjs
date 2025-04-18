@@ -342,7 +342,7 @@ export const getListings = async (params: Record<string, string | number>): Prom
     
     // Transform the API data to match our format
     // In the getListings function, update the transformation to match the PropertyListing interface
-    const transformedListings = data.listings.map((listing: ApiListing, index: number) => {
+    const transformedListings = data.listings.map((listing: ApiListing) => {
     // Format location with better handling of undefined values
     const locationParts = [
       listing.address?.unitNumber,
