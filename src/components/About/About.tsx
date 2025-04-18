@@ -1,7 +1,7 @@
 import React from 'react';
 import Banner from './Banner/Banner';
 import CallToAction from './CallToAction/CallToAction';
-import OurAgents from './OurAgents/OurAgents';
+import OurAgents from '../Home/OurAgents/OurAgents';
 import ClientReviews from './ClientReviews/ClientReviews';
 
 const About: React.FC = () => {
