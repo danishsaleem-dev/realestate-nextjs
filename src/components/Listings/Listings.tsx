@@ -11,12 +11,15 @@ const Listings = () => {
   const [properties, setProperties] = useState<PropertyListing[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedProperty, setSelectedProperty] = useState<PropertyListing | null>(null);
+  const [communities, setCommunities] = useState<string[]>([]);
   const [filters, setFilters] = useState({
     minPrice: 0,
     maxPrice: 1000000,
     bedrooms: 0,
     bathrooms: 0,
-    propertyType: 'all'
+    propertyType: 'all',
+    community: 'all',
+    listingType: 'all'
   });
   const [sortOption, setSortOption] = useState('newest');
   const [pagination, setPagination] = useState({
@@ -48,6 +51,8 @@ const Listings = () => {
         if (filters.bedrooms > 0) params.minBedrooms = filters.bedrooms;
         if (filters.bathrooms > 0) params.minBaths = filters.bathrooms;
         if (filters.propertyType !== 'all') params.propertyType = filters.propertyType;
+        if (filters.community !== 'all') params.community = filters.community;
+        if (filters.listingType !== 'all') params.listingType = filters.listingType;
         
         console.log('Fetching with params:', params);
         
@@ -64,6 +69,18 @@ const Listings = () => {
             totalPages: data.numPages || 1,
             totalResults: data.count || data.listings.length
           });
+          
+          // Extract unique communities from the data
+          if (communities.length === 0) {
+            const uniqueCommunities = Array.from(
+              new Set(
+                data.listings
+                  .map(listing => listing.address.neighborhood)
+                  .filter(Boolean) as string[]
+              )
+            ).sort();
+            setCommunities(uniqueCommunities);
+          }
         } else {
           setProperties([]);
         }
@@ -88,7 +105,7 @@ const Listings = () => {
     const { name, value } = e.target;
     setFilters({
       ...filters,
-      [name]: name === 'propertyType' ? value : Number(value)
+      [name]: ['propertyType', 'community', 'listingType'].includes(name) ? value : Number(value)
     });
     // Reset to first page when filters change
     setPagination({
@@ -104,7 +121,9 @@ const Listings = () => {
       maxPrice: 1000000,
       bedrooms: 0,
       bathrooms: 0,
-      propertyType: 'all'
+      propertyType: 'all',
+      community: 'all',
+      listingType: 'all'
     });
     setPagination({
       ...pagination,
@@ -180,6 +199,7 @@ const Listings = () => {
         filters={filters}
         handleFilterChange={handleFilterChange}
         resetFilters={resetFilters}
+        communities={communities}
       />
       
       {/* Results Header */}
