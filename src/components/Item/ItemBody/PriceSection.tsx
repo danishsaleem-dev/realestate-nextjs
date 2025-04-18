@@ -1,5 +1,4 @@
 import React from 'react'
-import Form from './Form'
 import { FaArrowUp } from 'react-icons/fa'
 import { FiInfo } from 'react-icons/fi'
 

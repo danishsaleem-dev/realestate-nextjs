@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import * as Slider from '@radix-ui/react-slider';
 import * as Tooltip from '@radix-ui/react-tooltip';
-import * as Select from '@radix-ui/react-select';
 import { FiInfo, FiDollarSign, FiPercent, FiChevronDown } from 'react-icons/fi';
 
 // Add interfaces for your state
