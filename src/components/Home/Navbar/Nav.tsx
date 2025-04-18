@@ -14,19 +14,39 @@ type Props = {
 
 const Nav = ({ openNav }: Props) => {
   const [navBg, setNavBg] = useState(false);
+  const [navVisible, setNavVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.scrollY > 90) setNavBg(true);
-      if (window.scrollY < 90) setNavBg(false);
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Add shadow when scrolled down
+      if (currentScrollY > 90) {
+        setNavBg(true);
+      } else {
+        setNavBg(false);
+      }
+      
+      // Hide/show based on scroll direction
+      if (currentScrollY > lastScrollY && currentScrollY > 150) {
+        // Scrolling down - hide nav
+        setNavVisible(false);
+      } else {
+        // Scrolling up - show nav
+        setNavVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
     };
-    window.addEventListener('scroll', handleResize);
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
-      window.removeEventListener('scroll', handleResize);
+      window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [lastScrollY]);
 
   const handleDropdownToggle = (id: number) => {
     setOpenDropdown((prev) => (prev === id ? null : id));
@@ -39,7 +59,7 @@ const Nav = ({ openNav }: Props) => {
   return (
     <>
       <div
-        className={`fixed bg-white ${navBg ? ' shadow-[0_4px_18px_0_rgba(0,0,0,0.078)]' : ''} h-[10vh] z-[100] w-full transition-all duration-200`}
+        className={`fixed bg-white ${navBg ? 'shadow-[0_4px_18px_0_rgba(0,0,0,0.078)]' : ''} h-[10vh] z-[100] w-full transition-all duration-300 transform ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}
       >
         <div className="flex items-center h-full justify-between w-[95%] sm:w-[90%] xl:w-[95%] mx-auto">
           {/* Logo */}
@@ -54,7 +74,7 @@ const Nav = ({ openNav }: Props) => {
             </div>
           </Link>
           {/* Nav Links */}
-          <div className="lg:flex items-center space-x-8 text-black hidden">
+          <div className="lg:flex items-center space-x-4 text-black hidden">
             {navLinks.map((link) => (
               <div key={link.id} className="relative">
                 {link.subLinks ? (

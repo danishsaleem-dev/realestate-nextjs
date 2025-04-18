@@ -101,7 +101,7 @@ const Banner: React.FC<BannerProps> = ({ property }) => {
                     />
                 </div>
             </div>
-            <div className='w-[95%] mx-auto mb-10 border border-2 rounded-xl p-4 mt-4'>
+            {/* <div className='w-[95%] mx-auto mb-10 border-2 rounded-xl p-4 mt-4'>
                 <div className='flex flex-col gap-4 md:flex-row md:justify-between md:items-center border-b border-gray-200 py-5 md:py-10'>
                     <h1 className='text-black text-4xl'>{propertyName}</h1>
                     <div className='text-gray-500'>
@@ -144,7 +144,7 @@ const Banner: React.FC<BannerProps> = ({ property }) => {
                         <BiPrinter className='text-gray-400 hover:text-secondary hover:border-secondary cursor-pointer w-10 h-10 p-2 rounded-lg border transition-all delay-100'/>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </>
     )
 }

@@ -30,7 +30,15 @@ export const navLinks = [
         { id: 43, label: 'FAQs', url: '/faqs' },
       ],
     },
+    {
+      id: 5,
+      label: 'Tools',
+      url: '#',
+      subLinks: [
+        { id: 51, label: 'Down Payment Calculator', url: '/down-payment-calculator' },
+      ],
+    },
     
-    { id: 5, label: 'Pre-Con', url: '/pre-con' },
-    { id: 6, label: 'Find a Realtor', url: '/agents' },
+    { id: 6, label: 'Pre-Con', url: '/pre-con' },
+    { id: 7, label: 'Find a Realtor', url: '/agents' },
 ];

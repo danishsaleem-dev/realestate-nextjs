@@ -203,10 +203,10 @@ const Listings = () => {
       />
       
       {/* Results Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
+      <div className="w-[95%] mx-auto flex flex-col sm:flex-row justify-between items-center mb-6">
         <div className="mb-4 sm:mb-0">
           <span className="text-gray-700 font-medium">
-            {pagination.totalResults > 0 ? `${pagination.totalResults.toLocaleString()} properties found` : `${properties.length} results`}
+            Active Listings ({pagination.totalResults > 0 ? `${pagination.totalResults.toLocaleString()})` : `${properties.length} results`}
           </span>
         </div>
         
@@ -230,7 +230,7 @@ const Listings = () => {
       </div>
       
       {/* Property Listings */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="w-[95%] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {properties.length > 0 ? (
           properties.map((property) => (
             <div 

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { FaBed, FaBath, FaRulerCombined, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaBed, FaBath, FaRulerCombined, FaChevronLeft, FaChevronRight, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
 import Link from 'next/link';
 import { PropertyListing } from '@/data/types';
 
@@ -29,6 +29,25 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
 
   // Create a property name from property type and location
   const propertyName = `${property.details.propertyType} in ${property.address.city || 'Unknown Location'}`;
+
+  // Calculate how long ago the listing was posted
+  const getTimeAgo = () => {
+    // Use listDate if available, otherwise fall back to updatedOn
+    const dateString = property.listDate || property.updatedOn;
+    if (!dateString) return '';
+    
+    const listDate = new Date(dateString);
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - listDate.getTime());
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays < 7) return `${diffDays} days ago`;
+    if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+    if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
+    return `${Math.floor(diffDays / 365)} years ago`;
+  };
 
   // Handle image navigation
   const nextImage = (e: React.MouseEvent) => {
@@ -79,28 +98,37 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
             {currentImageIndex + 1}/{images.length}
           </div>
           
-          <div className='absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-md'>
+          <div className='absolute top-4 left-4 bg-white text-primary text-sm px-2 py-1 rounded-md'>
             {property.details.propertyType}
           </div>
-          <div className='absolute bottom-4 right-4 bg-white text-primary px-3 py-1 rounded-md font-bold'>
-            {formattedPrice}
-          </div>
         </div>
-        <div className='p-4'>
-          <h3 className='text-xl mb-2 truncate'>{propertyName}</h3>
-          <p className='text-gray-600 mb-4 truncate'>{property.address.location}</p>
-          <div className='flex justify-between text-gray-700'>
-            <div className='flex items-center'>
-              <FaBed className='mr-2' />
-              <span>{property.details.numBedrooms}</span>
+        <div className=''>
+          <div className="flex justify-between items-center mb-2 p-4 pb-0">
+            <h3 className='text-xl truncate'>{formattedPrice}</h3>
+            <div className="flex items-center text-xs text-gray-500">
+              <FaClock className="mr-1" />
+              <span>{getTimeAgo()}</span>
             </div>
-            <div className='flex items-center'>
-              <FaBath className='mr-2' />
-              <span>{property.details.numBathrooms}</span>
-            </div>
-            <div className='flex items-center'>
-              <FaRulerCombined className='mr-2' />
-              <span>{property.details.sqft} sqft</span>
+          </div>
+          <p className='text-gray-600 mb-4 truncate text-sm flex items-center px-4'>
+            <FaMapMarkerAlt className="mr-1 text-primary" />
+            {property.address.streetNumber} {property.address.streetName}, {property.address.city}, {property.address.state}
+          </p>
+          <div className='flex justify-between gap-2 text-gray-700 text-sm border-t-2 p-4 pt-2'>
+            <span className='text-sm'>{property.class.replace('Property', '')}</span>
+            <div className='flex gap-2'>
+              <div className='flex items-center'>
+                <FaBed className='mr-1' />
+                <span>{property.details.numBedrooms}</span>
+              </div>
+              <div className='flex items-center'>
+                <FaBath className='mr-1' />
+                <span>{property.details.numBathrooms}</span>
+              </div>
+              <div className='flex items-center'>
+                <FaRulerCombined className='mr-1' />
+                <span>{property.details.sqft} sqft</span>
+              </div>
             </div>
           </div>
         </div>
