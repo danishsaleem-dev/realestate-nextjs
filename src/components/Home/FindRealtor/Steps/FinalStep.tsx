@@ -32,7 +32,7 @@ const FinalStep: React.FC<FinalStepProps> = ({
         exit="exit"
         className="max-w-2xl mx-auto text-center"
       >
-        <motion.h2 variants={itemVariants} className="text-2xl font-bold mb-6 text-gray-800">
+        <motion.h2 variants={itemVariants} className="text-2xl mb-6 text-gray-800">
           Great! We're ready to connect you with a realtor
         </motion.h2>
         

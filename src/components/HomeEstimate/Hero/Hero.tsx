@@ -34,8 +34,7 @@ const HomeEstimatorBanner = () => {
     }
     
     try {
-      // Fetch from your data source - replace with the correct import and function call
-      // For example, if you have a data.ts file with property listings:
+      // Fetch from your data source
       const { fetchPropertyListings } = await import('@/data/data');
       const allProperties = await fetchPropertyListings();
       
@@ -47,15 +46,15 @@ const HomeEstimatorBanner = () => {
       
       // Map to the expected format
       const formattedProperties = filteredProperties.map(property => ({
-        id: property.id,
+        id: property.mlsNumber,
         address: `${property.address.streetNumber || ''} ${property.address.streetName || ''} ${property.address.streetSuffix || ''}`,
         city: property.address.city || '',
         region: property.address.state || '',
-        bedrooms: property.details.bedrooms,
-        bathrooms: property.details.bathrooms,
-        sqft: typeof property.details.size === 'number' ? property.details.size : 0,
-        propertyType: property.type || '',
-        yearBuilt: 2000 // If you don't have this data, provide a default or omit
+        bedrooms: property.details.numBedrooms,
+        bathrooms: property.details.numBathrooms,
+        sqft: typeof property.details.sqft === 'number' ? property.details.sqft : 0,
+        propertyType: property.details.propertyType || '',
+        yearBuilt: 2000 // Default value if not available
       }));
       
       setSuggestions({

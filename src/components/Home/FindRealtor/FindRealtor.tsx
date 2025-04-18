@@ -89,14 +89,10 @@ const FindRealtor: React.FC<FindRealtorProps> = ({ initialUserType }) => {
   const handleSuggestionSelect = (suggestion: string) => {
     // Update both state variables with the same value
     setSearchTerm(suggestion);
-    
-    // Update formData with the selected location
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       location: suggestion
     }));
-    
-    // Hide suggestions dropdown
     setShowSuggestions(false);
   };
 

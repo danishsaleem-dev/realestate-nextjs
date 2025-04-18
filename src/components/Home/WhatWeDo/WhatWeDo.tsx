@@ -4,7 +4,6 @@ import ServiceCard from './ServiceCard'
 import { services } from '@/data/data'
 
 
-
 const WhatWeDo = () => {
   return (
     <div className='pt-16 pb-16 bg-background'>

@@ -53,7 +53,7 @@ const Home: React.FC = () => {
             <ExploreHotCities />
             <ConnectWithUs />
             <ClientReviews />
-            <Blogs />
+            {/* <Blogs /> */}
         </div>
     );
 };

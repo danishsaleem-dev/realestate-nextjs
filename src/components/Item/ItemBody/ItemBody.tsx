@@ -4,48 +4,11 @@ import Overview from './Overview'
 import Features from './Features'
 import Location from './Location'
 import Demographics from './Demographics'
-interface Property {
-    id: string;
-    propertyName: string;
-    description: string;
-    class: string;
-    type: string;
-    price: number;
-    address: {
-        area: string | null;
-        city: string | null;
-        country: string | null;
-        district: string | null;
-        majorIntersection: string | null;
-        neighborhood: string | null;
-        streetDirection: string | null;
-        streetName: string | null;
-        streetNumber: string | null;
-        streetSuffix: string | null;
-        unitNumber: string | null;
-        zip: string | null;
-        state: string | null;
-        communityCode: string | null;
-        streetDirectionPrefix: string | null;
-        addressKey: string | null;
-        location: string;
-    };
-    map: {
-      latitude: number | null;
-      longitude: number | null;
-      point: string | null;
-    };
-    details: {
-      bedrooms: number;
-      bathrooms: number;
-      size: number;
-      landSize: number | string;
-    };
-  }
-  
-  interface ItemBodyProps {
-    property: Property;
-  }
+import { PropertyListing } from '@/data/types' // Import the interface from types.ts
+
+interface ItemBodyProps {
+  property: PropertyListing;
+}
 
 const ItemBody: React.FC<ItemBodyProps> = ({ property }) => {
   return (
@@ -53,7 +16,7 @@ const ItemBody: React.FC<ItemBodyProps> = ({ property }) => {
         <div className='md:w-[65%] flex flex-col gap-5'>
             <div className='border-b border-gray-200 py-8'>
                 <h2 className='text-black font-medium text-3xl mb-2'>Description</h2>
-                <p className='text-gray-500 font-light'>{property.description}</p>
+                <p className='text-gray-500 font-light'>{property.lot.legalDescription}</p>
             </div>
             <div className='border-b border-gray-200 py-8'>
                 <h2 className='text-black font-medium text-3xl mb-2'>Overview</h2>

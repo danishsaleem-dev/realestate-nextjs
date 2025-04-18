@@ -2,61 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { getListings } from '@/data/data';
-import { FaMapMarkerAlt, FaList } from 'react-icons/fa';
-import ListingGrid from './ListingGrid';
+import PropertyCard from '@/components/Helper/PropertyCard';
+import { PropertyListing } from '@/data/types';
+import { FaSort } from 'react-icons/fa';
 import ListingFilters from './ListingFilters';
-import dynamic from 'next/dynamic';
-
-// Dynamically import the Map component with no SSR to avoid hydration issues
-const PropertyMap = dynamic(() => import('@/components/Listings/PropertyMap'), { ssr: false });
-
-interface PropertyListing {
-  id: string;
-  propertyName: string;
-  description: string;
-  class: string;
-  type: string;
-  price: number;
-  address: {
-    area: string | null;
-    city: string | null;
-    country: string | null;
-    district: string | null;
-    majorIntersection: string | null;
-    neighborhood: string | null;
-    streetDirection: string | null;
-    streetName: string | null;
-    streetNumber: string | null;
-    streetSuffix: string | null;
-    unitNumber: string | null;
-    zip: string | null;
-    state: string | null;
-    communityCode: string | null;
-    streetDirectionPrefix: string | null;
-    addressKey: string | null;
-    location: string;
-  };
-  map: {
-    latitude: number | null;
-    longitude: number | null;
-    point: string | null;
-  };
-  details: {
-    bedrooms: number;
-    bathrooms: number;
-    size: number;
-    landSize: number | string;
-  };
-  images: {
-    imageUrl: string;
-    allImages: string[];
-  };
-}
 
 const Listings = () => {
   const [properties, setProperties] = useState<PropertyListing[]>([]);
   const [loading, setLoading] = useState(true);
-  const [viewMode, setViewMode] = useState<'split' | 'list' | 'map'>('split');
   const [selectedProperty, setSelectedProperty] = useState<PropertyListing | null>(null);
   const [filters, setFilters] = useState({
     minPrice: 0,
@@ -65,19 +18,12 @@ const Listings = () => {
     bathrooms: 0,
     propertyType: 'all'
   });
-  const [showFilters, setShowFilters] = useState(false);
-  const [mapBounds, setMapBounds] = useState<{
-    north: number;
-    south: number;
-    east: number;
-    west: number;
-  } | null>(null);
-  const [mapFilterEnabled, setMapFilterEnabled] = useState(false);
+  const [sortOption, setSortOption] = useState('newest');
   const [pagination, setPagination] = useState({
     currentPage: 1,
     totalPages: 1,
     totalResults: 0,
-    resultsPerPage: 20
+    resultsPerPage: 12
   });
 
   // Load properties with filters applied
@@ -137,11 +83,6 @@ const Listings = () => {
     setSelectedProperty(property);
   };
 
-  // Toggle filter panel
-  const toggleFilters = () => {
-    setShowFilters(!showFilters);
-  };
-
   // Update filters
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -156,26 +97,70 @@ const Listings = () => {
     });
   };
 
-  // Handle map bounds change
-  const handleMapBoundsChange = (bounds: {north: number; south: number; east: number; west: number}) => {
-    setMapBounds(bounds);
+  // Reset all filters
+  const resetFilters = () => {
+    setFilters({
+      minPrice: 0,
+      maxPrice: 1000000,
+      bedrooms: 0,
+      bathrooms: 0,
+      propertyType: 'all'
+    });
+    setPagination({
+      ...pagination,
+      currentPage: 1
+    });
   };
 
-  // Toggle map filtering
-  const toggleMapFiltering = () => {
-    setMapFilterEnabled(!mapFilterEnabled);
+  // Handle sort change
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortOption(e.target.value);
+    
+    // Sort the properties based on the selected option
+    const sortedProperties = [...properties];
+    
+    switch(e.target.value) {
+      case 'price-asc':
+        sortedProperties.sort((a, b) => a.listPrice - b.listPrice);
+        break;
+      case 'price-desc':
+        sortedProperties.sort((a, b) => b.listPrice - a.listPrice);
+        break;
+      case 'beds-desc':
+        sortedProperties.sort((a, b) => b.details.numBedrooms - a.details.numBedrooms);
+        break;
+      case 'baths-desc':
+        sortedProperties.sort((a, b) => b.details.numBathrooms - a.details.numBathrooms);
+        break;
+      case 'sqft-desc':
+        sortedProperties.sort((a, b) => {
+          // Convert sqft values to numbers for comparison
+          const sqftA = typeof a.details.sqft === 'string' ? parseInt(a.details.sqft) || 0 : a.details.sqft;
+          const sqftB = typeof b.details.sqft === 'string' ? parseInt(b.details.sqft) || 0 : b.details.sqft;
+          return sqftB - sqftA;
+        });
+        break;
+      case 'newest':
+      default:
+        // Assuming newer listings have higher MLS numbers or using a timestamp if available
+        sortedProperties.sort((a, b) => b.mlsNumber.localeCompare(a.mlsNumber));
+        break;
+    }
+    
+    setProperties(sortedProperties);
   };
 
-  // Filter properties based on map bounds if enabled
-  const filteredProperties = mapFilterEnabled && mapBounds 
-    ? properties.filter(property => {
-        return property.map.latitude && property.map.longitude &&
-          property.map.latitude <= mapBounds.north &&
-          property.map.latitude >= mapBounds.south &&
-          property.map.longitude <= mapBounds.east &&
-          property.map.longitude >= mapBounds.west;
-      })
-    : properties;
+  // Handle pagination
+  const handlePageChange = (newPage: number) => {
+    if (newPage > 0 && newPage <= pagination.totalPages) {
+      setPagination({
+        ...pagination,
+        currentPage: newPage
+      });
+      // Scroll to top when changing pages
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   if (loading) {
     return (
@@ -188,102 +173,120 @@ const Listings = () => {
   }
 
   return (
-    <div className="container mx-auto py-24 px-4">
-      <div className="flex justify-between items-center mb-6">
-        {/* Filters Panel */}
-        <ListingFilters 
-          filters={filters}
-          showFilters={showFilters}
-          toggleFilters={toggleFilters}
-          handleFilterChange={handleFilterChange}
-        />
-        <div className="flex space-x-4">
-          {/* Results Count */}
-          <div className="hidden sm:flex items-center">
-            <span className="text-gray-700 font-medium">
-              {pagination.totalResults > 0 ? `${pagination.totalResults.toLocaleString()} properties found` : `${filteredProperties.length} results`}
-            </span>
-          </div>
-          
-          {/* Map Filter Toggle */}
-          {(viewMode === 'map' || viewMode === 'split') && (
-            <button 
-              onClick={toggleMapFiltering}
-              className={`px-3 py-2 rounded border ${mapFilterEnabled ? 'bg-secondary text-white' : 'bg-white text-gray-700'}`}
-            >
-              {mapFilterEnabled ? 'Map Filter On' : 'Map Filter Off'}
-            </button>
-          )}
-          
-          {/* View Mode Toggles */}
-          <div className="flex border rounded-md overflow-hidden">
-            <button 
-              onClick={() => setViewMode('list')}
-              className={`px-3 py-2 ${viewMode === 'list' ? 'bg-secondary text-white' : 'bg-white text-gray-700'}`}
-            >
-              <FaList />
-            </button>
-            <button 
-              onClick={() => setViewMode('split')}
-              className={`px-3 py-2 ${viewMode === 'split' ? 'bg-secondary text-white' : 'bg-white text-gray-700'}`}
-            >
-              <div className="flex gap-1">
-                <FaList className="w-3" />
-                <FaMapMarkerAlt className="w-3" />
-              </div>
-            </button>
-            <button 
-              onClick={() => setViewMode('map')}
-              className={`px-3 py-2 ${viewMode === 'map' ? 'bg-secondary text-white' : 'bg-white text-gray-700'}`}
-            >
-              <FaMapMarkerAlt />
-            </button>
-          </div>
+    <div className="container mx-auto py-16 px-4">
+      
+      {/* Use the separated filter component */}
+      <ListingFilters 
+        filters={filters}
+        handleFilterChange={handleFilterChange}
+        resetFilters={resetFilters}
+      />
+      
+      {/* Results Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
+        <div className="mb-4 sm:mb-0">
+          <span className="text-gray-700 font-medium">
+            {pagination.totalResults > 0 ? `${pagination.totalResults.toLocaleString()} properties found` : `${properties.length} results`}
+          </span>
+        </div>
+        
+        {/* Sort Options */}
+        <div className="flex items-center">
+          <FaSort className="mr-2 text-gray-600" />
+          <label className="mr-2 text-gray-700">Sort by:</label>
+          <select
+            value={sortOption}
+            onChange={handleSortChange}
+            className="p-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
+          >
+            <option value="newest">Newest</option>
+            <option value="price-asc">Price (Low to High)</option>
+            <option value="price-desc">Price (High to Low)</option>
+            <option value="beds-desc">Most Bedrooms</option>
+            <option value="baths-desc">Most Bathrooms</option>
+            <option value="sqft-desc">Largest Size</option>
+          </select>
         </div>
       </div>
-
-      <div className={`flex ${viewMode === 'map' ? 'flex-col' : viewMode === 'list' ? 'flex-col' : 'flex-col md:flex-row'} gap-6`}>
-        {/* Property Listings */}
-        {(viewMode === 'list' || viewMode === 'split') && (
-          <div className={`${viewMode === 'split' ? 'md:w-1/2' : 'w-full'} overflow-y-auto`} style={{ maxHeight: viewMode === 'split' ? 'calc(100vh - 200px)' : 'auto' }}>
-            {/* Results Count */}
-          <div className="hidden sm:flex items-center mb-4">
-            <span className="text-gray-700 font-medium">
-              {filteredProperties.length} results
-            </span>
-          </div>
-            <div className="grid grid-cols-1 gap-6">
-              {filteredProperties.length > 0 ? (
-                filteredProperties.map((property) => (
-                  <div 
-                    key={property.id}
-                    className={`cursor-pointer transition-all ${selectedProperty?.id === property.id ? 'ring-2 ring-secondary' : ''}`}
-                    onClick={() => handlePropertyClick(property)}
-                  >
-                    <ListingGrid property={property} />
-                  </div>
-                ))
-              ) : (
-                <div className="col-span-full text-center py-10">
-                  <p className="text-gray-500 text-lg">No properties match your current filters.</p>
-                </div>
-              )}
+      
+      {/* Property Listings */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {properties.length > 0 ? (
+          properties.map((property) => (
+            <div 
+              key={property.mlsNumber}
+              className={`cursor-pointer transition-all ${selectedProperty?.mlsNumber === property.mlsNumber ? 'ring-2 ring-secondary' : ''}`}
+              onClick={() => handlePropertyClick(property)}
+            >
+              <PropertyCard property={property} />
             </div>
-          </div>
-        )}
-
-        {/* Map View */}
-        {(viewMode === 'map' || viewMode === 'split') && (
-          <div className={`${viewMode === 'split' ? 'md:w-1/2' : 'w-full'} bg-gray-100 rounded-lg overflow-hidden`} style={{ height: viewMode === 'split' ? 'calc(100vh - 200px)' : '70vh' }}>
-            <PropertyMap 
-              properties={filteredProperties}
-              selectedProperty={selectedProperty}
-              onPropertySelect={handlePropertyClick}
-              onBoundsChange={handleMapBoundsChange}
-            />
+          ))
+        ) : (
+          <div className="col-span-full text-center py-10">
+            <p className="text-gray-500 text-lg">No properties match your current filters.</p>
+            <button 
+              onClick={resetFilters}
+              className="mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-secondary transition-colors"
+            >
+              Reset Filters
+            </button>
           </div>
         )}
       </div>
+      
+      {/* Pagination */}
+      {pagination.totalPages > 1 && (
+        <div className="flex justify-center mt-10">
+          <nav className="flex items-center">
+            <button
+              onClick={() => handlePageChange(pagination.currentPage - 1)}
+              disabled={pagination.currentPage === 1}
+              className={`px-3 py-1 rounded-l-md border ${pagination.currentPage === 1 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
+            >
+              Previous
+            </button>
+            
+            {/* Page Numbers */}
+            <div className="flex">
+              {[...Array(Math.min(5, pagination.totalPages))].map((_, i) => {
+                // Show pages around current page
+                let pageNum;
+                if (pagination.totalPages <= 5) {
+                  pageNum = i + 1;
+                } else if (pagination.currentPage <= 3) {
+                  pageNum = i + 1;
+                } else if (pagination.currentPage >= pagination.totalPages - 2) {
+                  pageNum = pagination.totalPages - 4 + i;
+                } else {
+                  pageNum = pagination.currentPage - 2 + i;
+                }
+                
+                return (
+                  <button
+                    key={pageNum}
+                    onClick={() => handlePageChange(pageNum)}
+                    className={`px-3 py-1 border-t border-b ${
+                      pagination.currentPage === pageNum 
+                        ? 'bg-primary text-white' 
+                        : 'bg-white text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                );
+              })}
+            </div>
+            
+            <button
+              onClick={() => handlePageChange(pagination.currentPage + 1)}
+              disabled={pagination.currentPage === pagination.totalPages}
+              className={`px-3 py-1 rounded-r-md border ${pagination.currentPage === pagination.totalPages ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
+            >
+              Next
+            </button>
+          </nav>
+        </div>
+      )}
     </div>
   );
 };

@@ -4,51 +4,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useRouter } from 'next/navigation';
+import { PropertyListing } from '@/data/types'; // Import the interface from types.ts
 
-// Define the property interface
-interface PropertyListing {
-  id: string;
-  propertyName: string;
-  description: string;
-  class: string;
-  type: string;
-  price: number;
-  address: {
-    location: string;
-    // Include other address properties
-    area: string | null;
-    city: string | null;
-    country: string | null;
-    district: string | null;
-    majorIntersection: string | null;
-    neighborhood: string | null;
-    streetDirection: string | null;
-    streetName: string | null;
-    streetNumber: string | null;
-    streetSuffix: string | null;
-    unitNumber: string | null;
-    zip: string | null;
-    state: string | null;
-    communityCode: string | null;
-    streetDirectionPrefix: string | null;
-    addressKey: string | null;
-  };
-  map: {
-    latitude: number | null;
-    longitude: number | null;
-    point: string | null;
-  };
-  details: {
-    bedrooms: number;
-    bathrooms: number;
-    size: number;
-    landSize: number | string;
-  };
-  images: {
-    imageUrl: string;
-    allImages: string[];
-  };
-}
+// Remove the local PropertyListing interface
 
 interface PropertyMapProps {
   properties: PropertyListing[];
@@ -143,24 +101,28 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
         const markerEl = document.createElement('div');
         markerEl.className = 'custom-marker';
         markerEl.innerHTML = `
-          <div class="${selectedProperty?.id === property.id ? 'bg-secondary' : 'bg-primary'} text-white px-2 py-1 rounded shadow-md">
-            $${(property.price / 1000).toFixed(0)}k
+          <div class="${selectedProperty?.mlsNumber === property.mlsNumber ? 'bg-secondary' : 'bg-primary'} text-white px-2 py-1 rounded shadow-md">
+            $${(property.listPrice / 1000).toFixed(0)}k
           </div>
         `;
 
         // Create popup with property info
         const popupContent = document.createElement('div');
         popupContent.className = 'property-popup';
+        
+        // Create property name from property type and location
+        const propertyName = `${property.details.propertyType} in ${property.address.city || 'Unknown Location'}`;
+        
         popupContent.innerHTML = `
           <div style="width: 240px;">
-            <img src="${property.images.imageUrl}" alt="${property.propertyName}" style="width: 100%; height: 140px; object-fit: cover; border-radius: 4px;" />
-            <h3 style="font-weight: bold; margin: 8px 0; font-size: 16px;">${property.propertyName}</h3>
+            <img src="${property.images.imageUrl}" alt="${propertyName}" style="width: 100%; height: 140px; object-fit: cover; border-radius: 4px;" />
+            <h3 style="font-weight: bold; margin: 8px 0; font-size: 16px;">${propertyName}</h3>
             <p style="margin: 4px 0; font-size: 14px;">${property.address.location}</p>
             <div style="display: flex; justify-content: space-between; margin-top: 8px;">
-              <span style="font-size: 14px;">$${property.price.toLocaleString()}</span>
-              <span style="font-size: 14px;">${property.details.bedrooms} bd | ${property.details.bathrooms} ba | ${property.details.size} sqft</span>
+              <span style="font-size: 14px;">$${property.listPrice.toLocaleString()}</span>
+              <span style="font-size: 14px;">${property.details.numBedrooms} bd | ${property.details.numBathrooms} ba | ${property.details.sqft} sqft</span>
             </div>
-            <button class="view-property-btn-${property.id}" style="background-color: #4a60a1; color: white; border: none; padding: 6px 12px; border-radius: 4px; margin-top: 8px; width: 100%; cursor: pointer;">View Details</button>
+            <button class="view-property-btn-${property.mlsNumber}" style="background-color: #4a60a1; color: white; border: none; padding: 6px 12px; border-radius: 4px; margin-top: 8px; width: 100%; cursor: pointer;">View Details</button>
           </div>
         `;
 
@@ -179,16 +141,16 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
         });
 
         // Store references
-        markersRef.current[property.id] = marker;
-        popupsRef.current[property.id] = popup;
+        markersRef.current[property.mlsNumber] = marker;
+        popupsRef.current[property.mlsNumber] = popup;
 
         // Add click event to "View Details" button in popup
         popup.on('open', () => {
           setTimeout(() => {
-            const btn = document.querySelector(`.view-property-btn-${property.id}`);
+            const btn = document.querySelector(`.view-property-btn-${property.mlsNumber}`);
             if (btn) {
               btn.addEventListener('click', () => {
-                router.push(`/property/${property.id}`);
+                router.push(`/property/${property.mlsNumber}`);
               });
             }
           }, 100);
@@ -222,7 +184,7 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
     });
 
     // Open popup for selected property
-    const marker = markersRef.current[selectedProperty.id];
+    const marker = markersRef.current[selectedProperty.mlsNumber];
     if (marker) {
       marker.togglePopup();
     }

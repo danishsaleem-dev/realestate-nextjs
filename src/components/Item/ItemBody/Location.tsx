@@ -1,36 +1,11 @@
 import React from 'react'
-interface Property {
-  id: string;
-  address: {
-    area: string | null;
-    city: string | null;
-    country: string | null;
-    district: string | null;
-    majorIntersection: string | null;
-    neighborhood: string | null;
-    streetDirection: string | null;
-    streetName: string | null;
-    streetNumber: string | null;
-    streetSuffix: string | null;
-    unitNumber: string | null;
-    zip: string | null;
-    state: string | null;
-    communityCode: string | null;
-    streetDirectionPrefix: string | null;
-    addressKey: string | null;
-    location: string;
-  };
-  map: {
-    latitude: number | null;
-    longitude: number | null;
-    point: string | null;
-  };
+import { PropertyListing } from '@/data/types' // Import the interface from types.ts
+
+interface LocationProps {
+  property: PropertyListing;
 }
 
-interface ItemBodyProps {
-  property: Property;
-}
-const Location: React.FC<ItemBodyProps> = ({ property }) => {
+const Location: React.FC<LocationProps> = ({ property }) => {
   // Create a formatted address string for the map query
   const getMapQuery = () => {
     // If we have latitude and longitude, use those for precise location
@@ -94,11 +69,11 @@ const Location: React.FC<ItemBodyProps> = ({ property }) => {
           <span className="text-gray-900 font-semibold">{property.address.neighborhood}</span>
         </div>
         <div className="flex flex-col space-y-2">
-          <span className="text-gray-500">District</span>
-          <span className="text-gray-900 font-semibold">{property.address.district}</span>
+          <span className="text-gray-500">State</span>
+          <span className="text-gray-900 font-semibold">{property.address.state}</span>
         </div>
         <div className="flex flex-col space-y-2">
-          <span className="text-gray-500">State/County</span>
+          <span className="text-gray-500">Country</span>
           <span className="text-gray-900 font-semibold">{property.address.country}</span>
         </div>
       </div>

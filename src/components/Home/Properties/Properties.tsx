@@ -1,50 +1,8 @@
 import { useEffect, useState } from 'react';
 import SectionHeading from '@/components/Helper/SectionHeading';
 import { fetchPropertyListings } from '@/data/data';
-import PropertyCard from './PropertyCard';
-
-interface PropertyListing {
-  id: string;
-  propertyName: string;
-  description: string;
-  class: string;
-  type: string;
-  price: number;
-  address: {
-    area: string | null;
-    city: string | null;
-    country: string | null;
-    district: string | null;
-    majorIntersection: string | null;
-    neighborhood: string | null;
-    streetDirection: string | null;
-    streetName: string | null;
-    streetNumber: string | null;
-    streetSuffix: string | null;
-    unitNumber: string | null;
-    zip: string | null;
-    state: string | null;
-    communityCode: string | null;
-    streetDirectionPrefix: string | null;
-    addressKey: string | null;
-    location: string; // Full formatted address
-  };
-  map: {
-    latitude: number | null;
-    longitude: number | null;
-    point: string | null;
-  };
-  details: {
-    bedrooms: number;
-    bathrooms: number;
-    size: number;
-    landSize: number | string;
-  };
-  images: {
-    imageUrl: string;
-    allImages: string[];
-  };
-}
+import PropertyCard from '@/components/Helper/PropertyCard';
+import { PropertyListing } from '@/data/types'; // Import the interface from types.ts
 
 const Properties = () => {
   const [properties, setProperties] = useState<PropertyListing[]>([]);
@@ -80,7 +38,7 @@ const Properties = () => {
         />
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10'>
           {properties.slice(0, 6).map((property) => (
-            <PropertyCard key={property.id} property={property} />
+            <PropertyCard key={property.mlsNumber} property={property} />
           ))}
         </div>
       </div>
