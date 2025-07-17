@@ -8,6 +8,7 @@ import { FaMapMarkerAlt } from 'react-icons/fa';
 export interface LocationInputProps {
   value: string;
   onChange: (value: string) => void;
+  onSelect?: (address: string) => void;
   onSelectCoordinates?: (coordinates: {lat: number, lng: number} | null) => void;
   placeholder?: string;
   className?: string;
@@ -16,6 +17,7 @@ export interface LocationInputProps {
 const LocationInput: React.FC<LocationInputProps> = ({ 
   value, 
   onChange, 
+  onSelect,
   onSelectCoordinates,
   placeholder = "Enter location",
   className = ""
@@ -39,8 +41,11 @@ const LocationInput: React.FC<LocationInputProps> = ({
   
   // Sync the external value with the internal input value
   useEffect(() => {
-    setValue(value);
-  }, [value, setValue]);
+    // Only set the internal value if it's different, to avoid re-renders
+    if (value !== inputValue) {
+      setValue(value);
+    }
+  }, [value, setValue, inputValue]);
   
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -71,6 +76,11 @@ const LocationInput: React.FC<LocationInputProps> = ({
     clearSuggestions();
     setIsFocused(false);
     
+    // Call the onSelect callback if it was provided
+    if (onSelect) {
+      onSelect(description);
+    }
+
     // Get latitude and longitude via utility functions
     if (onSelectCoordinates) {
       getGeocode({ address: description })
