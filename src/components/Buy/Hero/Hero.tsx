@@ -4,18 +4,8 @@ import GoogleMapsWrapper from '@/components/Helper/GoogleMapsWrapper';
 import LocationInput from '@/components/Home/Hero/LocationInput';
 
 const Hero = () => {
-  // 1. Add state to manage the input's value
-  const [location, setLocation] = useState('');
-
-  // 2. This function will be called when a user clicks a suggestion
-  const handleLocationSelect = (address: string) => {
-    console.log('Selected location:', address);
-    // You can perform other actions here, like submitting the form
-  };
-
-  // 3. This function will keep the state updated as the user types
-  const handleLocationChange = (address: string) => {
-    setLocation(address);
+  const handleLocationSelect = (location: string) => {
+    console.log('Selected location:', location);
   };
 
   return (
@@ -31,13 +21,7 @@ const Hero = () => {
             <p className='leading-relaxed text-center'>With more than 500 real estate transactions and thousands of offers submitted, Justo's agents know your local market. We'll arrange for an experienced Realtor to come to your home and provide you with insight into the value of your home and the recommended listing price to get the most from your home sale. It's free and there is no obligation!</p>
             <form className='mt-8 flex gap-4 w-[85%]'>
               <GoogleMapsWrapper>
-                {/* 4. Pass all the required and optional props */}
-                <LocationInput 
-                  value={location}
-                  onChange={handleLocationChange}
-                  onSelect={handleLocationSelect} 
-                  placeholder="Enter your home address" 
-                />
+                <LocationInput onSelect={handleLocationSelect} placeholder="Enter your home address" />
               </GoogleMapsWrapper>
               {/* <button className='btn btn-primary'>Start Home Estimation</button> */}
             </form>
