@@ -10,6 +10,7 @@ interface LocationStepProps {
   searchTerm: string;
   formData: FormData;
   handleLocationInputChange: (location: string) => void;
+  handleCoordinatesChange: (coords: { lat: number, lng: number } | null) => void;
   handleSuggestionSelect: (suggestion: string) => void;
   handlePrevStep: () => void;
   handleNextStep: () => void;
@@ -22,7 +23,7 @@ const LocationStep: React.FC<LocationStepProps> = ({
   searchTerm,
   formData,
   handleLocationInputChange,
-  handleSuggestionSelect,
+  handleCoordinatesChange,
   handlePrevStep,
   handleNextStep,
   itemVariants,
@@ -31,7 +32,7 @@ const LocationStep: React.FC<LocationStepProps> = ({
   // State to track if a location has been selected
   const [isLocationSelected, setIsLocationSelected] = useState(false);
   // State to store coordinates
-  const [coordinates, setCoordinates] = useState<{lat: number, lng: number} | null>(null);
+  // const [coordinates, setCoordinates] = useState<{lat: number, lng: number} | null>(null);
   
   // Effect to check if location is already selected (for back navigation)
   useEffect(() => {
@@ -48,10 +49,10 @@ const LocationStep: React.FC<LocationStepProps> = ({
   
   // Handle location selection with coordinates
   const handleLocationWithCoordinates = (coords: {lat: number, lng: number} | null) => {
-    setCoordinates(coords);
+    // Pass the coordinates up to the parent component
+    handleCoordinatesChange(coords);
     if (coords) {
       console.log("Selected location coordinates:", coords);
-      // You can store these coordinates in formData if needed
     }
   };
 

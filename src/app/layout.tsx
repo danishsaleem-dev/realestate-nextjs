@@ -27,10 +27,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${poppins.variable}`}>
         <ResponsiveNav />
-        // Add this to your layout.tsx or similar file
-        import GoogleMapsProvider from '@/providers/GoogleMapsProvider';
-        
-        // Inside your layout component
         return (
           <GoogleMapsProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''}>
             {children}

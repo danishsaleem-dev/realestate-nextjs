@@ -13,12 +13,23 @@ export interface GroupedSuggestions {
   [category: string]: LocationSuggestionItem[];
 }
 
+// This represents the structure of a single suggestion from the Places API
+interface PlaceSuggestion {
+  description: string;
+  place_id: string;
+  structured_formatting: {
+    main_text: string;
+    secondary_text: string;
+  };
+  types: string[];
+}
+
 /**
  * Groups location suggestions by their types (Cities, Neighborhoods, etc.)
  * @param data - The suggestions data from Google Places API
  * @returns An object with categories as keys and arrays of suggestions as values
  */
-export const groupSuggestionsByType = (data: any[]): GroupedSuggestions => {
+export const groupSuggestionsByType = (data: PlaceSuggestion[]): GroupedSuggestions => {
   return data.reduce((acc: GroupedSuggestions, suggestion) => {
     // Extract the main text and secondary text from the suggestion
     const mainText = suggestion.structured_formatting.main_text;

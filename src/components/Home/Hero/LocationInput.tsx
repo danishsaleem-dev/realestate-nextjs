@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 
