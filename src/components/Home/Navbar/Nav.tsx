@@ -83,30 +83,46 @@ const Nav = ({ openNav }: Props) => {
                     onMouseLeave={() => handleDropdownToggle(link.id)}
                     className="cursor-pointer"
                   >
-                    <p className="p-3 text-black sm:text-base text-base cursor-pointer hover:text-primary hover:font-semibold transition-all duration-200">
+                    <p className="p-3 text-black sm:text-base text-base w-100 cursor-pointer hover:text-primary hover:font-semibold transition-all duration-200">
                       {link.label}
                     </p>
-                    {openDropdown === link.id && (
-                      <ul 
-                        className="absolute top-full left-0 bg-white shadow-2xl rounded-lg py-2 border w-48 transform origin-top transition-all duration-200 ease-in-out"
-                        style={{
-                          opacity: openDropdown === link.id ? 1 : 0,
-                          transform: openDropdown === link.id ? 'scaleY(1)' : 'scaleY(0)',
-                          transformOrigin: 'top'
-                        }}
-                      >
-                        {link.subLinks.map((subLink) => (
-                          <li key={subLink.id}>
-                            <Link
-                              href={subLink.url}
-                              className="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:font-semibold transition-colors duration-200"
-                            >
-                              {subLink.label}
-                            </Link>
-                          </li>
-                        ))}
+                    <ul 
+                      className={`py-5 absolute top-full left-0 w-64 transform origin-top transition-all duration-300 ease-out z-50 ${openDropdown === link.id ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-5 scale-95 pointer-events-none'}`}
+                    >
+                      <div className='bg-white shadow-2xl rounded-lg py-2 transform transition-transform duration-300 ease-out'>
+                        {link.subLinks.map((subLink) => {
+                          // Determine icon based on subLink label
+                          let icon;
+                          const label = subLink.label.toLowerCase();
+                          if (label.includes('buy')) icon = '🏠';
+                          else if (label.includes('sell')) icon = '💰';
+                          else if (label.includes('rent')) icon = '🔑';
+                          else if (label.includes('map')) icon = '🗺️';
+                          else if (label.includes('mortgage')) icon = '📊';
+                          else if (label.includes('calculator')) icon = '🧮';
+                          else if (label.includes('agent')) icon = '👤';
+                          else if (label.includes('about')) icon = 'ℹ️';
+                          else if (label.includes('contact')) icon = '📞';
+                          else icon = '📋';
+                          
+                          return (
+                            <li key={subLink.id} className="group">
+                              <Link
+                                href={subLink.url}
+                                className=" px-4 py-2.5 text-gray-700 transition-colors group-hover:bg-slate-300 duration-200 flex items-center transform"
+                              >
+                                <span className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full mr-3 text-lg group-hover:text-white transition-all">
+                                  {icon}
+                                </span>
+                                <div>
+                                  <span className="font-medium">{subLink.label}</span>
+                                </div>
+                              </Link>
+                            </li>
+                          );
+                        })}
+                        </div>
                       </ul>
-                    )}
                   </div>
                 ) : (
                   <Link href={link.url}>

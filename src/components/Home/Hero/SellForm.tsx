@@ -1,25 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BiCalculator } from 'react-icons/bi';
 import 'rc-slider/assets/index.css';
 import LocationInput from './LocationInput';
 
 const SellForm = () => {
+  const [location, setLocation] = useState('');
+
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Handle search logic for Sell
+    console.log('Searching for selling options in:', location);
   };
 
-  const handleLocationSelect = (location: string) => {
-    console.log('Selected location:', location);
+  const handleLocationChange = (newLocation: string) => {
+    setLocation(newLocation);
+    console.log('Selected location:', newLocation);
   };
 
   return (
     <>
       <form onSubmit={handleSearch}>
         <div className='field-box'>
-          <LocationInput onSelect={handleLocationSelect} placeholder="Where do you want to sell?" />
+          <LocationInput 
+            value={location}
+            onChange={handleLocationChange}
+            placeholder="Where do you want to sell?" 
+          />
         </div>
-        <button type="submit">Search</button>
+        <button type="submit" className='btn w-full md:w-auto bg-primary text-white border-none'>Search</button>
       </form>
       <div className='flex flex-col md:flex-row gap-2 justify-between bg-primary text-white p-6 rounded-2xl mt-4'>
         <div className='flex flex-col gap-2'>

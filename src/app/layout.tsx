@@ -4,6 +4,7 @@ import "./globals.css";
 import ResponsiveNav from "@/components/Home/Navbar/ResponsiveNav";
 import Footer from "@/components/Home/Footer/Footer";
 import ScrollToTop from "@/components/Helper/ScrollToTop";
+import GoogleMapsProvider from '@/providers/GoogleMapsProvider';
 
 
 const poppins = Poppins({
@@ -26,7 +27,15 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${poppins.variable}`}>
         <ResponsiveNav />
-        {children}
+        // Add this to your layout.tsx or similar file
+        import GoogleMapsProvider from '@/providers/GoogleMapsProvider';
+        
+        // Inside your layout component
+        return (
+          <GoogleMapsProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''}>
+            {children}
+          </GoogleMapsProvider>
+        );
         <Footer />
         <ScrollToTop />
       </body>

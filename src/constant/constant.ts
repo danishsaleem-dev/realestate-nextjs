@@ -20,25 +20,25 @@ export const navLinks = [
         { id: 33, label: 'Home Estimator', url: '/home-estimation' },
       ],
     },
+    { id: 4, label: 'Find a Realtor', url: '/agents' },
+    { id: 5, label: 'Pre-Con', url: '/pre-con' },
     {
-      id: 4,
-      label: 'More',
-      url: '#',
-      subLinks: [
-        { id: 41, label: 'About Us', url: '/about' },
-        { id: 42, label: 'Contact us', url: '/contact' },
-        { id: 43, label: 'FAQs', url: '/faqs' },
-      ],
-    },
-    {
-      id: 5,
+      id: 6,
       label: 'Tools',
       url: '#',
       subLinks: [
-        { id: 51, label: 'Down Payment Calculator', url: '/down-payment-calculator' },
+        { id: 61, label: 'Down Payment Calculator', url: '/down-payment-calculator' },
+      ],
+    },
+    {
+      id: 7,
+      label: 'More',
+      url: '#',
+      subLinks: [
+        { id: 71, label: 'About Us', url: '/about' },
+        { id: 72, label: 'Contact us', url: '/contact' },
+        { id: 73, label: 'FAQs', url: '/faqs' },
       ],
     },
     
-    { id: 6, label: 'Pre-Con', url: '/pre-con' },
-    { id: 7, label: 'Find a Realtor', url: '/agents' },
 ];

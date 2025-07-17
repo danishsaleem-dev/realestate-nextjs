@@ -112,22 +112,22 @@ const ListingFilters: React.FC<FiltersProps> = ({
   };
 
   return (
-    <div className="w-[95%] mx-auto flex flex-wrap justify-between items-center mt-12 mb-10 pb-6 border-b-2 gap-2 ">
-      <h2 className='text-black text-xl'>Listings in Toronto</h2>
-      <div className='flex gap-2'>
+    <div className="w-[95%] mx-auto flex flex-col md:flex-row md:flex-wrap justify-between items-start md:items-center mt-8 md:mt-12 mb-6 md:mb-10 pb-4 md:pb-6 border-b-2 gap-4">
+      <h2 className='text-black text-xl mb-2 md:mb-0'>Listings in Toronto</h2>
+      <div className='flex flex-wrap gap-2 w-full md:w-auto'>
         {/* Price Filter */}
-        <div className="relative">
+        <div className="relative w-full sm:w-auto">
           <button 
-            className={`bg-white flex items-center gap-2 px-4 py-2 rounded-md border ${activeDropdown === 'price' ? 'border-secondary bg-secondary/5' : 'border-gray-300'} hover:border-secondary transition-all`}
+            className={`w-full sm:w-auto bg-white flex items-center gap-2 px-4 py-2 rounded-md border ${activeDropdown === 'price' ? 'border-secondary bg-secondary/5' : 'border-gray-300'} hover:border-secondary transition-all`}
             onClick={() => toggleDropdown('price')}
           >
             <FaDollarSign className="text-secondary" />
-            <span>{formatPrice(filters.minPrice)} - {formatPrice(filters.maxPrice)}</span>
+            <span className="text-sm md:text-base">{formatPrice(filters.minPrice)} - {formatPrice(filters.maxPrice)}</span>
             <FaChevronDown className={`ml-1 transition-transform ${activeDropdown === 'price' ? 'rotate-180' : ''}`} />
           </button>
           
           {activeDropdown === 'price' && (
-            <div className="absolute z-10 mt-2 w-72 bg-white rounded-lg shadow-lg p-4">
+            <div className="absolute z-10 mt-2 w-full sm:w-72 bg-white rounded-lg shadow-lg p-4">
               <p className="font-semibold mb-3">Price Range</p>
               <div className="space-y-4">
                 <div>
@@ -169,20 +169,20 @@ const ListingFilters: React.FC<FiltersProps> = ({
         </div>
         
         {/* Bedrooms Filter */}
-        <div className="relative">
+        <div className="relative w-[48%] sm:w-auto">
           <button 
-            className={`bg-white flex items-center gap-2 px-4 py-2 rounded-md border ${activeDropdown === 'bedrooms' ? 'border-secondary bg-secondary/5' : 'border-gray-300'} hover:border-secondary transition-all`}
+            className={`w-full bg-white flex items-center gap-2 px-4 py-2 rounded-md border ${activeDropdown === 'bedrooms' ? 'border-secondary bg-secondary/5' : 'border-gray-300'} hover:border-secondary transition-all`}
             onClick={() => toggleDropdown('bedrooms')}
           >
             <FaBed className="text-secondary" />
-            <span>{getBedroomText()}</span>
+            <span className="text-sm md:text-base">{getBedroomText()}</span>
             <FaChevronDown className={`ml-1 transition-transform ${activeDropdown === 'bedrooms' ? 'rotate-180' : ''}`} />
           </button>
           
           {activeDropdown === 'bedrooms' && (
-            <div className="absolute z-10 mt-2 w-64 bg-white rounded-lg shadow-lg p-4">
+            <div className="absolute z-10 mt-2 w-full sm:w-64 bg-white rounded-lg shadow-lg p-4">
               <p className="font-semibold mb-3">Bedrooms</p>
-              <div className="flex border-collapse">
+              <div className="flex flex-wrap border-collapse">
                 {['Any', '1', '2', '3', '4', '5+'].map((value, index) => {
                   const numValue = value === 'Any' ? 0 : value === '5+' ? 5 : parseInt(value);
                   const isSelected = 
@@ -217,20 +217,20 @@ const ListingFilters: React.FC<FiltersProps> = ({
         </div>
         
         {/* Bathrooms Filter */}
-        <div className="relative">
+        <div className="relative w-[48%] sm:w-auto">
           <button 
-            className={`bg-white flex items-center gap-2 px-4 py-2 rounded-md border ${activeDropdown === 'bathrooms' ? 'border-secondary bg-secondary/5' : 'border-gray-300'} hover:border-secondary transition-all`}
+            className={`w-full bg-white flex items-center gap-2 px-4 py-2 rounded-md border ${activeDropdown === 'bathrooms' ? 'border-secondary bg-secondary/5' : 'border-gray-300'} hover:border-secondary transition-all`}
             onClick={() => toggleDropdown('bathrooms')}
           >
             <FaBath className="text-secondary" />
-            <span>{getBathroomText()}</span>
+            <span className="text-sm md:text-base">{getBathroomText()}</span>
             <FaChevronDown className={`ml-1 transition-transform ${activeDropdown === 'bathrooms' ? 'rotate-180' : ''}`} />
           </button>
           
           {activeDropdown === 'bathrooms' && (
-            <div className="absolute z-10 mt-2 w-64 bg-white rounded-lg shadow-lg p-4">
+            <div className="absolute z-10 mt-2 w-full sm:w-64 bg-white rounded-lg shadow-lg p-4">
               <p className="font-semibold mb-3">Bathrooms</p>
-              <div className="flex border-collapse">
+              <div className="flex flex-wrap border-collapse">
                 {['Any', '1', '2', '3', '4+'].map((value, index) => {
                   const numValue = value === 'Any' ? 0 : value === '4+' ? 4 : parseInt(value);
                   const isSelected = 
@@ -265,18 +265,18 @@ const ListingFilters: React.FC<FiltersProps> = ({
         </div>
         
         {/* Property Type Filter */}
-        <div className="relative">
+        <div className="relative w-[48%] sm:w-auto">
           <button 
-            className={`bg-white flex items-center gap-2 px-4 py-2 rounded-md border ${activeDropdown === 'propertyType' ? 'border-secondary bg-secondary/5' : 'border-gray-300'} hover:border-secondary transition-all`}
+            className={`w-full bg-white flex items-center gap-2 px-4 py-2 rounded-md border ${activeDropdown === 'propertyType' ? 'border-secondary bg-secondary/5' : 'border-gray-300'} hover:border-secondary transition-all`}
             onClick={() => toggleDropdown('propertyType')}
           >
             <FaHome className="text-secondary" />
-            <span>{getPropertyTypeText()}</span>
+            <span className="text-sm md:text-base">{getPropertyTypeText()}</span>
             <FaChevronDown className={`ml-1 transition-transform ${activeDropdown === 'propertyType' ? 'rotate-180' : ''}`} />
           </button>
           
           {activeDropdown === 'propertyType' && (
-            <div className="absolute z-10 mt-2 w-64 bg-white rounded-lg shadow-lg p-4">
+            <div className="absolute z-10 mt-2 w-full sm:w-64 bg-white rounded-lg shadow-lg p-4">
               <p className="font-semibold mb-3">Property Type</p>
               <div className="grid grid-cols-2 gap-2">
                 {[
@@ -311,20 +311,20 @@ const ListingFilters: React.FC<FiltersProps> = ({
         </div>
         
         {/* Community Filter */}
-        <div className="relative filter-dropdown">
+        <div className="relative w-[48%] sm:w-auto filter-dropdown">
           <button 
-            className={`bg-white flex items-center gap-2 px-4 py-2 rounded-md border ${activeDropdown === 'community' ? 'border-secondary bg-secondary/5' : 'border-gray-300'} hover:border-secondary transition-all`}
+            className={`w-full bg-white flex items-center gap-2 px-4 py-2 rounded-md border ${activeDropdown === 'community' ? 'border-secondary bg-secondary/5' : 'border-gray-300'} hover:border-secondary transition-all`}
             onClick={() => toggleDropdown('community')}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
             </svg>
-            <span>{getCommunityText()}</span>
+            <span className="text-sm md:text-base">{getCommunityText()}</span>
             <FaChevronDown className={`ml-1 transition-transform ${activeDropdown === 'community' ? 'rotate-180' : ''}`} />
           </button>
           
           {activeDropdown === 'community' && (
-            <div className="absolute z-10 mt-2 w-64 bg-white rounded-lg shadow-lg p-4 max-h-80 overflow-y-auto">
+            <div className="absolute z-10 mt-2 w-full sm:w-64 bg-white rounded-lg shadow-lg p-4 max-h-80 overflow-y-auto">
               <p className="font-semibold mb-3">Community</p>
               <div className="space-y-2">
                 <div 
@@ -381,12 +381,12 @@ const ListingFilters: React.FC<FiltersProps> = ({
         {/* Reset Filters Button */}
         <button 
           onClick={handleResetClick}
-          className="flex items-center gap-2 px-4 py-2 bg-white text-gray-700 rounded-md border border-gray-300 hover:border-secondary hover:bg-gray-50 transition-all"
+          className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 bg-white text-gray-700 rounded-md border border-gray-300 hover:border-secondary hover:bg-gray-50 transition-all"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
           </svg>
-          Reset Filters
+          <span className="text-sm md:text-base">Reset Filters</span>
         </button>
 
       </div>
