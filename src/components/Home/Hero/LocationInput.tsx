@@ -86,8 +86,30 @@ const LocationInput: React.FC<LocationInputProps> = ({
     }
   };
   
+  // Define interfaces for better type safety
+  interface SuggestionItem {
+    id: string;
+    mainText: string;
+    secondaryText: string;
+    description: string;
+  }
+
+  interface GroupedSuggestions {
+    [category: string]: SuggestionItem[];
+  }
+
+  interface AutocompleteSuggestion {
+    description: string;
+    place_id: string;
+    structured_formatting: {
+      main_text: string;
+      secondary_text: string;
+    };
+    types: string[];
+  }
+
   // Group suggestions by types
-  const groupedSuggestions = data.reduce((acc: any, suggestion) => {
+  const groupedSuggestions = data.reduce((acc: GroupedSuggestions, suggestion: AutocompleteSuggestion) => {
     const mainText = suggestion.structured_formatting.main_text;
     const secondaryText = suggestion.structured_formatting.secondary_text;
     const type = getLocationType(suggestion.types);
@@ -104,7 +126,7 @@ const LocationInput: React.FC<LocationInputProps> = ({
     });
     
     return acc;
-  }, {});
+  }, {} as GroupedSuggestions);
   
   // Helper function to determine location type
   function getLocationType(types: string[]) {
@@ -151,22 +173,13 @@ const LocationInput: React.FC<LocationInputProps> = ({
           ref={suggestionsRef}
           className="absolute z-10 mt-1 w-full bg-white rounded-lg shadow-lg border border-gray-200 max-h-80 overflow-y-auto"
         >
-          {Object.entries(groupedSuggestions).map(([category, items]) => {
-            // Type assertion to ensure items is treated as an array
-            const suggestionItems = items as Array<{
-              id: string;
-              mainText: string;
-              secondaryText: string;
-              description: string;
-            }>;
-            
-            return (
+          {Object.entries(groupedSuggestions).map(([category, items]) => (
               <div key={category} className="px-1 py-2">
                 <div className="px-3 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wider bg-gray-50">
                   {category}
                 </div>
                 <ul>
-                  {suggestionItems.map((item) => (
+                  {items.map((item) => (
                     <li 
                       key={item.id}
                       className="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center"
@@ -181,8 +194,7 @@ const LocationInput: React.FC<LocationInputProps> = ({
                   ))}
                 </ul>
               </div>
-            );
-          })}
+            ))}
         </div>
       )}
     </div>
