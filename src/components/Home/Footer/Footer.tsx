@@ -49,11 +49,11 @@ const Footer = () => {
                 <p className='text-sm text-white'>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                 <div className='flex items-center space-x-2 mt-4'>
                     <BiEnvelope className='w-5 h-5 text-secondary'/>
-                    <p className='text-base font-semibold text-white hover:text-primary cursor-pointer'>example@gmail.com</p>
+                    <p className='text-base font-semibold text-white hover:text-secondary cursor-pointer'>example@gmail.com</p>
                 </div>
                 <div className='flex items-center space-x-2 mt-4'>
                     <BiPhoneCall className='text-secondary w-5 h-5'/>
-                    <p className='text-base font-semibold text-white hover:text-primary cursor-pointer'>+123 345-6789</p>
+                    <p className='text-base font-semibold text-white hover:text-secondary cursor-pointer'>+123 345-6789</p>
                 </div>
             </div>
 

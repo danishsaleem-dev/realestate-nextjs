@@ -27,11 +27,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${poppins.variable}`}>
         <ResponsiveNav />
-        return (
+        
           <GoogleMapsProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''}>
             {children}
           </GoogleMapsProvider>
-        );
+        
         <Footer />
         <ScrollToTop />
       </body>

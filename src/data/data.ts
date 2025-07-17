@@ -831,17 +831,20 @@ export const services = [
     name: "Buy A New Home",
     description: "Discover your dream home effortlessly. Explore diverse properties and expert guidance for a seamless buying experience.",
     serviceImage: "/images/home-1.png",
+    serviceURL: "/buy",
   },
   {
     id: 2,
     name: "Sell a home",
     description: "Sell confidently with expert guidance and effective strategies, showcasing your property's best features for a successful sale.",
     serviceImage: "/images/home-2.png",
+    serviceURL: "/sell",
   },
   {
     id: 3,
     name: "Rent a home",
     description: "Discover your perfect rental effortlessly. Explore a diverse variety of listings tailored precisely to suit your unique lifestyle needs.",
     serviceImage: "/images/home-3.png",
+    serviceURL: "/rent",
   }
 ];

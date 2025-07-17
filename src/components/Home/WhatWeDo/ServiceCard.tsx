@@ -8,6 +8,7 @@ type Props = {
         name: string;
         description: string;
         serviceImage: string;
+        serviceURL: string;
     }
 }
 const ServiceCard = ({service}: Props) => {
@@ -16,7 +17,7 @@ const ServiceCard = ({service}: Props) => {
         <Image src={service.serviceImage} alt={service.name}  width={200} height={200} className='group-hover:scale-110 transition-all duration-300' />        
         <h3 className='text-2xl mt-4 text-center text-black group-hover:text-primary'>{service.name}</h3>
         <p className='text-sm text-black font-light text-center'>{service.description}</p>
-        <button className='btn bg-transparent border-[#1563df] px-10 hover:bg-[#1563df] hover:text-white font-light text-black rounded-full text-center mt-4'>Learn More <FaArrowRightLong /> </button>
+        <a href={service.serviceURL} className='btn bg-transparent border-[#1563df] px-10 hover:bg-[#1563df] hover:text-white font-light text-black rounded-full text-center mt-4'><FaArrowRightLong /> Learn More</a>
     </div>
   )
 }

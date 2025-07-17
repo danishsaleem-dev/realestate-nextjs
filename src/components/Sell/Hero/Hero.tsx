@@ -23,7 +23,7 @@ const Hero = () => {
               <GoogleMapsWrapper>
                 <LocationInput onSelect={handleLocationSelect} placeholder="Enter your home address" />
               </GoogleMapsWrapper>
-              {/* <button className='btn btn-primary'>Start Home Estimation</button> */}
+              <button className='btn btn-primary'>Start Home Estimation</button>
             </form>
         </div>
     </div>
