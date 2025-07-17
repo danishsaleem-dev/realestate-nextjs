@@ -1,34 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import 'rc-slider/assets/index.css';
 import { BiCalculator } from 'react-icons/bi';
 import LocationInput from './LocationInput';
 
 const RentForm = () => {
-  const [location, setLocation] = useState('');
-
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Handle search logic for Rent
-    console.log('Searching for rentals in:', location);
   };
 
-  const handleLocationChange = (newLocation: string) => {
-    setLocation(newLocation);
-    console.log('Selected location:', newLocation);
+  const handleLocationSelect = (location: string) => {
+    console.log('Selected location:', location);
   };
 
   return (
     <>
       <form onSubmit={handleSearch}>
         <div className='field-box'>
-          <LocationInput 
-            value={location}
-            onChange={handleLocationChange}
-            placeholder="Where do you want to rent?" 
-          />
+          <LocationInput onSelect={handleLocationSelect} placeholder="Where do you want to rent?" />
         </div>
         
-        <button type="submit" className='btn w-full md:w-auto bg-primary text-white border-none'>Search</button>
+        <button type="submit">Search</button>
       </form>
       <div className='flex flex-col md:flex-row gap-2 justify-between bg-primary text-white p-6 rounded-2xl mt-4'>
         <div className='flex flex-col gap-2'>
