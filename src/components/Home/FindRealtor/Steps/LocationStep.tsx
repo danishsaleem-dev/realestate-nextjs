@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { FormData } from '../types';
@@ -35,9 +35,6 @@ const LocationStep: React.FC<LocationStepProps> = ({
   itemVariants,
   containerVariants
 }) => {
-  // We no longer need local state for the search term.
-  // The 'searchTerm' prop is now the single source of truth.
-  
   // State for enabling/disabling the 'Next' button can be derived directly from props.
   // This is more efficient and avoids useEffect.
   const isLocationSelected = !!formData.location;
