@@ -8,7 +8,7 @@ const CallToAction = () => {
         <div className='flex flex-col md:flex-row gap-8 justify-center items-center bg-[#F3F7FD] rounded-2xl'>
             <div className='flex flex-col gap-3 p-10'>
                 <span className='text-primary'>Become Partners</span>
-                <h2 className='text-black font-semibold text-2xl md:text-4xl'>List your Properties on RealEstate, join Us Now!</h2>
+                <h2 className='text-black text-2xl md:text-4xl'>List your Properties on RealEstate, join Us Now!</h2>
                 <button className='btn btn-primary w-[70%] rounded-full text-center mt-3'>Join Us!<FaArrowRightLong /> </button>
             </div>
             <div className='mt-4'>

@@ -25,7 +25,7 @@ const SavingsCalculation = () => {
                           step={1000}
                           value={homePrice}
                           onChange={(e) => setHomePrice(Number(e.target.value))}
-                          className="w-full text-gray-800 text-2xl bg-white text-center font-semibold outline-none px-2 peer"
+                          className="w-full text-gray-800 text-2xl bg-white text-center border-0 font-semibold outline-none px-2 peer"
                         />
                       </div>
                     </div>

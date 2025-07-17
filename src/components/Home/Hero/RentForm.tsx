@@ -20,7 +20,7 @@ const RentForm = () => {
           <LocationInput onSelect={handleLocationSelect} placeholder="Where do you want to rent?" />
         </div>
         
-        <button type="submit">Search</button>
+        <button className='btn btn-primary text-white' type="submit">Search</button>
       </form>
       <div className='flex flex-col md:flex-row gap-2 justify-between bg-primary text-white p-6 rounded-2xl mt-4'>
         <div className='flex flex-col gap-2'>
